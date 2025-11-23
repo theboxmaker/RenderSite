@@ -1,6 +1,3 @@
-<?php
-$base = __DIR__;
-?>
 <footer>
 
     <nav class="navbar">
