@@ -1,4 +1,5 @@
 <?php
+// Absolute base directory to ensure includes work under Apache/Docker/Render
 $base = __DIR__;
 ?>
 <!DOCTYPE html>
@@ -14,10 +15,12 @@ $base = __DIR__;
 
 <body>
 
+    <!-- GLOBAL HEADER FROM WEB250 -->
     <?php include "$base/web250/components/header.php"; ?>
 
     <main>
         <h2>Home</h2>
+
         <p>
             Hello! I am Zachary Tucker, a 26 year old student learning web development.
             My goal is to complete my schooling and enter the workforce.
@@ -25,7 +28,9 @@ $base = __DIR__;
             This site will be home to any and all projects I work on for the foreseeable future!
         </p>
 
-        <p><a href="web250/">Click to go to my WEB250 class</a></p>
+        <p>
+            <a href="web250/">Click to go to my WEB250 class</a>
+        </p>
 
         <p>
             You can learn more about me by visiting my
@@ -33,6 +38,7 @@ $base = __DIR__;
         </p>
     </main>
 
+    <!-- GLOBAL FOOTER FROM WEB250 -->
     <?php include "$base/web250/components/footer.php"; ?>
 
 </body>
