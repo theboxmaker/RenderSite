@@ -1,6 +1,6 @@
 <?php
-// Base directory (prevents broken includes under Apache/Docker)
-$base = __DIR__;
+// Base directory of /web250 (one level up from /components/)
+$base = dirname(__DIR__);
 ?>
 <footer>
 
@@ -14,7 +14,7 @@ $base = __DIR__;
     </nav>
 
     <p>
-        Website designed by 
+        Website designed by
         <a href="/web115/tucktech.com/index.html" target="_blank">TuckTech</a>
     </p>
 
