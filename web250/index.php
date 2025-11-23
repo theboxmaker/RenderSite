@@ -1,11 +1,8 @@
 <?php
-// Absolute base path (prevents include path issues with Docker/Apache)
-$base = __DIR__;
 
-// Determine requested page (default = home)
+$base = __DIR__;
 $page = isset($_GET['page']) ? trim($_GET['page']) : 'home';
 
-// Whitelist pages (must match EXACT filenames in /contents)
 $allowed_pages = [
     'home',
     'introduction',
@@ -14,12 +11,10 @@ $allowed_pages = [
     'superduper_php'
 ];
 
-// If page is not allowed, fall back to home
 if (!in_array($page, $allowed_pages)) {
     $page = 'home';
 }
 
-// Titles for each page
 $titles = [
     'home'             => "Home",
     'introduction'     => "Introduction",
@@ -28,7 +23,6 @@ $titles = [
     'superduper_php'   => "SuperDuper PHP"
 ];
 
-// Build the final <title> text
 $full_title = "Zachary Tucker's Web Projects | WEB250 | " . ($titles[$page] ?? "Home");
 ?>
 <!DOCTYPE html>

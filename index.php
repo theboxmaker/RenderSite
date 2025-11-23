@@ -1,5 +1,4 @@
 <?php
-// Use absolute paths to ensure includes always work
 $base = __DIR__;
 ?>
 <!DOCTYPE html>
