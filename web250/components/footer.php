@@ -1,6 +1,5 @@
 <?php
-// Base directory of /web250 (one level up from /components/)
-$base = dirname(__DIR__);
+$base = __DIR__;
 ?>
 <footer>
 
