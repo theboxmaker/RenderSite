@@ -1,5 +1,5 @@
 <?php
-// Absolute base path for stable includes (works in Docker/Apache/Render)
+// Base path for this folder (/var/www/html/web250)
 $base = __DIR__;
 
 // Determine requested page (default = home)
@@ -45,12 +45,12 @@ $full_title = "Zachary Tucker's Web Projects | WEB250 | " . ($titles[$page] ?? "
 <body>
 
     <!-- HEADER -->
-    <?php include "$base/web250/components/header.php"; ?>
+    <?php include $base . "/components/header.php"; ?>
 
     <main>
         <?php
         // Build full path to the requested content file
-        $content_file = "$base/web250/contents/$page.php";
+        $content_file = $base . "/contents/$page.php";
 
         // Load the requested content if it exists
         if (file_exists($content_file)) {
@@ -62,7 +62,7 @@ $full_title = "Zachary Tucker's Web Projects | WEB250 | " . ($titles[$page] ?? "
     </main>
 
     <!-- FOOTER -->
-    <?php include "$base/web250/components/footer.php"; ?>
+    <?php include $base . "/components/footer.php"; ?>
 
 </body>
 </html>

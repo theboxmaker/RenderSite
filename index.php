@@ -16,7 +16,7 @@ $base = __DIR__;
 <body>
 
     <!-- GLOBAL HEADER FROM WEB250 -->
-    <?php include "$base/web250/components/header.php"; ?>
+    <?php include __DIR__ . "/web250/components/header.php"; ?>
 
     <main>
         <h2>Home</h2>
@@ -39,7 +39,7 @@ $base = __DIR__;
     </main>
 
     <!-- GLOBAL FOOTER FROM WEB250 -->
-    <?php include "$base/web250/components/footer.php"; ?>
+    <?php include __DIR__ . "/web250/components/footer.php"; ?>
 
 </body>
 </html>
