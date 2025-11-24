@@ -1,61 +1,133 @@
-body
-{
-	color: teal;
-	background-color: silver;
-	font-family: tahoma;
+/* ==========================================
+   Global Base Styles
+========================================== */
+
+body {
+    color: teal;
+    background-color: silver;
+    font-family: Tahoma, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    line-height: 1.6;
 }
 
-h1
-{
-	text-align: center;
-	font-family: Garamond;
+/* ==========================================
+   Headings
+========================================== */
+
+h1 {
+    text-align: center;
+    font-family: Garamond, serif;
+    font-size: 2.5rem;
+    color: #003f3f;
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
 }
 
-header
-{
-	font-size: 200%;
-	text-decoration: none;
-	color: black;
+/* ==========================================
+   Header & Navigation
+========================================== */
+
+header {
+    text-align: center;
+    font-size: 1.6rem;
+    margin-bottom: 15px;
 }
 
-
-
-a
-{
-	text-decoration: none;
-	font-weight:bold;
-	color: teal;
+header a {
+    font-weight: bold;
+    color: teal;
+    text-decoration: none;
+    margin: 0 5px;
 }
 
-a:hover
-{
-	color: teal;
+header a:hover {
+    color: #005f5f;  /* darker teal for visibility */
 }
 
-header, footer, .credits
-{
-  text-align: center;
+/* Banner (linkedimage) */
+
+.linkedimage {
+    border: 0;
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
 }
 
-img.one
-{
+/* ==========================================
+   Links
+========================================== */
+
+a {
+    text-decoration: none;
+    font-weight: bold;
+    color: teal;
+}
+
+a:hover {
+    color: #005f5f;
+}
+
+/* ==========================================
+   Content Images (float-left / float-right)
+========================================== */
+
+img.one {
     float: left;
     margin: 10px;
+    max-width: 40%;
+    height: auto;
 }
 
-img.two
-{
+img.two {
     float: right;
     margin: 10px;
+    max-width: 40%;
+    height: auto;
 }
 
-.linkedimage
-{
-	border: 0px;
+/* ==========================================
+   Credits & Footer
+========================================== */
+
+.credits {
+    text-align: center;
+    font-style: italic;
+    margin-top: 20px;
 }
 
-#tagline
-{
-	font-style:italic;
-	font-weight:bold;
+footer {
+    text-align: center;
+    margin-top: 30px;
+}
+
+#tagline {
+    font-style: italic;
+    font-weight: bold;
+}
+
+/* ==========================================
+   Responsive Behavior (Small Screens)
+========================================== */
+
+@media (max-width: 700px) {
+    img.one,
+    img.two {
+        float: none;
+        display: block;
+        margin: 10px auto;
+        max-width: 90%;
+    }
+
+    body {
+        padding: 15px;
+    }
+
+    header {
+        font-size: 1.3rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
 }
