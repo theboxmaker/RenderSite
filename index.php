@@ -16,7 +16,6 @@ $base = __DIR__;
 <body>
 
     <!-- GLOBAL HEADER FROM WEB250 -->
-    <?php include __DIR__ . "/web250/components/header.php"; ?>
 
     <main>
         <h2>Home</h2>
