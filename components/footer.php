@@ -10,7 +10,7 @@
 
     <p class="middle">
         Website designed by
-        <a href="/web115/tucktech.com/index.html" target="_blank">TuckTech</a>
+        <a href="/web115/tucktech.com/index.html" target="_blank"> TuckTech</a>
     </p>
 
 </footer>
