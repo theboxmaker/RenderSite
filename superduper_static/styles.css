@@ -59,9 +59,11 @@ header a:hover {
 img.one {
     float: left;
     margin: 10px;
-    max-width: 40%;
+    max-width: 250px;   /* NEW: shrink image */
     height: auto;
+    border-radius: 4px; /* optional but looks nicer */
 }
+
 
 img.two {
     float: right;
