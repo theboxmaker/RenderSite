@@ -1,73 +1,115 @@
 <?php
-// EditCar.php — cleaned, secured, Railway + Render compatible
+/**
+ * EditCar.php — fixed and modernized
+ * Handles:
+ *   1. GET  → Load car data and show edit form
+ *   2. POST → Update car data in the database
+ */
 
 include 'db.php';
 
-// Validate POST data
-if (
-    !isset($_POST['VIN']) ||
-    !isset($_POST['Make']) ||
-    !isset($_POST['Model']) ||
-    !isset($_POST['Asking_Price'])
-) {
-    die("<h2>Error: Missing form data.</h2>");
-}
+// Helper for safe output
+function safe($v) { return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
 
-$vin    = trim($_POST['VIN']);
-$make   = trim($_POST['Make']);
-$model  = trim($_POST['Model']);
-$price  = trim($_POST['Asking_Price']);
+// ------------------------------------------------------------
+// STEP 1 — If the form was submitted, process POST
+// ------------------------------------------------------------
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Car Updated</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 25px; }
-        h1 { color: #333; }
-        .msg { padding: 15px; background: #f0f0f0; border-left: 4px solid #444; }
-    </style>
-</head>
+    $VIN   = trim($_POST['VIN'] ?? '');
+    $Make  = trim($_POST['Make'] ?? '');
+    $Model = trim($_POST['Model'] ?? '');
+    $Price = trim($_POST['ASKING_PRICE'] ?? '');
 
-<body>
-
-<h1>Sam's Used Cars</h1>
-
-<div class="msg">
-<?php
-
-// Prepared statement to update the record
-$stmt = $mysqli->prepare("
-    UPDATE inventory 
-    SET Make = ?, Model = ?, ASKING_PRICE = ?
-    WHERE VIN = ?
-");
-
-if (!$stmt) {
-    die("<p>Error preparing statement: " . htmlspecialchars($mysqli->error) . "</p>");
-}
-
-$stmt->bind_param("ssds", $make, $model, $price, $vin);
-
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo "<p><strong>" . htmlspecialchars($make) . " " . htmlspecialchars($model) .
-             "</strong> was successfully updated.</p>";
-    } else {
-        echo "<p>No changes were made (VIN not found or data identical).</p>";
+    if ($VIN === '' || $Make === '' || $Model === '' || $Price === '') {
+        die("<h2>Error: Missing form data.</h2>");
     }
-} else {
-    echo "<p>Error updating vehicle: " . htmlspecialchars($stmt->error) . "</p>";
+
+    $mysqli->select_db("railway");
+
+    $stmt = $mysqli->prepare("
+        UPDATE inventory 
+        SET Make=?, Model=?, ASKING_PRICE=?
+        WHERE VIN=?
+    ");
+
+    $stmt->bind_param("ssds", $Make, $Model, $Price, $VIN);
+
+    if ($stmt->execute()) {
+        echo "<h2>Car updated successfully.</h2>";
+        echo "<p><a href='ViewCars.php'>Return to Inventory</a></p>";
+    } else {
+        echo "<p>Error updating car: " . safe($stmt->error) . "</p>";
+    }
+
+    $stmt->close();
+    $mysqli->close();
+    exit;
 }
 
-$stmt->close();
+// ------------------------------------------------------------
+// STEP 2 — Handle GET to load car data into an editable form
+// ------------------------------------------------------------
+if (!isset($_GET['VIN']) || trim($_GET['VIN']) === '') {
+    die("<h2>Error: No VIN provided.</h2>");
+}
+
+$vin = $mysqli->real_escape_string($_GET['VIN']);
+
+$mysqli->select_db("railway");
+
+$query = "SELECT * FROM inventory WHERE VIN='$vin'";
+$result = $mysqli->query($query);
+
+if (!$result) {
+    die("<p>Error querying database: " . safe($mysqli->error) . "</p>");
+}
+
+if ($result->num_rows === 0) {
+    die("<h2>No vehicle found with VIN: " . safe($vin) . "</h2>");
+}
+
+$row = $result->fetch_assoc();
+
 $mysqli->close();
 ?>
-</div>
 
-<p><a href="ViewCarsWithStyle2.php">← Return to Cars with Edit Links</a></p>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Car</title>
+</head>
+<body>
+
+<h1>Edit <?= safe($row['Make'] . ' ' . $row['Model']) ?></h1>
+
+<form action="EditCar.php" method="POST">
+
+    <input type="hidden" name="VIN" value="<?= safe($row['VIN']) ?>">
+
+    <p>
+        <label>Make:</label><br>
+        <input type="text" name="Make" value="<?= safe($row['Make']) ?>">
+    </p>
+
+    <p>
+        <label>Model:</label><br>
+        <input type="text" name="Model" value="<?= safe($row['Model']) ?>">
+    </p>
+
+    <p>
+        <label>Price:</label><br>
+        <input type="number" step="0.01" name="ASKING_PRICE" value="<?= safe($row['ASKING_PRICE']) ?>">
+    </p>
+
+    <p>
+        <button type="submit">Save Changes</button>
+    </p>
+
+</form>
+
+<p><a href="ViewCars.php">← Back to Inventory</a></p>
 
 </body>
 </html>
