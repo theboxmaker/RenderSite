@@ -1,106 +1,130 @@
-<html>
+<?php
+include 'db.php';
+
+// Fetch all inventory records
+$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM inventory ORDER BY Make, Model";
+$result = $mysqli->query($query);
+
+if (!$result) {
+    die("<p>Error retrieving inventory: " . htmlspecialchars($mysqli->error) . "</p>");
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title>Sam's Used Cars</title>
-    
+    <meta charset="UTF-8">
+    <title>Sam's Used Cars – Inventory</title>
+
     <style>
-  /* The grid is used to format a table instead of a grid control on the list of Notes */
-#Grid
-{
-font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-width:80%;
-border-collapse:collapse;
-margin-left: auto;
-margin-right: auto;
-}
-#Grid td, #Grid th 
-{
-font-size:1em;
-border:1px solid #61ADD7;
-padding:3px 7px 2px 7px;
-}
-#Grid th 
-{
-font-size:1.1em;
-text-align:left;
-padding-top:5px;
-padding-bottom:4px;
-background-color:#C2D9FE;
-color: lightslategray;
+        body {
+            font-family: Arial, sans-serif;
+            background: url('bg.jpg');
+            background-size: cover;
+            text-align: center;
+            margin: 0;
+            padding: 30px;
+        }
 
-}
-#Grid tr.odd td 
-{
-color:#000000;
-background-color: #F2F5A9;
-}
+        h1 {
+            margin-bottom: 0;
+            color: #333;
+        }
 
-#Grid tr.even  
-{
-color:#000000;
-background-color: white;
-}
-#Grid head 
-{
-color:#000000;
-background-color:teal;
-}
-.auto-style1 {
-	text-align: center;
-}
-</style>
- 
-</head> 
-<body background="bg.jpg">
+        h3 {
+            margin-top: 5px;
+            color: #444;
+        }
+
+        /* Inventory Table */
+        #Grid {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width: 85%;
+            border-collapse: collapse;
+            margin: 25px auto;
+            box-shadow: 0 0 10px #888;
+            background: #fff;
+        }
+
+        #Grid th {
+            background-color: #C2D9FE;
+            color: #3f4b5c;
+            padding: 12px;
+            font-size: 1.1rem;
+            border-bottom: 2px solid #61ADD7;
+            text-align: left;
+        }
+
+        #Grid td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr.odd td {
+            background-color: #F2F5A9;
+        }
+
+        tr.even td {
+            background-color: #ffffff;
+        }
+
+        a {
+            color: #0b3d91;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .actions a {
+            margin-right: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
 <h1>Sam's Used Cars</h1>
 <h3>Current Inventory</h3>
- <div class="auto-style1">
- <?php
-include 'db.php';
-$query = "SELECT * FROM inventory";
-/* Try to query the database */
-if ($result = $mysqli->query($query)) {
-   // Don't do anything if successful.
-}
-else
-{
-    echo "Error getting cars from the database: " . mysql_error()."<br>";
-}
 
-// Create the table headers
-echo "<table id='Grid' style='width: 80%'>\n";
-echo "<tr>";
-echo "<th style='width: 50px'>Make</th>";
-echo "<th style='width: 50px'>Model</th>";
-echo "<th style='width: 50px'>Asking Price</th>";
-echo "<th style='width: 50px'>Action</th>";
-echo "</tr>\n";
+<table id="Grid">
+    <tr>
+        <th style="width: 150px;">Make</th>
+        <th style="width: 150px;">Model</th>
+        <th style="width: 150px;">Asking Price</th>
+        <th style="width: 200px;">Action</th>
+    </tr>
 
-$class ="odd";  // Keep track of whether a row was even or odd, so we can style it later
+    <?php
+    $rowClass = "odd";
 
-// Loop through all the rows returned by the query, creating a table row for each
-while ($result_ar = mysqli_fetch_assoc($result)) {
-    echo "<tr class=\"$class\">";
-    echo "<td><a href='viewcar.php?VIN=".$result_ar['VIN']."'>" . $result_ar['Make'] . "</a></td>";
-    echo "<td>" . $result_ar['Model'] . "</td>";
-       echo "<td>" . $result_ar['ASKING_PRICE'] . "</td>";
-        echo "<td><a href='FormEdit.php?VIN=".$result_ar['VIN']."'>Edit</a>  <a href='deletecar.php?VIN=".$result_ar['VIN']."'>Delete</a></td>";
-   echo "</tr>\n";
-   
-   // If the last row was even, make the next one odd and vice-versa
-    if ($class=="odd"){
-        $class="even";
-    }
-    else
-    {
-        $class="odd";
-    }
-}
-echo "</table>";
-$mysqli->close();
-include 'footer.php'
-?>
-	 
- </body>
- 
+    while ($row = $result->fetch_assoc()): ?>
+        <tr class="<?= $rowClass ?>">
+            <td>
+                <a href="viewcar.php?VIN=<?= urlencode($row['VIN']) ?>">
+                    <?= htmlspecialchars($row['Make']) ?>
+                </a>
+            </td>
+
+            <td><?= htmlspecialchars($row['Model']) ?></td>
+            <td>$<?= number_format($row['ASKING_PRICE'], 0) ?></td>
+
+            <td class="actions">
+                <a href="FormEdit.php?VIN=<?= urlencode($row['VIN']) ?>">Edit</a>
+                <a href="deletecar.php?VIN=<?= urlencode($row['VIN']) ?>">Delete</a>
+            </td>
+        </tr>
+
+        <?php
+        $rowClass = ($rowClass === "odd") ? "even" : "odd";
+    endwhile;
+
+    $mysqli->close();
+    ?>
+</table>
+
+<?php include 'footer.php'; ?>
+
+</body>
 </html>

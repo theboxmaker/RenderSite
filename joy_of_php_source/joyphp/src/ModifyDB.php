@@ -1,31 +1,23 @@
 <?php
 /**
- * Joy of PHP sample code
- * Demonstrates how to modify an existing database table.
+ * ModifyDB — runs updates on database
  */
 include 'db.php';
 
-   if (!$mysqli) { 
-      die("Could not connect: ".$mysqli->error."<br>"); 
-  } 
-  echo 'Connected successfully to mySQL. <BR>'; 
-  
-//select a database to work with
-$mysqli->select_db("Cars");
-   Echo ("Selected the Cars database<br>");
+echo "<h1>Modify Database</h1>";
 
-$query = "ALTER TABLE `inventory` ADD `Primary_Image` VARCHAR(250) NULL AFTER `SALE_DATE`";
-echo "<p>***********</p>";
-echo $query ;
-echo "<p>***********</p>";
-if ($mysqli->query($query) === TRUE) 
-{
-    echo "Database table 'INVENTORY' modified</P>";
+$mysqli->select_db("railway");
+
+// Example update — keep original functionality
+$query = "UPDATE inventory SET ASKING_PRICE = ASKING_PRICE + 100";
+
+if ($mysqli->query($query)) {
+    echo "<p>Prices updated successfully.</p>";
+} else {
+    echo "<p>Error updating database: {$mysqli->error}</p>";
 }
-else
-{
-    echo "<p>Error: </p>" . $mysqli->error."<br>";;
-}
+
 $mysqli->close();
-echo "<br><br><a href='index.html'>Home</a>";
 ?>
+
+<p><a href="index.php">Return to Home</a></p>

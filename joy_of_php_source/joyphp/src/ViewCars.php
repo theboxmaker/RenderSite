@@ -1,51 +1,92 @@
-<html>
+<?php
+// ViewCars.php — cleaned + fixed for Render/Railway
+include 'db.php';
+?>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <title>Sam's Used Cars</title>
-   </head>
+    <style>
+        /* Inline minimal styling — feel free to move to a CSS file */
+        table {
+            width: 80%;
+            border-collapse: collapse;
+            margin: 20px auto;
+            background: #f8f8f8;
+        }
+        th, td {
+            padding: 10px 12px;
+            border: 1px solid #ccc;
+            text-align: left;
+        }
+        th {
+            background: #444;
+            color: #fff;
+        }
+        tr.odd {
+            background: #ffffff;
+        }
+        tr.even {
+            background: #f0f0f0;
+        }
+        h1, h3 {
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
 
-   
 <body>
+
 <h1>Sam's Used Cars</h1>
 <h3>Complete Inventory</h3>
- <?php
-include 'db.php';
-$query = "SELECT * FROM inventory ORDER BY Make";
-/* Try to insert the new car into the database */
-if ($result = $mysqli->query($query)) {
-   // Don't do anything if successful.
-}
-else
-{
-    echo "Error getting cars from the database: " . mysql_error()."<br>";
+
+<?php
+// Query the database
+$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM inventory ORDER BY Make";
+
+$result = $mysqli->query($query);
+
+if (!$result) {
+    die("<p>Error retrieving cars: " . $mysqli->error . "</p>");
 }
 
-//***
-echo "<table id='Grid' style='width: 80%'><tr>";
-echo "<th style='width: 50px'>Make</th>";
-echo "<th style='width: 50px'>Model</th>";
-echo "<th style='width: 50px'>Asking Price</th>";
-echo "</tr>\n";
+// Begin table
+echo "<table>";
+echo "<tr>";
+echo "<th>Make</th>";
+echo "<th>Model</th>";
+echo "<th>Asking Price</th>";
+echo "<th>Actions</th>";
+echo "</tr>";
 
-$class ="odd";
+$rowClass = "odd";
 
-while ($result_ar = mysqli_fetch_assoc($result)) {
-    echo "<tr class=\"$class\">";
-    echo "<td>" . $result_ar['Make'] . "</td>";
-    echo "<td>" . $result_ar['Model'] . "</td>";
-    echo "<td>" . $result_ar['ASKING_PRICE'] . "</td>";
-   echo "</td></tr>\n";
-    if ($class=="odd"){
-        $class="even";
-    }
-    else
-    {
-        $class="odd";
-    }
+// Output rows
+while ($row = $result->fetch_assoc()) {
+    echo "<tr class=\"$rowClass\">";
+    echo "<td>" . htmlspecialchars($row['Make']) . "</td>";
+    echo "<td>" . htmlspecialchars($row['Model']) . "</td>";
+    echo "<td>$" . number_format($row['ASKING_PRICE'], 2) . "</td>";
+    
+    // Add optional action links
+    echo "<td>";
+    echo "<a href=\"viewcar.php?VIN=" . urlencode($row['VIN']) . "\">View</a> | ";
+    echo "<a href=\"EditCar.php?VIN=" . urlencode($row['VIN']) . "\">Edit</a> | ";
+    echo "<a href=\"deletecar.php?VIN=" . urlencode($row['VIN']) . "\">Delete</a>";
+    echo "</td>";
+
+    echo "</tr>";
+
+    // Swap row styles
+    $rowClass = ($rowClass === "odd") ? "even" : "odd";
 }
+
 echo "</table>";
+
 $mysqli->close();
 ?>
- </body>
- 
+
+</body>
 </html>

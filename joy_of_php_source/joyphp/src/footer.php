@@ -1,4 +1,12 @@
 <?php
- echo "<br><br><a href='samsusedcars.html'>Sam's Used Cars Home</a>";
-  echo "<br>Copyright 2017, Alan Forbes.  All rights reserved.";
+/**
+ * Shared footer for Joy of PHP pages
+ */
 ?>
+
+<br><br>
+
+<footer style="text-align:center; font-weight:bold;">
+    <a href="samsusedcars.html">Sam's Used Cars</a><br>
+    Copyright © <?= date("Y") ?>  
+</footer>

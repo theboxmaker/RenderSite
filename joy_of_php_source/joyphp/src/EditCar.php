@@ -1,56 +1,73 @@
-<html>
-<head>
-<title>Car Saved</title>
-</head>
-<body bgcolor="#FFFFFF" text="#000000" >
-
 <?php
-// Capture the values posted to this php program from the text fields in the form
-
-$VIN = $_REQUEST['VIN'] ;
-$Make = $_REQUEST['Make'] ;
-$Model = $_REQUEST['Model'] ;
-$Price = $_REQUEST['Asking_Price'] ;
-
-//Build a SQL Query using the values from above
-
-$query = "UPDATE inventory SET 
-
-VIN='$VIN', 
-Make='$Make', 
-Model='$Model', 
-ASKING_PRICE='$Price'
-
-WHERE
-
-VIN='$VIN'"; 
-
-// Print the query to the browser so you can see it
-echo ($query. "<br>");
+// EditCar.php — cleaned, secured, Railway + Render compatible
 
 include 'db.php';
-/* check connection */
-if (mysqli_connect_errno()) {
- echo ("Connection failed: ". $mysqli->error."<br>");
- exit();
+
+// Validate POST data
+if (
+    !isset($_POST['VIN']) ||
+    !isset($_POST['Make']) ||
+    !isset($_POST['Model']) ||
+    !isset($_POST['Asking_Price'])
+) {
+    die("<h2>Error: Missing form data.</h2>");
 }
 
- echo 'Connected successfully to mySQL. <BR>';
+$vin    = trim($_POST['VIN']);
+$make   = trim($_POST['Make']);
+$model  = trim($_POST['Model']);
+$price  = trim($_POST['Asking_Price']);
 
-//select a database to work with
-$mysqli->select_db("Cars");
- Echo ("Selected the Cars database. <br>");
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Car Updated</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 25px; }
+        h1 { color: #333; }
+        .msg { padding: 15px; background: #f0f0f0; border-left: 4px solid #444; }
+    </style>
+</head>
 
-/* Try to insert the new car into the database */
-if ($result = $mysqli->query($query)) {
- echo "<p>You have successfully entered $Make $Model into the database.</P>";
+<body>
+
+<h1>Sam's Used Cars</h1>
+
+<div class="msg">
+<?php
+
+// Prepared statement to update the record
+$stmt = $mysqli->prepare("
+    UPDATE inventory 
+    SET Make = ?, Model = ?, ASKING_PRICE = ?
+    WHERE VIN = ?
+");
+
+if (!$stmt) {
+    die("<p>Error preparing statement: " . htmlspecialchars($mysqli->error) . "</p>");
 }
-else
-{
- echo "Error entering $VIN into database: " . mysql_error()."<br>";
+
+$stmt->bind_param("ssds", $make, $model, $price, $vin);
+
+if ($stmt->execute()) {
+    if ($stmt->affected_rows > 0) {
+        echo "<p><strong>" . htmlspecialchars($make) . " " . htmlspecialchars($model) .
+             "</strong> was successfully updated.</p>";
+    } else {
+        echo "<p>No changes were made (VIN not found or data identical).</p>";
+    }
+} else {
+    echo "<p>Error updating vehicle: " . htmlspecialchars($stmt->error) . "</p>";
 }
+
+$stmt->close();
 $mysqli->close();
 ?>
-<p><a href="ViewCarsWithStyle2.php">View Cars with Edit Links</a></p>
+</div>
+
+<p><a href="ViewCarsWithStyle2.php">← Return to Cars with Edit Links</a></p>
+
 </body>
 </html>

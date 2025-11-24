@@ -1,103 +1,99 @@
-<html>
-<head>
-    <meta charset="utf-8">
-    <title>Sam's Used Cars</title>
-    
-    <style>
-  /* The grid is used to format a table instead of a grid control on the list of Notes */
-#Grid
-{
-font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
-width:50%;
-border-collapse:collapse;
-margin-left: auto;
-margin-right: auto;
-}
-#Grid td, #Grid th 
-{
-font-size:1em;
-border:1px solid #61ADD7;
-padding:3px 7px 2px 7px;
-}
-#Grid th 
-{
-font-size:1.1em;
-text-align:left;
-padding-top:5px;
-padding-bottom:4px;
-background-color:#C2D9FE;
-color: lightslategray;
-
-}
-#Grid tr.odd td 
-{
-color:#000000;
-background-color: #F2F5A9;
-}
-
-#Grid tr.even  
-{
-color:#000000;
-background-color: white;
-}
-#Grid head 
-{
-color:#000000;
-background-color:teal;
-}
-.auto-style1 {
-	text-align: center;
-}
-</style>
- 
-</head> 
-<body background="bg.jpg">
-<h1>Sam's Used Cars</h1>
-<h3>Current Inventory</h3>
- <div class="auto-style1">
- <?php
+<?php
+// Connect to DB
 include 'db.php';
-$query = "SELECT * FROM inventory";
-/* Try to query the database */
-if ($result = $mysqli->query($query)) {
-   // Don't do anything if successful.
-}
-else
-{
-    echo "Error getting cars from the database: " . mysql_error()."<br>";
-}
 
-// Create the table headers
-echo "<table id='Grid' ><tr>";
-echo "<th style='width: 15px'>Make</th>";
-echo "<th style='width: 30px'>Model</th>";
-echo "<th style='width: 50px'>Action</th>";
-echo "</tr>\n";
+// Fetch all cars
+$query = "SELECT VIN, Make, Model FROM inventory ORDER BY Make, Model";
 
-$class ="odd";  // Keep track of whether a row was even or odd, so we can style it later
-
-// Loop through all the rows returned by the query, creating a table row for each
-while ($result_ar = mysqli_fetch_assoc($result)) {
-    echo "<tr class=\"$class\">";
-    echo "<td><a href='viewcar.php?VIN=".$result_ar['VIN']."'>" . $result_ar['Make'] . "</a></td>";
-    echo "<td>" . $result_ar['Model'] . "</td>";
-   echo "<td><a href='AddImage.php?VIN=".$result_ar['VIN']."'>Add Image</a> </td>";
-   echo "</tr>\n";
-   
-   // If the last row was even, make the next one odd and vice-versa
-    if ($class=="odd"){
-        $class="even";
-    }
-    else
-    {
-        $class="odd";
-    }
+$result = $mysqli->query($query);
+if (!$result) {
+    die("Error retrieving inventory: " . $mysqli->error);
 }
-echo "</table>";
-$mysqli->close();
-include 'footer.php'
 ?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sam's Used Cars – Add Images</title>
 
- </body>
- 
+    <style>
+        /* Table styling */
+        #Grid {
+            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+            width: 60%;
+            border-collapse: collapse;
+            margin: 20px auto;
+        }
+        #Grid td, #Grid th {
+            font-size: 1em;
+            border: 1px solid #61ADD7;
+            padding: 8px 10px;
+        }
+        #Grid th {
+            background-color: #C2D9FE;
+            color: #333;
+            text-align: left;
+            font-size: 1.1em;
+        }
+        #Grid tr.odd {
+            background-color: #F2F5A9;
+        }
+        #Grid tr.even {
+            background-color: white;
+        }
+
+        body {
+            background: url('bg.jpg');
+            background-size: cover;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-bottom: 40px;
+        }
+
+        h1 {
+            margin-top: 20px;
+            font-size: 36px;
+        }
+        h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Sam's Used Cars</h1>
+    <h3>Add an Image to a Car</h3>
+
+    <table id="Grid">
+        <tr>
+            <th style="width: 150px;">Make</th>
+            <th style="width: 200px;">Model</th>
+            <th style="width: 120px;">Action</th>
+        </tr>
+
+        <?php
+        $class = "odd";
+
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr class='{$class}'>";
+                echo "<td>" . htmlspecialchars($row['Make']) . "</td>";
+                echo "<td>" . htmlspecialchars($row['Model']) . "</td>";
+
+                // Link to AddImage page
+                echo "<td><a href='AddImage.php?VIN=" . urlencode($row['VIN']) . "'>Add Image</a></td>";
+            echo "</tr>";
+
+            // Alternate row color
+            $class = ($class === "odd") ? "even" : "odd";
+        }
+
+        $mysqli->close();
+        ?>
+    </table>
+
+    <?php include 'footer.php'; ?>
+
+</body>
 </html>
