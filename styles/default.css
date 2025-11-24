@@ -37,6 +37,13 @@ h3, h4, legend, label, p, li, a {
     position: relative;
 }
 
+.middle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+}
+
 .header img {
     height: 60px;
     width: auto;

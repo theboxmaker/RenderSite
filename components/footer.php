@@ -8,7 +8,7 @@
         <a href="https://jsfiddle.net/u/theboxmaker/" target="_blank">JSFiddle</a>
     </nav>
 
-    <p>
+    <p class="middle">
         Website designed by
         <a href="/web115/tucktech.com/index.html" target="_blank">TuckTech</a>
     </p>
