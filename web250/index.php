@@ -47,24 +47,6 @@ $full_title = "Zachary Tucker's Web Projects | WEB250 | {$formatted_title}";
 
 <body>
 
-    <!-- DYNAMIC HEADER -->
-    <header>
-        <div class="header">
-            <img src="/web250/images/favicon_io/android-chrome-192x192.png" alt="Logo">
-            <h1>Zachary Tucker's Zany Terrapin | WEB250</h1>
-        </div>
-
-        <nav class="navbar">
-            <?php foreach ($nav_items as $slug => $title): ?>
-                <a 
-                    href="/web250/index.php?page=<?= $slug ?>" 
-                    class="<?= $slug === $page ? 'active' : '' ?>">
-                    <?= htmlspecialchars($title) ?>
-                </a>
-            <?php endforeach; ?>
-        </nav>
-    </header>
-
     <main>
         <?php include $content_file; ?>
     </main>
