@@ -1,10 +1,15 @@
 <?php
 /**
  * View details about a single car.
- * Cleaned & modernized version.
+ * Cleaned & modernized version with NULL-safe output handling.
  */
 
 include 'db.php';
+
+// Helper to avoid PHP 8.1+ "Passing null to htmlspecialchars() is deprecated"
+function safe($value) {
+    return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
+}
 
 // Make sure VIN was provided
 if (!isset($_GET['VIN']) || trim($_GET['VIN']) === "") {
@@ -19,12 +24,12 @@ $query = "SELECT * FROM inventory WHERE VIN='$vin'";
 $result = $mysqli->query($query);
 
 if (!$result) {
-    die("<p>Error querying database: " . htmlspecialchars($mysqli->error) . "</p>");
+    die("<p>Error querying database: " . safe($mysqli->error) . "</p>");
 }
 
 // If no rows returned, VIN not found
 if ($result->num_rows === 0) {
-    echo "<h2>No vehicle found with VIN: " . htmlspecialchars($vin) . "</h2>";
+    echo "<h2>No vehicle found with VIN: " . safe($vin) . "</h2>";
     $mysqli->close();
     exit;
 }
@@ -32,15 +37,16 @@ if ($result->num_rows === 0) {
 // Fetch row
 $row = $result->fetch_assoc();
 
-$year        = htmlspecialchars($row['YEAR']);
-$make        = htmlspecialchars($row['Make']);
-$model       = htmlspecialchars($row['Model']);
-$trim        = htmlspecialchars($row['TRIM']);
-$color       = htmlspecialchars($row['EXT_COLOR']);
-$interior    = htmlspecialchars($row['INT_COLOR']);
-$mileage     = htmlspecialchars($row['MILEAGE']);
-$trans       = htmlspecialchars($row['TRANSMISSION']);
-$price       = htmlspecialchars($row['ASKING_PRICE']);
+// Safely sanitize values (NULL-safe)
+$year     = safe($row['YEAR']);
+$make     = safe($row['Make']);
+$model    = safe($row['Model']);
+$trim     = safe($row['TRIM']);
+$color    = safe($row['EXT_COLOR']);
+$interior = safe($row['INT_COLOR']);
+$mileage  = safe($row['MILEAGE']);
+$trans    = safe($row['TRANSMISSION']);
+$price    = safe($row['ASKING_PRICE']);
 
 $mysqli->close();
 ?>
@@ -48,6 +54,7 @@ $mysqli->close();
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
     <title>Sam's Used Cars</title>
 </head>
 
