@@ -5,16 +5,17 @@
     </div>
 
     <nav class="navbar">
-        <a href="/index.php?page=index" 
+
+        <a href="/index.php?page=index"
            class="<?= $page === 'index' ? 'active' : '' ?>">Home</a>
 
-        <a href="/index.php?page=introduction" 
+        <a href="/index.php?page=introduction"
            class="<?= $page === 'introduction' ? 'active' : '' ?>">Introduction</a>
 
-        <a href="/index.php?page=contract" 
+        <a href="/index.php?page=contract"
            class="<?= $page === 'contract' ? 'active' : '' ?>">Contract</a>
 
-        <!-- DROPDOWN MENU -->
+        <!-- DROPDOWN -->
         <div class="dropdown">
             <button class="dropbtn">Projects ▼</button>
             <div class="dropdown-content">
@@ -23,5 +24,6 @@
                 <a href="/joy_of_php_source/joyphp/index.php">Joy of PHP</a>
             </div>
         </div>
+
     </nav>
 </header>

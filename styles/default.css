@@ -14,7 +14,6 @@ img {
     height: auto;
 }
 
-
 h1 {
     color: #3e2723;
     text-align: center;
@@ -30,13 +29,56 @@ h3, h4, legend, label, p, li, a {
     font-family: inherit;
 }
 
-img {
-    max-width: 100%;
-    height: auto;
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+.header img {
+    height: 60px;
+    width: auto;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 /* ===========================
-   DROPDOWN MENU STYLES
+   NAVBAR + DROPDOWN SUPPORT
+=========================== */
+
+.navbar {
+    background-color: #8b4513;
+    padding: 0;
+    margin: 0;
+
+    display: flex;           /* REQUIRED for dropdown */
+    align-items: center;
+}
+
+.navbar a {
+    color: #e3dac9;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: inline-block;
+}
+
+.navbar a:hover {
+    background-color: #5c2e0d;
+}
+
+/* Highlight Active Nav Link */
+.navbar a.active {
+    background-color: #5c2e0d;
+    font-weight: bold;
+    border-bottom: 3px solid #e3dac9;
+}
+
+/* ===========================
+   DROPDOWN MENU
 =========================== */
 
 .dropdown {
@@ -53,16 +95,12 @@ img {
     cursor: pointer;
 }
 
-.dropbtn:hover {
-    background-color: #5c2e0d;
-}
-
 .dropdown-content {
     display: none;
     position: absolute;
     background-color: #8b4513;
     min-width: 200px;
-    z-index: 1000;
+    z-index: 9999;
     border: 2px solid #5c2e0d;
     border-radius: 5px;
 }
@@ -86,47 +124,9 @@ img {
     background-color: #5c2e0d;
 }
 
-.navbar a.active {
-    background-color: #5c2e0d;  /* darker shade */
-    font-weight: bold;
-    border-bottom: 3px solid #e3dac9;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 0;
-    position: relative;
-}
-
-.header img {
-    height: 60px;
-    width: auto;
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-
-.navbar {
-    background-color: #8b4513;
-    padding: 0;
-    margin: 0;
-}
-
-.navbar a {
-    color: #e3dac9;
-    text-decoration: none;
-    padding: 15px 20px;
-    display: inline-block;
-}
-
-.navbar a:hover {
-    background-color: #5c2e0d;
-}
-
+/* ===========================
+   FORM STYLING
+=========================== */
 
 .form-container {
     border: 20px groove #8b4513;
@@ -147,6 +147,7 @@ input {
     box-shadow: 2px 2px 5px gray;
 }
 
+/* =========================== */
 
 .centered {
     text-align: center;
