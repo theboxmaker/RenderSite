@@ -44,6 +44,10 @@ h3, h4, legend, label, p, li, a {
     padding: 10px 0;
 }
 
+.middle a {
+    color:#3e2723;
+}
+
 .header img {
     height: 60px;
     width: auto;
