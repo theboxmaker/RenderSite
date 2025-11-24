@@ -5,10 +5,10 @@
     </div>
 
     <nav class="navbar">
-        <a href="/index.php?page=home">Home</a>
-        <a href="/index.php?page=introduction">Introduction</a>
-        <a href="/index.php?page=contract">Contract</a>
-        <a href="/web250/superduper_static/index.html">SuperDuper Static</a>
-        <a href="/web250/superduper_php/index.php">SuperDuper PHP</a>
+        <a href="/web250/index.php?page=index">Home</a>
+        <a href="/web250/index.php?page=introduction">Introduction</a>
+        <a href="/web250/index.php?page=contract">Contract</a>
+        <a href="/web250/index.php?page=superduper_static">SuperDuper Static</a>
+        <a href="/web250/index.php?page=superduper_php">SuperDuper PHP</a>
     </nav>
 </header>
