@@ -22,6 +22,7 @@
                 <a href="/superduper_static/index.html">SuperDuper Static</a>
                 <a href="/superduper_php/index.php">SuperDuper PHP</a>
                 <a href="/joy_of_php_source/joyphp/src/index.php">Joy of PHP</a>
+                <a href="/joy_of_php_source/joyphp/src/samsusedcars.html">Sam's Used Cars</a>
             </div>
         </div>
 
