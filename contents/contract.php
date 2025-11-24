@@ -1,7 +1,7 @@
 <h2>Contract</h2>
 
 <p>
-    I, <a href="/web250/index.php?page=introduction">Zachary J. Tucker</a>, agree to abide by the terms 
+    I, <a href="/index.php?page=introduction">Zachary J. Tucker</a>, agree to abide by the terms 
     in my Fall 2025 WEB250-N801 Database Driven Websites course with my instructor, 
     D. I. von Briesen.
 </p>
