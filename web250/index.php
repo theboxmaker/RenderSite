@@ -13,12 +13,25 @@ $content_file = $base . "/contents/{$page}.php";
 
 // If file does not exist, fall back to contents/index.php
 if (!file_exists($content_file)) {
+    $page = "index";
     $content_file = $base . "/contents/index.php";
 }
 
-// Create a readable page title automatically
-// e.g., "superduper_php" → "Superduper Php"
-$formatted_title = ucwords(str_replace('_', ' ', $page));
+// ----------- DYNAMIC NAVIGATION ----------- //
+// Scan the contents folder for .php pages
+$content_files = glob($base . "/contents/*.php");
+
+$nav_items = [];
+
+foreach ($content_files as $file) {
+    $filename = basename($file, ".php");  // remove .php
+    $title = ucwords(str_replace('_', ' ', $filename)); // make readable
+    $nav_items[$filename] = $title;
+}
+// ------------------------------------------- //
+
+// Create readable page title
+$formatted_title = $nav_items[$page] ?? "Page";
 $full_title = "Zachary Tucker's Web Projects | WEB250 | {$formatted_title}";
 ?>
 <!DOCTYPE html>
@@ -34,8 +47,23 @@ $full_title = "Zachary Tucker's Web Projects | WEB250 | {$formatted_title}";
 
 <body>
 
-    <!-- HEADER -->
-    <?php include $base . "/components/header.php"; ?>
+    <!-- DYNAMIC HEADER -->
+    <header>
+        <div class="header">
+            <img src="/web250/images/favicon_io/android-chrome-192x192.png" alt="Logo">
+            <h1>Zachary Tucker's Zany Terrapin | WEB250</h1>
+        </div>
+
+        <nav class="navbar">
+            <?php foreach ($nav_items as $slug => $title): ?>
+                <a 
+                    href="/web250/index.php?page=<?= $slug ?>" 
+                    class="<?= $slug === $page ? 'active' : '' ?>">
+                    <?= htmlspecialchars($title) ?>
+                </a>
+            <?php endforeach; ?>
+        </nav>
+    </header>
 
     <main>
         <?php include $content_file; ?>
