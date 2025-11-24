@@ -71,7 +71,7 @@ h3, h4, legend, label, p, li, a {
 }
 
 /* Highlight Active Nav Link */
-.navbar a.active {
+.navbar .active {
     background-color: #5c2e0d;
     font-weight: bold;
     border-bottom: 3px solid #e3dac9;
