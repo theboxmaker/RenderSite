@@ -1,17 +1,3 @@
-<?php
-// Build navigation items dynamically by scanning the contents folder
-$contents_path = __DIR__ . '/../contents/';
-$content_files = glob($contents_path . '*.php');
-
-$nav_items = [];
-
-foreach ($content_files as $file) {
-    $slug = basename($file, '.php');
-    $title = ucwords(str_replace('_', ' ', $slug));
-    $nav_items[$slug] = $title;
-}
-?>
-
 <header>
     <div class="header">
         <img src="/web250/images/favicon_io/android-chrome-192x192.png" alt="TuckTech logo">
@@ -19,10 +5,10 @@ foreach ($content_files as $file) {
     </div>
 
     <nav class="navbar">
-        <?php foreach ($nav_items as $slug => $title): ?>
-            <a href="/web250/index.php?page=<?= $slug ?>">
-                <?= htmlspecialchars($title) ?>
-            </a>
-        <?php endforeach; ?>
+        <a href="/web250/index.php?page=index">Home</a>
+        <a href="/web250/index.php?page=introduction">Introduction</a>
+        <a href="/web250/index.php?page=contract">Contract</a>
+        <a href="/web250/index.php?page=superduper_static">SuperDuper Static</a>
+        <a href="/web250/index.php?page=superduper_php">SuperDuper PHP</a>
     </nav>
 </header>
