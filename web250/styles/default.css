@@ -1,0 +1,113 @@
+body {
+    background-color: #e3dac9;
+    margin: 0;
+    padding: 1em;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif;
+}
+
+main {
+    margin: 20px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+
+h1 {
+    color: #3e2723;
+    text-align: center;
+    font-size: 48px;
+}
+
+h2 {
+    color: #8b4513;
+    font-size: 36px;
+}
+
+h3, h4, legend, label, p, li, a {
+    font-family: inherit;
+}
+
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+.header img {
+    height: 60px;
+    width: auto;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+
+.navbar {
+    background-color: #8b4513;
+    padding: 0;
+    margin: 0;
+}
+
+.navbar a {
+    color: #e3dac9;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: inline-block;
+}
+
+.navbar a:hover {
+    background-color: #5c2e0d;
+}
+
+
+.form-container {
+    border: 20px groove #8b4513;
+    border-radius: 25px;
+    padding: 15px;
+    background-color: beige;
+    margin: 35px auto;
+    max-width: 600px;
+}
+
+fieldset {
+    border: 10px groove #8b4513;
+    border-radius: 25px;
+    padding: 15px;
+}
+
+input {
+    box-shadow: 2px 2px 5px gray;
+}
+
+
+.centered {
+    text-align: center;
+}
+
+#loop, #numList {
+    padding: 1rem;
+    margin: 1rem;
+}
+
+.word1, .first-div {
+    color: green;
+    font-weight: bold;
+}
+
+.word2, .second-div {
+    color: darkolivegreen;
+    font-weight: bolder;
+}
+
+.word3, .third-div {
+    color: #8b4513;
+    font-weight: 900;
+    text-decoration: line-through;
+}
