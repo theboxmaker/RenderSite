@@ -1,35 +1,25 @@
 <?php
-// Base path for this folder (/var/www/html/web250)
+// Base path for the web250 folder
 $base = __DIR__;
 
-// Determine requested page (default = home)
-$page = isset($_GET['page']) ? trim($_GET['page']) : 'home';
+// Requested page OR default to "index"
+$page = isset($_GET['page']) ? trim($_GET['page']) : 'index';
 
-// Whitelist pages that exist in /web250/contents/
-$allowed_pages = [
-    'home',
-    'introduction',
-    'contract',
-    'superduper_static',
-    'superduper_php'
-];
+// Security: prevent directory traversal (e.g., "?page=../hack")
+$page = basename($page);
 
-// If page not allowed, fall back to home
-if (!in_array($page, $allowed_pages)) {
-    $page = 'home';
+// Build the full path for the requested content file
+$content_file = $base . "/contents/{$page}.php";
+
+// If file does not exist, fall back to contents/index.php
+if (!file_exists($content_file)) {
+    $content_file = $base . "/contents/index.php";
 }
 
-// Page titles
-$titles = [
-    'home'             => "Home",
-    'introduction'     => "Introduction",
-    'contract'         => "Contract",
-    'superduper_static'=> "SuperDuper Static",
-    'superduper_php'   => "SuperDuper PHP"
-];
-
-// Final title text
-$full_title = "Zachary Tucker's Web Projects | WEB250 | " . ($titles[$page] ?? "Home");
+// Create a readable page title automatically
+// e.g., "superduper_php" → "Superduper Php"
+$formatted_title = ucwords(str_replace('_', ' ', $page));
+$full_title = "Zachary Tucker's Web Projects | WEB250 | {$formatted_title}";
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -48,17 +38,7 @@ $full_title = "Zachary Tucker's Web Projects | WEB250 | " . ($titles[$page] ?? "
     <?php include $base . "/components/header.php"; ?>
 
     <main>
-        <?php
-        // Build full path to the requested content file
-        $content_file = $base . "/contents/$page.php";
-
-        // Load the requested content if it exists
-        if (file_exists($content_file)) {
-            include $content_file;
-        } else {
-            echo "<p><strong>Error:</strong> Content file not found.</p>";
-        }
-        ?>
+        <?php include $content_file; ?>
     </main>
 
     <!-- FOOTER -->
