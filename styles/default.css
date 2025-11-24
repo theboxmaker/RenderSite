@@ -30,6 +30,17 @@ h3, h4, legend, label, p, li, a {
     font-family: inherit;
 }
 
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Highlight active navigation link */
+.navbar a.active {
+    background-color: #5c2e0d;  /* darker shade */
+    font-weight: bold;
+    border-bottom: 3px solid #e3dac9;
+}
 
 .header {
     display: flex;

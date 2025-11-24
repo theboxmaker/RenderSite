@@ -5,8 +5,13 @@
     </div>
 
     <nav class="navbar">
-        <a href="/index.php?page=index">Home</a>
-        <a href="/index.php?page=introduction">Introduction</a>
-        <a href="/index.php?page=contract">Contract</a>
+        <a href="/index.php?page=index"
+           class="<?= $page === 'index' ? 'active' : '' ?>">Home</a>
+
+        <a href="/index.php?page=introduction"
+           class="<?= $page === 'introduction' ? 'active' : '' ?>">Introduction</a>
+
+        <a href="/index.php?page=contract"
+           class="<?= $page === 'contract' ? 'active' : '' ?>">Contract</a>
     </nav>
 </header>
