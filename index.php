@@ -36,6 +36,6 @@ $full_title = "Zachary Tucker | {$formatted_title}";
     </main>
 
     <?php include $base . "/components/footer.php"; ?>
-
+    <script src="https://lint.page/kit/880bd5.js" crossorigin="anonymous"></script>
 </body>
 </html>
