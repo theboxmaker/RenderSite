@@ -33,10 +33,25 @@ $stmt = $mysqli->prepare(
 
 $stmt->bind_param('sssd', $VIN, $Make, $Model, $Price);
 
-if ($stmt->execute()) {
-    echo "<p>Successfully entered $Make $Model into database.</p>";
-} else {
-    echo "<p>Error: {$stmt->error}</p>";
+// -----------------------------
+// Duplicate VIN error handling
+// -----------------------------
+try {
+    if ($stmt->execute()) {
+        echo "<p>Successfully entered $Make $Model into database.</p>";
+    }
+} catch (mysqli_sql_exception $e) {
+
+    // Error code 1062 = Duplicate primary key (VIN already exists)
+    if ($e->getCode() == 1062) {
+        echo "<p style='color:red;'>
+                Error: A car with VIN <strong>" . htmlspecialchars($VIN) . "</strong> 
+                already exists in the database.
+              </p>";
+        echo "<p>Please enter a unique VIN.</p>";
+    } else {
+        echo "<p style='color:red;'>Database Error: " . $e->getMessage() . "</p>";
+    }
 }
 
 $stmt->close();
