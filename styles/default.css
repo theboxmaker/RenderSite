@@ -37,6 +37,11 @@ h3, h4, legend, label, p, li, a {
     position: relative;
 }
 
+.logo {
+    width: 150px;
+    height: auto;
+}
+
 .middle {
     display: flex;
     align-items: center;

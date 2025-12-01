@@ -1,6 +1,6 @@
 <header>
     <div class="header">
-        <img src="/images/favicon.png" alt="Logo">
+        <img class="logo" src="/images/favicon.png" alt="Logo">
         <h1>Zachary Tucker's Web Projects</h1>
     </div>
 
