@@ -88,5 +88,7 @@ echo "</table>";
 $mysqli->close();
 ?>
 
+<p><a href="samsusedcars.html">Return to Home</a></p>
+
 </body>
 </html>
