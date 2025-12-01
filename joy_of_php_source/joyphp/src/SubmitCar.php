@@ -43,7 +43,7 @@ $stmt->close();
 $mysqli->close();
 ?>
 
-<p><a href="index.php">Return to Home</a></p>
+<p><a href="samsusedcars.html">Return to Home</a></p>
 
 </body>
 </html>
