@@ -1,0 +1,10 @@
+Options +FollowSymLinks
+RewriteEngine On
+
+# Support clean URLs for /carapp
+RewriteRule ^carapp/?$ carapp/index.php [L]
+
+# Route everything through root index if needed
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]

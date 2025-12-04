@@ -1,19 +1,21 @@
-# Use official PHP 8.2 with Apache
 FROM php:8.2-apache
 
-# Enable common PHP extensions
-RUN docker-php-ext-install mysqli pdo pdo_mysql
-
-# Enable Apache mod_rewrite
+# Enable Apache rewrite module
 RUN a2enmod rewrite
 
-# Copy your project into Apache’s root
-COPY . /var/www/html/
+# Install mysqli + pdo_mysql
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Set correct permissions
+# Set working directory
+WORKDIR /var/www/html
+
+# Copy project files
+COPY . /var/www/html
+
+# Permissions
 RUN chown -R www-data:www-data /var/www/html
 
-# Expose port 80
-EXPOSE 80
+# Enable .htaccess overrides
+RUN sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/apache2.conf
 
-# Apache automatically starts via CMD in base image
+EXPOSE 80
