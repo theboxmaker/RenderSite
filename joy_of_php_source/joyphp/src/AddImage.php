@@ -7,9 +7,15 @@ if ($vin === "") {
     die("<p>Error: VIN is required.</p>");
 }
 
-// Fetch vehicle info securely
-$stmt = $mysqli->prepare("SELECT YEAR, Make, Model, TRIM, EXT_COLOR, INT_COLOR, MILEAGE, TRANSMISSION, ASKING_PRICE 
-                          FROM inventory WHERE VIN = ?");
+// Select correct DB
+$mysqli->select_db("Cars");
+
+// Fetch vehicle info
+$stmt = $mysqli->prepare("
+    SELECT YEAR, Make, Model, TRIM, EXT_COLOR, INT_COLOR, MILEAGE, TRANSMISSION, ASKING_PRICE
+    FROM Cars 
+    WHERE VIN = ?
+");
 $stmt->bind_param("s", $vin);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -21,7 +27,6 @@ if ($result->num_rows === 0) {
 $row = $result->fetch_assoc();
 $stmt->close();
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -70,10 +75,12 @@ $stmt->close();
 <h3>Add Image</h3>
 
 <div class="car-info">
-    <p><strong><?= htmlspecialchars($row['EXT_COLOR']) ?> 
-       <?= htmlspecialchars($row['YEAR']) ?> 
-       <?= htmlspecialchars($row['Make']) ?> 
-       <?= htmlspecialchars($row['Model']) ?></strong></p>
+    <p><strong>
+        <?= htmlspecialchars($row['EXT_COLOR']) ?> 
+        <?= htmlspecialchars($row['YEAR']) ?> 
+        <?= htmlspecialchars($row['Make']) ?> 
+        <?= htmlspecialchars($row['Model']) ?>
+    </strong></p>
 
     <p>VIN: <?= htmlspecialchars($vin) ?></p>
     <p>Asking Price: $<?= number_format($row['ASKING_PRICE'], 2) ?></p>
@@ -94,8 +101,8 @@ $stmt->close();
 
 <div class="gallery" style="text-align:center;">
 <?php
-// Fetch existing images securely
-$stmt = $mysqli->prepare("SELECT ImageFile FROM images WHERE VIN = ?");
+// Load existing images
+$stmt = $mysqli->prepare("SELECT ImageFile FROM Images WHERE VIN = ?");
 $stmt->bind_param("s", $vin);
 $stmt->execute();
 $images = $stmt->get_result();
@@ -110,7 +117,7 @@ $mysqli->close();
 ?>
 </div>
 
-<?php include 'footer.php'; ?>
+<?php if (file_exists("footer.php")) include 'footer.php'; ?>
 
 </body>
 </html>

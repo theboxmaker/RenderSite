@@ -1,8 +1,12 @@
 <?php
+// ViewCarsWithStyle2.php — Styled inventory with action links
 include 'db.php';
 
-// Fetch all inventory records
-$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM inventory ORDER BY Make, Model";
+// Select the correct database
+$mysqli->select_db("Cars");
+
+// Query all cars
+$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM Cars ORDER BY Make, Model";
 $result = $mysqli->query($query);
 
 if (!$result) {
@@ -21,26 +25,18 @@ if (!$result) {
             background: url('bg.jpg');
             background-size: cover;
             text-align: center;
-            margin: 0;
             padding: 30px;
+            margin: 0;
         }
 
-        h1 {
-            margin-bottom: 0;
-            color: #333;
-        }
+        h1 { margin-bottom: 0; color: #333; }
+        h3 { margin-top: 5px; color: #444; }
 
-        h3 {
-            margin-top: 5px;
-            color: #444;
-        }
-
-        /* Inventory Table */
         #Grid {
             font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             width: 85%;
-            border-collapse: collapse;
             margin: 25px auto;
+            border-collapse: collapse;
             box-shadow: 0 0 10px #888;
             background: #fff;
         }
@@ -59,27 +55,17 @@ if (!$result) {
             border-bottom: 1px solid #ddd;
         }
 
-        tr.odd td {
-            background-color: #F2F5A9;
-        }
-
-        tr.even td {
-            background-color: #ffffff;
-        }
+        tr.odd td { background-color: #F2F5A9; }
+        tr.even td { background-color: #ffffff; }
 
         a {
             color: #0b3d91;
             font-weight: bold;
             text-decoration: none;
         }
+        a:hover { text-decoration: underline; }
 
-        a:hover {
-            text-decoration: underline;
-        }
-
-        .actions a {
-            margin-right: 12px;
-        }
+        .actions a { margin-right: 12px; }
     </style>
 </head>
 
@@ -93,35 +79,36 @@ if (!$result) {
         <th style="width: 150px;">Make</th>
         <th style="width: 150px;">Model</th>
         <th style="width: 150px;">Asking Price</th>
-        <th style="width: 200px;">Action</th>
+        <th style="width: 200px;">Actions</th>
     </tr>
 
-    <?php
-    $rowClass = "odd";
+<?php
+$rowClass = "odd";
 
-    while ($row = $result->fetch_assoc()): ?>
-        <tr class="<?= $rowClass ?>">
-            <td>
-                <a href="viewcar.php?VIN=<?= urlencode($row['VIN']) ?>">
-                    <?= htmlspecialchars($row['Make']) ?>
-                </a>
-            </td>
+while ($row = $result->fetch_assoc()):
+?>
+    <tr class="<?= $rowClass ?>">
+        <td>
+            <a href="viewcar.php?VIN=<?= urlencode($row['VIN']) ?>">
+                <?= htmlspecialchars($row['Make']) ?>
+            </a>
+        </td>
 
-            <td><?= htmlspecialchars($row['Model']) ?></td>
-            <td>$<?= number_format($row['ASKING_PRICE'], 0) ?></td>
+        <td><?= htmlspecialchars($row['Model']) ?></td>
 
-            <td class="actions">
-                <a href="FormEdit.php?VIN=<?= urlencode($row['VIN']) ?>">Edit</a>
-                <a href="deletecar.php?VIN=<?= urlencode($row['VIN']) ?>">Delete</a>
-            </td>
-        </tr>
+        <td>$<?= number_format($row['ASKING_PRICE'], 0) ?></td>
 
-        <?php
-        $rowClass = ($rowClass === "odd") ? "even" : "odd";
-    endwhile;
+        <td class="actions">
+            <a href="FormEdit.php?VIN=<?= urlencode($row['VIN']) ?>">Edit</a>
+            <a href="deletecar.php?VIN=<?= urlencode($row['VIN']) ?>">Delete</a>
+        </td>
+    </tr>
+<?php
+    $rowClass = ($rowClass === "odd") ? "even" : "odd";
+endwhile;
 
-    $mysqli->close();
-    ?>
+$mysqli->close();
+?>
 </table>
 
 <?php include 'footer.php'; ?>

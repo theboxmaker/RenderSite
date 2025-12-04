@@ -8,58 +8,62 @@ if ($vin === "") {
     die("<p>Error: VIN is required.</p>");
 }
 
-// Ensure the upload exists and no server error
+// Select correct database
+$mysqli->select_db("Cars");
+
+// Ensure file is present
 if (!isset($_FILES["file"]) || $_FILES["file"]["error"] !== UPLOAD_ERR_OK) {
-    die("<p>Error uploading file. Code: " . $_FILES["file"]["error"] . "</p>");
+    die("<p>Error uploading file. Code: " . ($_FILES["file"]["error"] ?? 'unknown') . "</p>");
 }
 
-// File info
+// File details
 $file      = $_FILES["file"];
 $filename  = basename($file["name"]);
 $tmpPath   = $file["tmp_name"];
 $fileSize  = $file["size"];
 $fileType  = mime_content_type($tmpPath);
 
-// Security: allow only images
+// Allowed MIME types
 $allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 if (!in_array($fileType, $allowedTypes)) {
-    die("<p>Error: Only image files (JPG, PNG, GIF, WEBP) are allowed.</p>");
+    die("<p>Error: Only JPG, PNG, GIF, and WEBP image files are allowed.</p>");
 }
 
-// Security: limit size (5MB)
+// File size limit (5MB)
 if ($fileSize > 5 * 1024 * 1024) {
-    die("<p>Error: File is too large. Max size is 5MB.</p>");
+    die("<p>Error: File is too large. Maximum size is 5MB.</p>");
 }
 
-// Ensure /uploads directory exists
-$uploadDir = getcwd() . "/uploads/";
+// Upload directory (inside the container)
+$uploadDir = __DIR__ . "/uploads/";
+
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
 
-// Build full path
-$targetPath = $uploadDir . $filename;
+// Prevent overwriting existing files
+$uniquePrefix = time() . "_";
+$finalName = $uniquePrefix . $filename;
+$targetPath = $uploadDir . $finalName;
 
-// Move file
+// Move file to uploads directory
 if (!move_uploaded_file($tmpPath, $targetPath)) {
     die("<p>Error: Could not save uploaded file.</p>");
 }
 
-// Build relative path for displaying images
-$imagePath = "uploads/" . $filename;
-
-// Insert into database
-$query = "INSERT INTO images (VIN, ImageFile) VALUES (?, ?)";
-
+// Insert into Images table
+$query = "INSERT INTO Images (VIN, ImageFile) VALUES (?, ?)";
 $stmt = $mysqli->prepare($query);
+
 if (!$stmt) {
     die("<p>Database error: " . $mysqli->error . "</p>");
 }
-$stmt->bind_param("ss", $vin, $filename);
+
+$stmt->bind_param("ss", $vin, $finalName);
 
 echo "<h2>Image Upload Results</h2>";
 echo "<p>VIN: $vin</p>";
-echo "<p>Stored as: $imagePath</p>";
+echo "<p>Stored as: uploads/$finalName</p>";
 
 if ($stmt->execute()) {
     echo "<p><strong>Image successfully saved to the database.</strong></p>";
@@ -71,11 +75,13 @@ $stmt->close();
 $mysqli->close();
 
 // Display uploaded image
-echo "<p><img src='$imagePath' width='200' alt='Uploaded image'></p>";
+echo "<p><img src='uploads/$finalName' width='250' alt='Uploaded image'></p>";
 
-// Link to add another image
+// Link to upload another
 echo "<p><a href='AddImage.php?VIN=$vin'>Upload another image for this car</a></p>";
 
-// Footer
-include 'footer.php';
+// Include footer if it exists
+if (file_exists("footer.php")) {
+    include 'footer.php';
+}
 ?>

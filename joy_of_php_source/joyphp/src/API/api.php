@@ -1,145 +1,140 @@
 <?php
+header("Access-Control-Allow-Origin: *");
+header("Content-Type: application/json");
 
-// This is the API which has two possible reponses
-// 1) return a list of cars or 2) returns details about a specific car using the VIN.
+include 'db.php';
 
-function get_cars()
-{
-    //build JSON array
-     header("Access-Control-Allow-Origin: *");
-     header("Content-Type: application/json");
-    include 'db.php';
-    $query = "SELECT * FROM inventory ORDER BY Make";
-    /* Try to insert the new car into the database */
-    if ($result = $mysqli->query($query)) {
-        // Don't do anything if successful.
+// -------------------------------------------------------
+// Helper: JSON response wrapper
+// -------------------------------------------------------
+function respond($data, $status = 200) {
+    http_response_code($status);
+    echo json_encode($data, JSON_PRETTY_PRINT);
+    exit;
+}
+
+// -------------------------------------------------------
+// GET ALL CARS
+// -------------------------------------------------------
+function get_cars() {
+    global $mysqli;
+
+    $sql = "SELECT VIN, Make, Model, YEAR, ASKING_PRICE FROM inventory ORDER BY Make";
+    $result = $mysqli->query($sql);
+
+    if (!$result) {
+        respond(["error" => $mysqli->error], 500);
     }
-    else
-    {
-        echo "Error getting cars from the database.<br>";
+
+    $cars = [];
+    while ($row = $result->fetch_assoc()) {
+        $cars[] = [
+            "vin"   => $row["VIN"],
+            "make"  => $row["Make"],
+            "model" => $row["Model"],
+            "year"  => intval($row["YEAR"]),
+            "price" => floatval($row["ASKING_PRICE"])
+        ];
     }
 
-    $car_list = array();
-   // print_r( $car_list);
-// Loop through all the rows returned by the query, creating a table row for each
-    while ($result_ar = mysqli_fetch_assoc($result)) {
-        $current_car = array("make" =>  $result_ar['Make'], "model" =>$result_ar['Model'], "vin" => $result_ar['VIN'], "price" => number_format($result_ar['ASKING_PRICE'],0) );
-        array_push($car_list, $current_car);
+    respond($cars);
+}
+
+// -------------------------------------------------------
+// GET CAR BY VIN
+// -------------------------------------------------------
+function get_car_by_vin($vin) {
+    global $mysqli;
+
+    $stmt = $mysqli->prepare("SELECT * FROM inventory WHERE VIN = ? LIMIT 1");
+    $stmt->bind_param("s", $vin);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    if ($result->num_rows === 0) {
+        respond(["error" => "Car not found"], 404);
+    }
+
+    respond($result->fetch_assoc());
+}
+
+// -------------------------------------------------------
+// ADD CAR (POST)
+// -------------------------------------------------------
+function add_car() {
+    global $mysqli;
+
+    // Accept raw POST data or form-data
+    $VIN   = $_POST["VIN"]   ?? null;
+    $Make  = $_POST["Make"]  ?? null;
+    $Model = $_POST["Model"] ?? null;
+    $Price = $_POST["Price"] ?? null;
+
+    if (!$VIN || !$Make || !$Model || !$Price) {
+        respond(["error" => "Missing required fields"], 400);
+    }
+
+    $stmt = $mysqli->prepare("
+        INSERT INTO inventory (VIN, Make, Model, ASKING_PRICE)
+        VALUES (?, ?, ?, ?)
+    ");
+    $stmt->bind_param("sssd", $VIN, $Make, $Model, $Price);
+
+    try {
+        $stmt->execute();
+        respond(["success" => true], 201);
+    } catch (mysqli_sql_exception $e) {
+
+        // Duplicate VIN
+        if ($e->getCode() == 1062) {
+            respond(["error" => "Car with that VIN already exists"], 409);
         }
-    $mysqli->close();
-    return $car_list;
-}
 
-function add_car(){
-    if(isset($_GET['VIN'])){
-        header("Access-Control-Allow-Origin: *");
-        include 'db.php';
-        $make = $_GET['make'];
-        $vin = $_GET['model'];
-        $VIN = $_GET['VIN'];
-        $price = $_GET['price'];
-        //echo "VIN is ".$vin;
-       // $query = "insert into tbl_mobile (name,model,color) values ('" . $name ."','". $model ."','" . $color ."')";
-        $query = "INSERT INTO inventory (make, model, VIN, price) VALUES ('" . $make ."','". $model ."','" .$VIN ."', '" . $price ."')";
-       echo $query;
-        /* Try to query the database */
-        if ($result = $mysqli->query($query)) {
-             // The delete was successful.
-            if($result != 0){
-                $result = array('success'=>1);
-                return $result;
-            }
-        }
-    } else {
-        echo "Sorry the car was not inserted<br>";
+        respond(["error" => $e->getMessage()], 500);
     }
 }
 
-function delete_car(){
-    if(isset($_GET['VIN'])){
-        header("Access-Control-Allow-Origin: *");
-        include 'db.php';
-        $vin = $_GET['VIN'];
-        //echo "VIN is ".$vin;
-        $query = "DELETE FROM inventory WHERE VIN='$vin'";
-        echo $query."<br>";
-        /* Try to query the database */
-        if ($result = $mysqli->query($query)) {
-             // The delete was successful.
-            if($result != 0){
-                $result = array('success'=>1);
-                return $result;
-            }
-        }
-    } else {
-        echo "Sorry, a vehicle with VIN of $vin cannot be found <br>";
+// -------------------------------------------------------
+// DELETE CAR
+// -------------------------------------------------------
+function delete_car($vin) {
+    global $mysqli;
+
+    $stmt = $mysqli->prepare("DELETE FROM inventory WHERE VIN = ?");
+    $stmt->bind_param("s", $vin);
+    $stmt->execute();
+
+    if ($stmt->affected_rows === 0) {
+        respond(["error" => "Car not found"], 404);
     }
+
+    respond(["success" => true]);
 }
 
-function get_car_by_vin( $vin)
-{
-    header("Access-Control-Allow-Origin: *");
-    include 'db.php';
-    $current_car = array();
+// -------------------------------------------------------
+// ROUTER
+// -------------------------------------------------------
+$action = $_GET["action"] ?? null;
 
-    $query = "SELECT * FROM inventory WHERE VIN=$vin";
- //echo $query."<br/>";
-    /* Try to query the database */
-    if ($result = $mysqli->query($query)) {
-        // Don't do anything if successful.
-    } else {
-        echo "Sorry, a vehicle with VIN of $vin cannot be found <br>";
-    }
-// Loop through all the rows returned by the query, creating a table row for each
-  //  echo "Searching for ".$vin;
-    while ($result_ar = mysqli_fetch_assoc($result)) {
-        $current_car = array("make" =>  $result_ar['Make'], "model" =>$result_ar['Model'], "year"=>$result_ar['YEAR'],  "color" => $result_ar['EXT_COLOR'], "mileage" =>  $result_ar['MILEAGE'],  "vin" => $result_ar['VIN'], "price" => number_format($result_ar['ASKING_PRICE'],0) );
-    }
+switch ($action) {
 
-    $mysqli->close();
+    case "get_cars":
+        get_cars();
+        break;
 
-    return $current_car;
+    case "get_car_by_vin":
+        get_car_by_vin($_GET["VIN"] ?? "");
+        break;
+
+    case "add_car":
+        add_car();
+        break;
+
+    case "delete_car":
+        delete_car($_GET["VIN"] ?? "");
+        break;
+
+    default:
+        respond(["error" => "Invalid or missing action"], 400);
 }
-
-
-$possible_url = array( "get_cars", "get_car_by_vin", "update_car", "delete_car", "add_car");
-$value = "An error has occurred";
-
-if (isset($_GET["action"]) && in_array($_GET["action"], $possible_url))
-{
-    switch ($_GET["action"])
-    {
-        case "delete_car":
-            $value=delete_car($_GET["VIN"]);
-            break;
-        case "add_car":
-            $value=add_car($_GET["VIN"]);
-            break;
-        case "get_cars":
-            $value = get_cars();
-            break;
-        case "get_car_by_vin":
-            if (isset($_GET['VIN']))
-                $value = get_car_by_vin($_GET["VIN"]);
-            else
-                $value = "Missing argument";
-            break;
-
-    }
-}
-
-//return JSON array
-$json = json_encode($value);
-if ($json === false) {
-    // Avoid echo of empty string (which is invalid JSON), and
-    // JSONify the error message instead:
-    $json = json_encode(array("jsonError", json_last_error_msg()));
-    if ($json === false) {
-        // This should not happen, but we go all the way now:
-        $json = '{"jsonError": "unknown"}';
-    }
-    // Set HTTP response status code to: 500 - Internal Server Error
-    http_response_code(500);
-}
-echo $json;
-//exit(json_encode($value));
+?>

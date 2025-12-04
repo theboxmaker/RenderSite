@@ -1,10 +1,12 @@
 <?php
-// Load database connection
+// ViewCarsWithStyle.php — Styled inventory list
 include 'db.php';
 
-// Query all inventory items
-$query = "SELECT Make, Model, ASKING_PRICE FROM inventory ORDER BY Make ASC";
+// Select the correct database
+$mysqli->select_db("Cars");
 
+// Query all cars
+$query = "SELECT Make, Model, ASKING_PRICE FROM Cars ORDER BY Make ASC";
 $result = $mysqli->query($query);
 
 if (!$result) {
@@ -25,25 +27,14 @@ if (!$result) {
             text-align: center;
         }
 
-        h1 {
-            margin-bottom: 0;
-            color: #333;
-        }
+        h1 { margin-bottom: 0; color: #333; }
+        h3 { margin-top: 5px; color: #555; }
 
-        h3 {
-            margin-top: 5px;
-            color: #555;
-        }
-
-        /* Table Styling */
         #Grid {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
             width: 80%;
-            border-collapse: collapse;
             margin: 20px auto;
+            border-collapse: collapse;
             background: #fff;
-            border-radius: 6px;
-            overflow: hidden;
             box-shadow: 0 0 10px #aaa;
         }
 
@@ -52,8 +43,8 @@ if (!$result) {
             color: #3f4b5c;
             padding: 12px;
             font-size: 1.1rem;
-            text-align: left;
             border-bottom: 2px solid #61ADD7;
+            text-align: left;
         }
 
         #Grid td {
@@ -61,13 +52,8 @@ if (!$result) {
             border-bottom: 1px solid #ddd;
         }
 
-        tr.odd td {
-            background-color: #F2F5A9;
-        }
-
-        tr.even td {
-            background-color: #ffffff;
-        }
+        tr.odd td { background-color: #F2F5A9; }
+        tr.even td { background-color: #ffffff; }
     </style>
 </head>
 
@@ -83,23 +69,23 @@ if (!$result) {
         <th style="width: 150px;">Asking Price</th>
     </tr>
 
-    <?php
-    $rowClass = "odd";
+<?php
+$rowClass = "odd";
 
-    while ($row = $result->fetch_assoc()): ?>
-        <tr class="<?= $rowClass ?>">
-            <td><?= htmlspecialchars($row['Make']) ?></td>
-            <td><?= htmlspecialchars($row['Model']) ?></td>
-            <td>$<?= number_format($row['ASKING_PRICE'], 0) ?></td>
-        </tr>
+while ($row = $result->fetch_assoc()):
+?>
+    <tr class="<?= $rowClass ?>">
+        <td><?= htmlspecialchars($row['Make']) ?></td>
+        <td><?= htmlspecialchars($row['Model']) ?></td>
+        <td>$<?= number_format($row['ASKING_PRICE'], 0) ?></td>
+    </tr>
+<?php
+    // Alternate row colors
+    $rowClass = ($rowClass === "odd") ? "even" : "odd";
+endwhile;
 
-        <?php
-        // Toggle row class
-        $rowClass = ($rowClass === "odd") ? "even" : "odd";
-    endwhile;
-
-    $mysqli->close();
-    ?>
+$mysqli->close();
+?>
 </table>
 
 <?php include "footer.php"; ?>

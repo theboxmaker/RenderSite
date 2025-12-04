@@ -1,43 +1,34 @@
 <?php
-/**
- * View details about a single car.
- * Cleaned & modernized version with NULL-safe output handling.
- */
-
 include 'db.php';
 
-// Helper to avoid PHP 8.1+ "Passing null to htmlspecialchars() is deprecated"
 function safe($value) {
     return htmlspecialchars($value ?? '', ENT_QUOTES, 'UTF-8');
 }
 
-// Make sure VIN was provided
 if (!isset($_GET['VIN']) || trim($_GET['VIN']) === "") {
     die("<h2>Error: No VIN provided.</h2>");
 }
 
 $vin = $mysqli->real_escape_string($_GET['VIN']);
 
-// Query for the specific VIN
-$query = "SELECT * FROM inventory WHERE VIN='$vin'";
+// Select correct DB
+$mysqli->select_db("Cars");
 
+// Query the Cars table
+$query = "SELECT * FROM Cars WHERE VIN='$vin'";
 $result = $mysqli->query($query);
 
 if (!$result) {
     die("<p>Error querying database: " . safe($mysqli->error) . "</p>");
 }
 
-// If no rows returned, VIN not found
 if ($result->num_rows === 0) {
     echo "<h2>No vehicle found with VIN: " . safe($vin) . "</h2>";
-    $mysqli->close();
     exit;
 }
 
-// Fetch row
 $row = $result->fetch_assoc();
 
-// Safely sanitize values (NULL-safe)
 $year     = safe($row['YEAR']);
 $make     = safe($row['Make']);
 $model    = safe($row['Model']);
@@ -50,7 +41,6 @@ $price    = safe($row['ASKING_PRICE']);
 
 $mysqli->close();
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -61,7 +51,6 @@ $mysqli->close();
 <body style="background: url('bg.jpg'); background-size: cover; font-family: Arial, sans-serif;">
 
 <h1>Sam's Used Cars</h1>
-
 <h2><?= "$year $make $model" ?></h2>
 
 <p><strong>Asking Price:</strong> $<?= $price ?></p>

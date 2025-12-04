@@ -1,20 +1,22 @@
 <?php
 /**
- * ModifyDB — runs updates on database
+ * ModifyDB — sample table modification script
  */
+
 include 'db.php';
 
 echo "<h1>Modify Database</h1>";
 
-$mysqli->select_db("railway");
+// Select correct database
+$mysqli->select_db("Cars");
 
-// Example update — keep original functionality
-$query = "UPDATE inventory SET ASKING_PRICE = ASKING_PRICE + 100";
+// Example update (optional)
+$query = "UPDATE Cars SET ASKING_PRICE = ASKING_PRICE + 100";
 
 if ($mysqli->query($query)) {
     echo "<p>Prices updated successfully.</p>";
 } else {
-    echo "<p>Error updating database: {$mysqli->error}</p>";
+    echo "<p>Error updating database: " . htmlspecialchars($mysqli->error) . "</p>";
 }
 
 $mysqli->close();
