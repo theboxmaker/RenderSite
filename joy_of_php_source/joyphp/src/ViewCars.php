@@ -1,64 +1,45 @@
 <?php
-include 'db.php';
+require_once __DIR__ . '/db.php';
 
-// Ensure we are using the Cars database
-$mysqli->query("CREATE DATABASE IF NOT EXISTS Cars");
-$mysqli->select_db("Cars");
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sam's Used Cars</title>
-    <style>
-        table { width: 80%; border-collapse: collapse; margin: 20px auto; background: #f8f8f8; }
-        th, td { padding: 10px 12px; border: 1px solid #ccc; text-align: left; }
-        th { background: #444; color: #fff; }
-        tr.odd { background: #ffffff; }
-        tr.even { background: #f0f0f0; }
-        h1, h3 { text-align: center; font-family: Arial, sans-serif; }
-    </style>
-</head>
-
-<body>
-
-<h1>Sam's Used Cars</h1>
-<h3>Complete Inventory</h3>
-
-<?php
-$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM Cars ORDER BY Make";
+$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM inventory ORDER BY Make";
 $result = $mysqli->query($query);
 
 if (!$result) {
-    die("<p>Error retrieving cars: " . $mysqli->error . "</p>");
+    die("Error retrieving cars: " . $mysqli->error);
 }
-
-echo "<table>";
-echo "<tr><th>Make</th><th>Model</th><th>Asking Price</th><th>Actions</th></tr>";
-
-$rowClass = "odd";
-
-while ($row = $result->fetch_assoc()) {
-    echo "<tr class=\"$rowClass\">";
-    echo "<td>" . htmlspecialchars($row['Make']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['Model']) . "</td>";
-    echo "<td>$" . number_format($row['ASKING_PRICE'], 2) . "</td>";
-    echo "<td>
-            <a href='viewcar.php?VIN=" . urlencode($row['VIN']) . "'>View</a> |
-            <a href='EditCar.php?VIN=" . urlencode($row['VIN']) . "'>Edit</a> |
-            <a href='deletecar.php?VIN=" . urlencode($row['VIN']) . "'>Delete</a>
-          </td>";
-    echo "</tr>";
-
-    $rowClass = ($rowClass === "odd") ? "even" : "odd";
-}
-
-echo "</table>";
-
-$mysqli->close();
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Sam's Used Cars</title>
+</head>
+<body>
 
-<p><a href="samsusedcars.html">Return to Home</a></p>
+<h1>Sam's Used Cars — Inventory</h1>
+
+<table border="1" cellpadding="8">
+<tr>
+    <th>Make</th>
+    <th>Model</th>
+    <th>Price</th>
+    <th>Actions</th>
+</tr>
+
+<?php while ($row = $result->fetch_assoc()): ?>
+<tr>
+    <td><?= htmlspecialchars($row['Make']) ?></td>
+    <td><?= htmlspecialchars($row['Model']) ?></td>
+    <td>$<?= number_format($row['ASKING_PRICE'], 2) ?></td>
+    <td>
+        <a href="viewcar.php?VIN=<?= urlencode($row['VIN']) ?>">View</a>
+        <a href="EditCar.php?VIN=<?= urlencode($row['VIN']) ?>">Edit</a>
+        <a href="deletecar.php?VIN=<?= urlencode($row['VIN']) ?>">Delete</a>
+    </td>
+</tr>
+<?php endwhile; ?>
+
+</table>
 
 </body>
 </html>

@@ -1,33 +1,21 @@
 <?php
-/**
- * Joy of PHP — Docker version
- * Creates the Images table inside Cars database.
- */
+require_once __DIR__ . '/db.php';
 
-include 'db.php';
+echo "Connected successfully.<br>";
+echo "Using database: " . getenv('DB_NAME') . "<br>";
 
-// Ensure Cars database exists
-$mysqli->query("CREATE DATABASE IF NOT EXISTS Cars");
-
-// Select Cars
-$mysqli->select_db("Cars");
-echo "Selected the Cars database.<br>";
-
-// Create Images table
 $query = "
-CREATE TABLE IF NOT EXISTS Images (
-    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+CREATE TABLE IF NOT EXISTS images (
+    ID INT PRIMARY KEY AUTO_INCREMENT,
     VIN varchar(17),
     ImageFile varchar(250)
-)
-";
+)";
 
 if ($mysqli->query($query) === TRUE) {
-    echo "Database table 'Images' created.<br>";
+    echo "Database table 'images' created.<br>";
 } else {
-    echo "Error: " . $mysqli->error . "<br>";
+    echo "Error creating table: " . $mysqli->error;
 }
 
-echo "<br><a href='index.php'>Home</a>";
 $mysqli->close();
 ?>

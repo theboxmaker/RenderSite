@@ -1,59 +1,16 @@
 <?php
-// deletecar.php — Docker-compatible + secure version
-include 'db.php';
+require_once __DIR__ . '/db.php';
 
-// Validate VIN
-if (!isset($_GET['VIN']) || trim($_GET['VIN']) === "") {
-    die("<h2>Error: No VIN provided.</h2>");
-}
+if (!isset($_GET['VIN'])) die("Missing VIN");
 
-$vin = trim($_GET['VIN']);
+$stmt = $mysqli->prepare("DELETE FROM inventory WHERE VIN=?");
+$stmt->bind_param("s", $_GET['VIN']);
+$stmt->execute();
 
-// Select correct DB
-$mysqli->select_db("Cars");
-?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sam's Used Cars</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 30px; }
-        h1 { color: #333; }
-        .msg {
-            padding: 15px;
-            background: #f7f7f7;
-            border-left: 4px solid #444;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-
-<h1>Sam's Used Cars</h1>
-
-<div class="msg">
-<?php
-// Prepared delete statement
-$stmt = $mysqli->prepare("DELETE FROM Cars WHERE VIN = ?");
-$stmt->bind_param("s", $vin);
-
-if ($stmt->execute()) {
-    if ($stmt->affected_rows > 0) {
-        echo "<p>Vehicle with VIN <strong>" . htmlspecialchars($vin) . "</strong> has been deleted.</p>";
-    } else {
-        echo "<p>No vehicle found with VIN <strong>" . htmlspecialchars($vin) . "</strong>.</p>";
-    }
-} else {
-    echo "<p>Error deleting vehicle: " . htmlspecialchars($stmt->error) . "</p>";
-}
+echo $stmt->affected_rows > 0
+    ? "Car deleted."
+    : "VIN not found.";
 
 $stmt->close();
 $mysqli->close();
 ?>
-</div>
-
-<p><a href="ViewCars.php">← Return to Inventory</a></p>
-
-</body>
-</html>
