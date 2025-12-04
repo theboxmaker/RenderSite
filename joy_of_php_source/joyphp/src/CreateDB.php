@@ -1,32 +1,37 @@
 <?php
-require_once __DIR__ . '/db.php';
+require_once __DIR__ . '/../db.php';
 
-echo "Connected successfully to MySQL.<br>";
-echo "Using database: " . getenv('DB_NAME') . "<br><br>";
+echo "<h2>Creating Tables...</h2>";
 
-$query = "CREATE TABLE IF NOT EXISTS inventory (
-    VIN varchar(17) PRIMARY KEY,
-    YEAR INT,
-    Make varchar(50),
-    Model varchar(100),
-    TRIM varchar(50),
-    EXT_COLOR varchar (50),
-    INT_COLOR varchar (50),
-    ASKING_PRICE DECIMAL (10,2),
-    SALE_PRICE DECIMAL (10,2),
-    PURCHASE_PRICE DECIMAL (10,2),
-    MILEAGE int,
-    TRANSMISSION varchar (50),
-    PURCHASE_DATE DATE,
-    SALE_DATE DATE
-)";
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS inventory (
+        VIN varchar(17) PRIMARY KEY,
+        YEAR INT,
+        Make varchar(50),
+        Model varchar(100),
+        TRIM varchar(50),
+        EXT_COLOR varchar(50),
+        INT_COLOR varchar(50),
+        ASKING_PRICE DECIMAL (10,2),
+        SALE_PRICE DECIMAL (10,2),
+        PURCHASE_PRICE DECIMAL (10,2),
+        MILEAGE INT,
+        TRANSMISSION varchar(50),
+        PURCHASE_DATE DATE,
+        SALE_DATE DATE
+    )
+");
 
-if ($mysqli->query($query)) {
-    echo "Created table INVENTORY.<br>";
-} else {
-    die("Error creating table: " . $mysqli->error);
-}
+echo "✔ inventory table created<br>";
 
-echo "<br>Done!";
-$mysqli->close();
-?>
+$pdo->exec("
+    CREATE TABLE IF NOT EXISTS images (
+        ID INT AUTO_INCREMENT PRIMARY KEY,
+        VIN varchar(17),
+        ImageFile varchar(250)
+    )
+");
+
+echo "✔ images table created<br>";
+
+echo "<br>Done.";
