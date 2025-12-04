@@ -1,11 +1,11 @@
 <?php
-// Railway MySQL connection for Render
+// Docker-based MySQL connection for Joy of PHP
 
-$host = getenv('DB_HOST');
-$port = getenv('DB_PORT');
-$user = getenv('DB_USER');
-$pass = getenv('DB_PASS');
-$db   = getenv('DB_NAME');
+$host = 'mySQL';        // matches docker-compose service name
+$user = 'root';
+$pass = 'verysecret';
+$db   = 'Cars';         // Joy of PHP’s database name
+$port = 3306;           // default MySQL port inside Docker
 
 $mysqli = new mysqli($host, $user, $pass, $db, $port);
 

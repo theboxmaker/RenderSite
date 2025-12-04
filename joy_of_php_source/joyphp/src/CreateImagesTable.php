@@ -1,33 +1,33 @@
 <?php
 /**
- * Joy of PHP sample code
- * Demonstrates how to create a database, create a table, and insert records.
+ * Joy of PHP — Docker version
+ * Creates the Images table inside Cars database.
  */
 
 include 'db.php';
 
-   if (!$mysqli) { 
-      die('Could not connect: ' . mysqli_error($mysqli));
-  } 
-  echo 'Connected successfully to mySQL. <BR>'; 
+// Ensure Cars database exists
+$mysqli->query("CREATE DATABASE IF NOT EXISTS Cars");
 
-
-//select a database to work with
+// Select Cars
 $mysqli->select_db("Cars");
-   Echo ("Selected the Cars database <br>");
+echo "Selected the Cars database.<br>";
 
-$query = " CREATE TABLE IMAGES (ID INT PRIMARY KEY NOT NULL AUTO_INCREMENT, VIN varchar(17), ImageFile varchar(250))";
-//echo "<p>***********</p>";
-//echo $query ;
-//echo "<p>***********</p>";
-if ($mysqli->query($query) === TRUE) 
-{
-    echo "Database table 'Images' created</P>";
+// Create Images table
+$query = "
+CREATE TABLE IF NOT EXISTS Images (
+    ID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    VIN varchar(17),
+    ImageFile varchar(250)
+)
+";
+
+if ($mysqli->query($query) === TRUE) {
+    echo "Database table 'Images' created.<br>";
+} else {
+    echo "Error: " . $mysqli->error . "<br>";
 }
-else
-{
-    echo "<p>Error: " . mysqli_error($mysqli);
-}
- echo "<br><br><a href='index.html'>Home</a>";
+
+echo "<br><a href='index.php'>Home</a>";
 $mysqli->close();
 ?>

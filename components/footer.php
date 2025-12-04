@@ -9,8 +9,7 @@
     </nav>
 
     <p class="middle">
-        Website designed by
-        <a href="/web115/tucktech.com/index.html" target="_blank"> TuckTech</a>
+        Website designed by TuckTech
     </p>
 
 </footer>

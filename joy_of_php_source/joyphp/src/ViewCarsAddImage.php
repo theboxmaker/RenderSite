@@ -74,23 +74,18 @@ if (!$result) {
         </tr>
 
         <?php
-        $class = "odd";
+include 'db.php';
 
-        while ($row = $result->fetch_assoc()) {
-            echo "<tr class='{$class}'>";
-                echo "<td>" . htmlspecialchars($row['Make']) . "</td>";
-                echo "<td>" . htmlspecialchars($row['Model']) . "</td>";
+$mysqli->select_db("Cars");
 
-                // Link to AddImage page
-                echo "<td><a href='AddImage.php?VIN=" . urlencode($row['VIN']) . "'>Add Image</a></td>";
-            echo "</tr>";
+$query = "SELECT VIN, Make, Model FROM Cars ORDER BY Make, Model";
+$result = $mysqli->query($query);
 
-            // Alternate row color
-            $class = ($class === "odd") ? "even" : "odd";
-        }
+if (!$result) {
+    die("Error retrieving inventory: " . $mysqli->error);
+}
+?>
 
-        $mysqli->close();
-        ?>
     </table>
 
     <?php include 'footer.php'; ?>

@@ -1,34 +1,19 @@
 <?php
-/**
- * EditCar.php — fixed and modernized
- * Handles:
- *   1. GET  → Load car data and show edit form
- *   2. POST → Update car data in the database
- */
-
 include 'db.php';
 
-// Helper for safe output
 function safe($v) { return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8'); }
 
-// ------------------------------------------------------------
-// STEP 1 — If the form was submitted, process POST
-// ------------------------------------------------------------
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $VIN   = trim($_POST['VIN'] ?? '');
-    $Make  = trim($_POST['Make'] ?? '');
-    $Model = trim($_POST['Model'] ?? '');
-    $Price = trim($_POST['ASKING_PRICE'] ?? '');
+    $VIN   = trim($_POST['VIN']);
+    $Make  = trim($_POST['Make']);
+    $Model = trim($_POST['Model']);
+    $Price = trim($_POST['ASKING_PRICE']);
 
-    if ($VIN === '' || $Make === '' || $Model === '' || $Price === '') {
-        die("<h2>Error: Missing form data.</h2>");
-    }
-
-    $mysqli->select_db("railway");
+    $mysqli->select_db("Cars");
 
     $stmt = $mysqli->prepare("
-        UPDATE inventory 
+        UPDATE Cars
         SET Make=?, Model=?, ASKING_PRICE=?
         WHERE VIN=?
     ");
@@ -42,37 +27,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<p>Error updating car: " . safe($stmt->error) . "</p>";
     }
 
-    $stmt->close();
-    $mysqli->close();
     exit;
 }
 
-// ------------------------------------------------------------
-// STEP 2 — Handle GET to load car data into an editable form
-// ------------------------------------------------------------
-if (!isset($_GET['VIN']) || trim($_GET['VIN']) === '') {
+if (!isset($_GET['VIN'])) {
     die("<h2>Error: No VIN provided.</h2>");
 }
 
 $vin = $mysqli->real_escape_string($_GET['VIN']);
 
-$mysqli->select_db("railway");
-
-$query = "SELECT * FROM inventory WHERE VIN='$vin'";
-$result = $mysqli->query($query);
-
-if (!$result) {
-    die("<p>Error querying database: " . safe($mysqli->error) . "</p>");
-}
+$mysqli->select_db("Cars");
+$result = $mysqli->query("SELECT * FROM Cars WHERE VIN='$vin'");
 
 if ($result->num_rows === 0) {
     die("<h2>No vehicle found with VIN: " . safe($vin) . "</h2>");
 }
 
 $row = $result->fetch_assoc();
-
-$mysqli->close();
 ?>
+
 
 <!DOCTYPE html>
 <html>

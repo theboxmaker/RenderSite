@@ -1,6 +1,6 @@
 <h2>Introduction</h2>
 
-<img src="/images/zack-on-the-course.jpg" alt="zack on the course">
+<img src="images/zack-on-the-course.jpg" alt="zack on the course">
 
 <ul>
     <li>
@@ -43,7 +43,7 @@
             <li><b>WEB115 – Web Markup and Scripting:</b> To develop more web development skills.</li>
             <li><b>WEB140 – Web Development Tools:</b> To learn tools needed to build websites.</li>
             <li><b>WEB215 – Advanced Markup and Scripting:</b> To build on the skills from WEB115.</li>
-            <li><b><a href="/index.php?page=home">WEB250</a> – Database Driven Websites:</b> 
+            <li><b><a href="index.php?page=home">WEB250</a> – Database Driven Websites:</b> 
                 To learn more about databases and how they integrate with websites. 
                 I enjoyed my previous database class!</li>
         </ol>
