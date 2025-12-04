@@ -8,4 +8,5 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-include APP_PATH . '/views/layout.php';
+include __DIR__ . "/../components/header.php";
+
