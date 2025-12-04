@@ -1,33 +1,31 @@
 <?php
-require_once APP_PATH . '/models/CarModel.php';
-
-$cars = CarModel::all($pdo);
-
-$title = "Inventory";
-ob_start();
+// Query the inventory
+$stmt = $pdo->query("SELECT VIN, Make, Model, YEAR, ASKING_PRICE FROM inventory ORDER BY Make, Model");
+$cars = $stmt->fetchAll();
 ?>
+
 <h2>Inventory</h2>
 
-<table class="table">
+<table>
     <tr>
-        <th>Make</th><th>Model</th><th>Price</th><th></th>
+        <th>Year</th>
+        <th>Make</th>
+        <th>Model</th>
+        <th>Price</th>
+        <th>Actions</th>
     </tr>
 
-<?php foreach ($cars as $c): ?>
-<tr>
-    <td><?= htmlspecialchars($c['Make']) ?></td>
-    <td><?= htmlspecialchars($c['Model']) ?></td>
-    <td>$<?= number_format($c['ASKING_PRICE'], 0) ?></td>
-    <td>
-        <a href="<?= BASE_URL ?>/?page=car_view&VIN=<?= urlencode($c['VIN']) ?>">View</a>
-        <a href="<?= BASE_URL ?>/?page=car_edit&VIN=<?= urlencode($c['VIN']) ?>">Edit</a>
-        <a href="<?= BASE_URL ?>/?page=car_delete&VIN=<?= urlencode($c['VIN']) ?>">Delete</a>
-        <a href="<?= BASE_URL ?>/?page=car_upload&VIN=<?= urlencode($c['VIN']) ?>">Images</a>
-    </td>
-</tr>
-<?php endforeach; ?>
-
+    <?php foreach ($cars as $car): ?>
+        <tr>
+            <td><?= htmlspecialchars($car['YEAR']) ?></td>
+            <td><?= htmlspecialchars($car['Make']) ?></td>
+            <td><?= htmlspecialchars($car['Model']) ?></td>
+            <td>$<?= number_format($car['ASKING_PRICE'], 2) ?></td>
+            <td>
+                <a href="<?= BASE_URL ?>/?page=car_edit&VIN=<?= urlencode($car['VIN']) ?>">Edit</a> |
+                <a href="<?= BASE_URL ?>/?page=car_delete&VIN=<?= urlencode($car['VIN']) ?>"
+                   onclick="return confirm('Delete this car?');">Delete</a>
+            </td>
+        </tr>
+    <?php endforeach; ?>
 </table>
-<?php
-$content = ob_get_clean();
-include APP_PATH . '/views/layout.php';
