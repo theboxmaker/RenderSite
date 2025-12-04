@@ -1,30 +1,28 @@
 <?php
-require_once __DIR__ . '/config.php';
+// Use Render environment variables directly.
+// No config.php needed in production.
 
-$host = DB_HOST;
-$port = DB_PORT ?: 3306; // fallback for local dev
-$db   = DB_NAME;
-$user = DB_USER;
-$pass = DB_PASS;
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$db   = getenv('DB_NAME');
+$port = getenv('DB_PORT') ?: 3306;
 
-$dsn = "mysql:host={$host};port={$port};dbname={$db};charset=utf8mb4";
+if (!$host || !$user || !$db) {
+    die("Database environment variables are missing.  
+         Ensure DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT are set in Render.");
+}
 
 try {
     $pdo = new PDO(
-        $dsn,
+        "mysql:host=$host;dbname=$db;port=$port;charset=utf8mb4",
         $user,
         $pass,
         [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES => false
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]
     );
 } catch (PDOException $e) {
-    // Use a clean message on production, full message on local
-    if (getenv('RENDER')) {
-        die("Database connection failed.");
-    } else {
-        die("Database connection failed: " . $e->getMessage());
-    }
+    die("Database connection failed: " . $e->getMessage());
 }
