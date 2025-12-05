@@ -1,6 +1,6 @@
 <h2>Add a New Car</h2>
 
-<form method="post" action="<?= BASE_URL ?>/?page=carAddSubmit">
+<form method="post" action="<?= BASE_URL ?>/pages/carAddSubmit.php">
 
     <label>VIN:</label><br>
     <input type="text" name="vin" minlength="17" maxlength="17" required><br><br>
