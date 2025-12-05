@@ -70,36 +70,30 @@ class CarModel
         return $row ?: null;
     }
 
-    /* -------------------------------
-       UPDATE VEHICLE
-    --------------------------------*/
-    public static function update(PDO $pdo, string $vin, array $data): bool
-    {
-        $sql = "UPDATE inventory
-                SET YEAR = :year,
-                    Make = :make,
-                    Model = :model,
-                    ASKING_PRICE = :price
-                WHERE VIN = :vin";
+public static function update(PDO $pdo, string $vin, array $data)
+{
+    $sql = "UPDATE inventory
+            SET YEAR = :year,
+                Make = :make,
+                Model = :model,
+                ASKING_PRICE = :price
+            WHERE VIN = :vin";
 
-        $stmt = $pdo->prepare($sql);
-        return $stmt->execute([
-            ':vin'   => $vin,
-            ':year'  => (int)$data['YEAR'],
-            ':make'  => trim($data['Make']),
-            ':model' => trim($data['Model']),
-            ':price' => (float)$data['ASKING_PRICE'],
-        ]);
-    }
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        ':year'  => $data['YEAR'],
+        ':make'  => $data['Make'],
+        ':model' => $data['Model'],
+        ':price' => $data['ASKING_PRICE'],
+        ':vin'   => $vin
+    ]);
+}
 
-    /* -------------------------------
-       DELETE VEHICLE
-    --------------------------------*/
-    public static function delete(PDO $pdo, string $vin): bool
-    {
-        $stmt = $pdo->prepare("DELETE FROM inventory WHERE VIN = :vin");
-        return $stmt->execute([':vin' => $vin]);
-    }
+public static function delete(PDO $pdo, string $vin)
+{
+    $stmt = $pdo->prepare("DELETE FROM inventory WHERE VIN = ?");
+    $stmt->execute([$vin]);
+}
 
     /* -------------------------------
        IMAGES: GET IMAGES FOR VIN

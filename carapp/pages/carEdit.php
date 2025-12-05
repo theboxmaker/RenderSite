@@ -1,25 +1,36 @@
 <?php
 require_once APP_PATH . '/models/CarModel.php';
 
-$car = CarModel::find($pdo, $_GET['VIN']);
+$vin = $_GET['VIN'] ?? null;
+$car = CarModel::find($pdo, $vin);
 
-$title = "Edit Car";
-ob_start();
+if (!$car) {
+    die("Car not found");
+}
+
+$title = "Edit Vehicle";
 ?>
 
-<h2>Edit Car</h2>
+<h2>Edit Vehicle</h2>
 
-<form action="<?= BASE_URL ?>/?page=car_edit_submit" method="post">
-    <input type="hidden" name="VIN" value="<?= $car['VIN'] ?>">
+<form action="<?= BASE_URL ?>/?page=carEditSubmit" method="post">
+    <input type="hidden" name="VIN" value="<?= htmlspecialchars($car['VIN']) ?>">
 
-    <p><label>Year: <input name="YEAR" value="<?= $car['YEAR'] ?>"></label></p>
-    <p><label>Make: <input name="Make" value="<?= $car['Make'] ?>"></label></p>
-    <p><label>Model: <input name="Model" value="<?= $car['Model'] ?>"></label></p>
-    <p><label>Price: <input name="ASKING_PRICE" value="<?= $car['ASKING_PRICE'] ?>"></label></p>
+    <label>Year:<br>
+        <input type="number" name="YEAR" value="<?= htmlspecialchars($car['YEAR']) ?>">
+    </label><br><br>
 
-    <button type="submit">Update</button>
+    <label>Make:<br>
+        <input type="text" name="Make" value="<?= htmlspecialchars($car['Make']) ?>">
+    </label><br><br>
+
+    <label>Model:<br>
+        <input type="text" name="Model" value="<?= htmlspecialchars($car['Model']) ?>">
+    </label><br><br>
+
+    <label>Price:<br>
+        <input type="number" name="ASKING_PRICE" step="0.01" value="<?= htmlspecialchars($car['ASKING_PRICE']) ?>">
+    </label><br><br>
+
+    <button type="submit">Save Changes</button>
 </form>
-
-<?php
-$content = ob_get_clean();
-include APP_PATH . '/views/layout.php';
