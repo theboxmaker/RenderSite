@@ -2,13 +2,6 @@
 require_once APP_PATH . '/models/carModel.php';
 
 $cars = CarModel::getAll($pdo);
-
-// DEBUG:
-echo "<pre>";
-var_dump($cars);
-echo "</pre>";
-exit;
-
 ?>
 
 <h2>Car Inventory</h2>
