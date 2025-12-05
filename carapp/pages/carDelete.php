@@ -1,4 +1,11 @@
 <?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    die("<h2>Access Denied</h2><p>You must be logged in.</p>");
+}
+?>
+
+<?php
 require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 

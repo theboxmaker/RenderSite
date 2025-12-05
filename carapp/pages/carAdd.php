@@ -1,3 +1,10 @@
+<?php
+session_start();
+if (!isset($_SESSION['user'])) {
+    die("<h2>Access Denied</h2><p>You must be logged in.</p>");
+}
+?>
+
 <h2>Add a New Car</h2>
 
 <form method="post" action="<?= BASE_URL ?>/pages/carAddSubmit.php">

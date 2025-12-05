@@ -1,23 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Zany Terrapin's Used Cars</title>
-
-    <!-- Global App Styles -->
-    <link rel="stylesheet" href="<?= BASE_URL ?>/styles/default.css">
-</head>
-
-<body>
-
+<?php session_start(); ?>
 <header>
     <h1>Zany Terrapin's Used Cars</h1>
 
     <nav>
         <a href="<?= BASE_URL ?>/?page=home">Home</a>
         <a href="<?= BASE_URL ?>/?page=cars_list">Inventory</a>
-        <a href="<?= BASE_URL ?>/?page=carAdd">Add Car</a>
+
+        <?php if (!isset($_SESSION['user'])): ?>
+
+            <a href="<?= BASE_URL ?>/?page=login">Login</a>
+
+        <?php else: ?>
+
+            <a href="<?= BASE_URL ?>/?page=carAdd">Add Car</a>
+            <a href="<?= BASE_URL ?>/pages/reset_warning.php" style="color:red;">Reset DB</a>
+            <a href="<?= BASE_URL ?>/?page=logout">Logout (<?= htmlspecialchars($_SESSION['user']['username']) ?>)</a>
+
+        <?php endif; ?>
     </nav>
 </header>
-
-<main>
