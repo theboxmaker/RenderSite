@@ -2,10 +2,10 @@
 
 class CarModel
 {
-    /* -------------------------------------------------------
+    /* -------------------------------
        ADD VEHICLE
-    ------------------------------------------------------- */
-    public static function add(PDO $pdo, array $data)
+    --------------------------------*/
+    public static function add(PDO $pdo, array $data): bool
     {
         $required = ['vin', 'make', 'model', 'year', 'price'];
 
@@ -28,7 +28,7 @@ class CarModel
         $stmt->execute([$vin]);
 
         if ($stmt->fetch()) {
-            return false;
+            throw new Exception("A vehicle with this VIN already exists.");
         }
 
         // Insert new row
@@ -36,21 +36,19 @@ class CarModel
                 VALUES (:vin, :make, :model, :year, :price)";
 
         $stmt = $pdo->prepare($sql);
-        $stmt->execute([
+        return $stmt->execute([
             ':vin'   => $vin,
             ':make'  => trim($data['make']),
             ':model' => trim($data['model']),
-            ':year'  => intval($data['year']),
-            ':price' => floatval($data['price'])
+            ':year'  => (int)$data['year'],
+            ':price' => (float)$data['price'],
         ]);
-
-        return true;
     }
 
-    /* -------------------------------------------------------
+    /* -------------------------------
        GET ALL VEHICLES
-    ------------------------------------------------------- */
-    public static function getAll(PDO $pdo)
+    --------------------------------*/
+    public static function getAll(PDO $pdo): array
     {
         $sql = "SELECT VIN, Make, Model, YEAR, ASKING_PRICE
                 FROM inventory
@@ -58,5 +56,78 @@ class CarModel
 
         $stmt = $pdo->query($sql);
         return $stmt->fetchAll();
+    }
+
+    /* -------------------------------
+       FIND ONE VEHICLE BY VIN
+    --------------------------------*/
+    public static function find(PDO $pdo, string $vin): ?array
+    {
+        $sql = "SELECT * FROM inventory WHERE VIN = :vin LIMIT 1";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':vin' => $vin]);
+        $row = $stmt->fetch();
+        return $row ?: null;
+    }
+
+    /* -------------------------------
+       UPDATE VEHICLE
+    --------------------------------*/
+    public static function update(PDO $pdo, string $vin, array $data): bool
+    {
+        $sql = "UPDATE inventory
+                SET YEAR = :year,
+                    Make = :make,
+                    Model = :model,
+                    ASKING_PRICE = :price
+                WHERE VIN = :vin";
+
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([
+            ':vin'   => $vin,
+            ':year'  => (int)$data['YEAR'],
+            ':make'  => trim($data['Make']),
+            ':model' => trim($data['Model']),
+            ':price' => (float)$data['ASKING_PRICE'],
+        ]);
+    }
+
+    /* -------------------------------
+       DELETE VEHICLE
+    --------------------------------*/
+    public static function delete(PDO $pdo, string $vin): bool
+    {
+        $stmt = $pdo->prepare("DELETE FROM inventory WHERE VIN = :vin");
+        return $stmt->execute([':vin' => $vin]);
+    }
+
+    /* -------------------------------
+       IMAGES: GET IMAGES FOR VIN
+    --------------------------------*/
+    public static function getImages(PDO $pdo, string $vin): array
+    {
+        $sql = "SELECT ID, VIN, ImageFile AS filename
+                FROM images
+                WHERE VIN = :vin
+                ORDER BY ID DESC";
+
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':vin' => $vin]);
+        return $stmt->fetchAll();
+    }
+
+    /* -------------------------------
+       IMAGES: ADD ONE IMAGE
+    --------------------------------*/
+    public static function addImage(PDO $pdo, string $vin, string $filename): bool
+    {
+        $sql = "INSERT INTO images (VIN, ImageFile)
+                VALUES (:vin, :file)";
+
+        $stmt = $pdo->prepare($sql);
+        return $stmt->execute([
+            ':vin'  => $vin,
+            ':file' => $filename,
+        ]);
     }
 }
