@@ -25,7 +25,7 @@ class CarModel
         $stmt->execute([$vin]);
 
         if ($stmt->fetch()) {
-            throw new Exception("A vehicle with this VIN already exists.");
+            return false; // duplicate VIN
         }
 
         // Insert new vehicle

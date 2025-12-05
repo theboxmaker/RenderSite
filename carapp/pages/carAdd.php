@@ -19,3 +19,7 @@
 
     <button type="submit">Save Car</button>
 </form>
+<?php if (isset($_GET['error']) && $_GET['error'] === 'vin_exists'): ?>
+    <p style="color:red;">A vehicle with that VIN already exists.</p>
+<?php endif; ?>
+

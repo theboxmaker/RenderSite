@@ -17,8 +17,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     CarModel::add($pdo, $newCar);
 
     // IMPORTANT: no output before this
-    header("Location: " . BASE_URL . "/?page=cars_list");
+    if (!CarModel::add($pdo, $newCar)) {
+    header("Location: " . BASE_URL . "/?page=carAdd&error=vin_exists");
     exit;
+}
+
 }
 
 // If someone loads the file directly
