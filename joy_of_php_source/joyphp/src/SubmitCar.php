@@ -16,12 +16,9 @@ $stmt = $mysqli->prepare("
 ");
 $stmt->bind_param('sssd', $VIN, $Make, $Model, $Price);
 
-if ($stmt->execute()) {
-    echo "Car successfully added!";
-} else {
-    echo "Error: " . $stmt->error;
-}
-
+$stmt->execute();
 $stmt->close();
 $mysqli->close();
-?>
+
+header("Location: /joy_of_php_source/joyphp/src/samsusedcars.html");
+exit;

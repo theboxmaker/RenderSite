@@ -45,5 +45,5 @@ $stmt->bind_param("ss", $vin, $filename);
 $stmt->execute();
 $stmt->close();
 
-header("Location: ViewCar.php?VIN=" . urlencode($vin));
+header("Location: /joy_of_php_source/joyphp/src/samsusedcars.html");
 exit;

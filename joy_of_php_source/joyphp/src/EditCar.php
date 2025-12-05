@@ -15,9 +15,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_POST['VIN']
     );
 
-    if ($stmt->execute()) echo "Updated!";
-    else echo "Error: " . $stmt->error;
+    $stmt->execute();
+    $stmt->close();
 
+    header("Location: /joy_of_php_source/joyphp/src/samsusedcars.html");
     exit;
 }
 

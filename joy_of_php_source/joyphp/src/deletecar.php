@@ -6,11 +6,8 @@ if (!isset($_GET['VIN'])) die("Missing VIN");
 $stmt = $mysqli->prepare("DELETE FROM inventory WHERE VIN=?");
 $stmt->bind_param("s", $_GET['VIN']);
 $stmt->execute();
-
-echo $stmt->affected_rows > 0
-    ? "Car deleted."
-    : "VIN not found.";
-
 $stmt->close();
 $mysqli->close();
-?>
+
+header("Location: /joy_of_php_source/joyphp/src/samsusedcars.html");
+exit;

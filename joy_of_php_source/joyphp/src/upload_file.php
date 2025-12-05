@@ -41,5 +41,5 @@ $q = $mysqli->prepare("INSERT INTO images (VIN, ImageFile) VALUES (?, ?)");
 $q->bind_param("ss", $vin, $filename);
 $q->execute();
 
-header("Location: ViewCar.php?VIN=" . urlencode($vin));
+header("Location: /joy_of_php_source/joyphp/src/samsusedcars.html");
 exit;
