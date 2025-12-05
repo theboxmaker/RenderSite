@@ -1,22 +1,42 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
-// Load CarModel (case-safe)
+// Load CarModel safely
 $modelPaths = [
     APP_PATH . '/models/CarModel.php',
     APP_PATH . '/models/carModel.php',
     APP_PATH . '/models/carmodel.php'
 ];
 
+$modelLoaded = false;
+
 foreach ($modelPaths as $file) {
     if (file_exists($file)) {
         require_once $file;
+        $modelLoaded = true;
         break;
     }
 }
 
+if (!$modelLoaded) {
+    echo "<h2>MODEL LOAD ERROR</h2>";
+    echo "<pre>";
+    print_r($modelPaths);
+    echo "</pre>";
+    exit;
+}
+
+// Now load cars
 $cars = CarModel::getAll($pdo);
+
+// Debug print
+echo "<pre>DEBUG: Loaded cars:\n";
+print_r($cars);
+echo "</pre>";
 ?>
 
 <h2>Car Inventory</h2>
@@ -46,7 +66,7 @@ $cars = CarModel::getAll($pdo);
                 <a href="<?= BASE_URL ?>/?page=carEdit&VIN=<?= urlencode($c['VIN']) ?>">Edit</a>
                 |
                 <a href="<?= BASE_URL ?>/?page=carDelete&VIN=<?= urlencode($c['VIN']) ?>"
-                   onclick="return confirm('Delete this vehicle? This cannot be undone.');">
+                   onclick="return confirm('Delete this vehicle?');">
                    Delete
                 </a>
             </td>
