@@ -1,117 +1,77 @@
 <?php
-// ViewCarsWithStyle2.php — Styled inventory with action links
-include 'db.php';
+require_once __DIR__ . '/db.php';
 
-// Select the correct database
-$mysqli->select_db("Cars");
+// Escape helper
+function h($value): string
+{
+    return $value === null ? '' : htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
 
-// Query all cars
-$query = "SELECT VIN, Make, Model, ASKING_PRICE FROM Cars ORDER BY Make, Model";
+$query = "SELECT VIN, Make, Model, YEAR, EXT_COLOR, ASKING_PRICE 
+          FROM inventory 
+          ORDER BY Make, Model";
+
 $result = $mysqli->query($query);
 
 if (!$result) {
-    die("<p>Error retrieving inventory: " . htmlspecialchars($mysqli->error) . "</p>");
+    die("Query failed: " . h($mysqli->error));
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sam's Used Cars – Inventory</title>
+    <title>Sam's Used Cars - Styled Inventory 2</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: url('bg.jpg');
-            background-size: cover;
-            text-align: center;
-            padding: 30px;
-            margin: 0;
-        }
-
-        h1 { margin-bottom: 0; color: #333; }
-        h3 { margin-top: 5px; color: #444; }
-
-        #Grid {
-            font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-            width: 85%;
-            margin: 25px auto;
-            border-collapse: collapse;
-            box-shadow: 0 0 10px #888;
+        body { font-family: Arial; background: #e9eef3; padding: 20px; }
+        .car-card {
             background: #fff;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
         }
-
-        #Grid th {
-            background-color: #C2D9FE;
-            color: #3f4b5c;
-            padding: 12px;
-            font-size: 1.1rem;
-            border-bottom: 2px solid #61ADD7;
-            text-align: left;
+        .car-title {
+            font-size: 20px;
+            margin-bottom: 6px;
+            color: #003459;
         }
-
-        #Grid td {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        tr.odd td { background-color: #F2F5A9; }
-        tr.even td { background-color: #ffffff; }
-
-        a {
-            color: #0b3d91;
+        .price {
+            color: #0077cc;
             font-weight: bold;
-            text-decoration: none;
         }
-        a:hover { text-decoration: underline; }
-
-        .actions a { margin-right: 12px; }
+        .label {
+            color: #666;
+            font-size: 14px;
+        }
     </style>
 </head>
 
 <body>
 
 <h1>Sam's Used Cars</h1>
-<h3>Current Inventory</h3>
+<h3>Inventory (Card Layout)</h3>
 
-<table id="Grid">
-    <tr>
-        <th style="width: 150px;">Make</th>
-        <th style="width: 150px;">Model</th>
-        <th style="width: 150px;">Asking Price</th>
-        <th style="width: 200px;">Actions</th>
-    </tr>
+<?php while ($car = $result->fetch_assoc()): ?>
+<div class="car-card">
+    <div class="car-title">
+        <?= h($car['YEAR']) ?> <?= h($car['Make']) ?> <?= h($car['Model']) ?>
+    </div>
 
-<?php
-$rowClass = "odd";
+    <div class="label">
+        VIN: <?= h($car['VIN']) ?>
+    </div>
 
-while ($row = $result->fetch_assoc()):
-?>
-    <tr class="<?= $rowClass ?>">
-        <td>
-            <a href="viewcar.php?VIN=<?= urlencode($row['VIN']) ?>">
-                <?= htmlspecialchars($row['Make']) ?>
-            </a>
-        </td>
+    <p>Exterior Color: <?= h($car['EXT_COLOR']) ?: 'Not listed' ?></p>
 
-        <td><?= htmlspecialchars($row['Model']) ?></td>
-
-        <td>$<?= number_format($row['ASKING_PRICE'], 0) ?></td>
-
-        <td class="actions">
-            <a href="FormEdit.php?VIN=<?= urlencode($row['VIN']) ?>">Edit</a>
-            <a href="deletecar.php?VIN=<?= urlencode($row['VIN']) ?>">Delete</a>
-        </td>
-    </tr>
-<?php
-    $rowClass = ($rowClass === "odd") ? "even" : "odd";
-endwhile;
-
-$mysqli->close();
-?>
-</table>
-
-<?php include 'footer.php'; ?>
+    <p class="price">
+        Price: $<?= $car['ASKING_PRICE'] !== null 
+                    ? number_format((float)$car['ASKING_PRICE'], 2) 
+                    : '0.00' ?>
+    </p>
+</div>
+<?php endwhile; ?>
 
 </body>
 </html>
