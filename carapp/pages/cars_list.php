@@ -1,5 +1,4 @@
 <?php
-
 require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
@@ -22,19 +21,12 @@ foreach ($modelPaths as $file) {
 
 if (!$modelLoaded) {
     echo "<h2>MODEL LOAD ERROR</h2>";
-    echo "<pre>";
-    print_r($modelPaths);
-    echo "</pre>";
+    echo "<pre>" . implode("\n", $modelPaths) . "</pre>";
     exit;
 }
 
-// Now load cars
+// Load cars
 $cars = CarModel::getAll($pdo);
-
-// Debug print
-echo "<pre>DEBUG: Loaded cars:\n";
-print_r($cars);
-echo "</pre>";
 ?>
 
 <h2>Car Inventory</h2>
@@ -64,9 +56,7 @@ echo "</pre>";
                 <a href="<?= BASE_URL ?>/?page=carEdit&VIN=<?= urlencode($c['VIN']) ?>">Edit</a>
                 |
                 <a href="<?= BASE_URL ?>/?page=carDelete&VIN=<?= urlencode($c['VIN']) ?>"
-                   onclick="return confirm('Delete this vehicle?');">
-                   Delete
-                </a>
+                   onclick="return confirm('Delete this vehicle?');">Delete</a>
             </td>
         </tr>
     <?php endforeach; ?>
