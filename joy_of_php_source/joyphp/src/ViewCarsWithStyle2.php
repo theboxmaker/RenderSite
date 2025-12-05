@@ -104,12 +104,13 @@ if (!$result) {
     </p>
 
     <div class="actions">
-        <a href="/carapp/?page=carEdit&VIN=<?= urlencode($car['VIN']) ?>">
+        <!-- FIX: Stay inside JoyOfPHP folder -->
+        <a href="/joy_of_php_source/joyphp/src/EditCar.php?VIN=<?= urlencode($car['VIN']) ?>">
             Edit
         </a>
 
         <a class="delete-btn"
-           href="/carapp/?page=carDelete&VIN=<?= urlencode($car['VIN']) ?>"
+           href="/joy_of_php_source/joyphp/src/deletecar.php?VIN=<?= urlencode($car['VIN']) ?>"
            onclick="return confirm('Are you sure you want to delete this vehicle?');">
             Delete
         </a>
