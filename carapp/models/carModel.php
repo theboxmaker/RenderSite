@@ -2,6 +2,9 @@
 
 class CarModel
 {
+    /* -------------------------------------------------------
+       ADD VEHICLE
+    ------------------------------------------------------- */
     public static function add(PDO $pdo, array $data)
     {
         $required = ['vin', 'make', 'model', 'year', 'price'];
@@ -12,23 +15,23 @@ class CarModel
             }
         }
 
-        // VIN must be uppercase
+        // Normalize VIN
         $vin = strtoupper(trim($data['vin']));
 
-        // Check VIN format: 17 chars
+        // VIN must be 17 characters
         if (strlen($vin) !== 17) {
             throw new Exception("VIN must be exactly 17 characters.");
         }
 
-        // Check if VIN already exists
+        // Check duplicate VIN
         $stmt = $pdo->prepare("SELECT VIN FROM inventory WHERE VIN = ?");
         $stmt->execute([$vin]);
 
         if ($stmt->fetch()) {
-            return false; // duplicate VIN
+            return false;
         }
 
-        // Insert new vehicle
+        // Insert new row
         $sql = "INSERT INTO inventory (VIN, Make, Model, YEAR, ASKING_PRICE)
                 VALUES (:vin, :make, :model, :year, :price)";
 
@@ -40,5 +43,20 @@ class CarModel
             ':year'  => intval($data['year']),
             ':price' => floatval($data['price'])
         ]);
+
+        return true;
+    }
+
+    /* -------------------------------------------------------
+       GET ALL VEHICLES
+    ------------------------------------------------------- */
+    public static function getAll(PDO $pdo)
+    {
+        $sql = "SELECT VIN, Make, Model, YEAR, ASKING_PRICE
+                FROM inventory
+                ORDER BY Make, Model, YEAR";
+
+        $stmt = $pdo->query($sql);
+        return $stmt->fetchAll();
     }
 }
