@@ -15,7 +15,7 @@ if (
     die("All fields are required.");
 }
 
-// Call the model to insert the record
+// Insert into database
 CarModel::add($pdo, [
     'vin'   => $_POST['vin'],
     'make'  => $_POST['make'],
