@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="/styles/default.css">
+
 <header> 
     <div class="header">
         <img class="logo" src="/images/favicon.png" alt="Logo">
