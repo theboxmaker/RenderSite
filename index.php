@@ -23,7 +23,7 @@ $full_title = "Zachary Tucker | {$formatted_title}";
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles/default.css">
+    <link rel="stylesheet" href="/styles/default.css">
     <title><?= htmlspecialchars($full_title) ?></title>
     <script src="https://lint.page/kit/880bd5.js" crossorigin="anonymous"></script>
 </head>
