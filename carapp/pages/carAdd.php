@@ -1,9 +1,9 @@
 <h2>Add a New Car</h2>
 
-<form method="post" action="<?= BASE_URL ?>/pages/carAddSubmit.php">
+<form method="post" action="<?= BASE_URL ?>/?page=carAddSubmit">
 
     <label>VIN:</label><br>
-    <input type="text" name="vin" required><br><br>
+    <input type="text" name="vin" minlength="17" maxlength="17" required><br><br>
 
     <label>Make:</label><br>
     <input type="text" name="make" required><br><br>
@@ -12,10 +12,10 @@
     <input type="text" name="model" required><br><br>
 
     <label>Year:</label><br>
-    <input type="number" name="year" required><br><br>
+    <input type="number" name="year" min="1900" max="<?= date('Y') + 1 ?>" required><br><br>
 
     <label>Price:</label><br>
-    <input type="number" name="price" step="0.01" required><br><br>
+    <input type="number" name="price" step="0.01" min="0" required><br><br>
 
     <button type="submit">Save Car</button>
 </form>
