@@ -1,5 +1,5 @@
 <?php
-require_once APP_PATH . '/models/CarModel.php';
+require_once APP_PATH . '/models/carModel.php';
 
 $cars = CarModel::getAll($pdo);
 
