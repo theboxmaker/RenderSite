@@ -1,6 +1,10 @@
 <h2>Add a New Car</h2>
 
 <form method="post" action="<?= BASE_URL ?>/?page=carAddSubmit">
+
+    <label>VIN:</label><br>
+    <input type="text" name="vin" required><br><br>
+
     <label>Make:</label><br>
     <input type="text" name="make" required><br><br>
 
