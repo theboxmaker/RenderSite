@@ -1,21 +1,20 @@
 <?php
-// API/db.php — unified DB connection for API endpoints
+/**
+ * Joy of PHP API – Render-compatible MySQL connection
+ */
 
-$mysqli = new mysqli(
-    'mySQL',      // Docker container name
-    'root',       // username
-    'verysecret', // password
-    'Cars',       // database name
-    3306          // MySQL port
-);
+$host = getenv('DB_HOST');
+$user = getenv('DB_USER');
+$pass = getenv('DB_PASS');
+$db   = getenv('DB_NAME');
+$port = getenv('DB_PORT') ?: 3306;
+
+$mysqli = new mysqli($host, $user, $pass, $db, $port);
 
 if ($mysqli->connect_errno) {
-    http_response_code(500);
-    die(json_encode([
-        "error" => "Database connection failed",
-        "details" => $mysqli->connect_error
-    ]));
+    printf("Connect failed (%s): %s\n", 
+           $mysqli->connect_errno, 
+           $mysqli->connect_error);
+    exit();
 }
-
-$mysqli->set_charset("utf8mb4");
 ?>
