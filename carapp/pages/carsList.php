@@ -1,31 +1,24 @@
 <?php
-// Query the inventory
-$stmt = $pdo->query("SELECT VIN, Make, Model, YEAR, ASKING_PRICE FROM inventory ORDER BY Make, Model");
-$cars = $stmt->fetchAll();
+require_once APP_PATH . '/models/CarModel.php';
+$cars = CarModel::getAll($pdo);
 ?>
 
-<h2>Inventory</h2>
+<h2>Car Inventory</h2>
 
-<table>
+<table border="1" cellpadding="8">
     <tr>
-        <th>Year</th>
         <th>Make</th>
         <th>Model</th>
+        <th>Year</th>
         <th>Price</th>
-        <th>Actions</th>
     </tr>
 
-    <?php foreach ($cars as $car): ?>
+    <?php foreach ($cars as $c): ?>
         <tr>
-            <td><?= htmlspecialchars($car['YEAR']) ?></td>
-            <td><?= htmlspecialchars($car['Make']) ?></td>
-            <td><?= htmlspecialchars($car['Model']) ?></td>
-            <td>$<?= number_format($car['ASKING_PRICE'], 2) ?></td>
-            <td>
-                <a href="<?= BASE_URL ?>/?page=car_edit&VIN=<?= urlencode($car['VIN']) ?>">Edit</a> |
-                <a href="<?= BASE_URL ?>/?page=car_delete&VIN=<?= urlencode($car['VIN']) ?>"
-                   onclick="return confirm('Delete this car?');">Delete</a>
-            </td>
+            <td><?= htmlspecialchars($c['Make']) ?></td>
+            <td><?= htmlspecialchars($c['Model']) ?></td>
+            <td><?= htmlspecialchars($c['YEAR']) ?></td>
+            <td>$<?= number_format($c['ASKING_PRICE'], 2) ?></td>
         </tr>
     <?php endforeach; ?>
 </table>

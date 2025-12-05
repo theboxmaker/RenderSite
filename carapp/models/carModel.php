@@ -6,7 +6,7 @@ class CarModel
     {
         $sql = "INSERT INTO inventory (Make, Model, YEAR, ASKING_PRICE)
                 VALUES (:make, :model, :year, :price)";
-        
+
         $stmt = $pdo->prepare($sql);
         $stmt->execute([
             ':make'  => $data['make'],
