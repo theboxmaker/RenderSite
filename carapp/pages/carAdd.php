@@ -1,6 +1,6 @@
 <h2>Add a New Car</h2>
 
-<form method="post" action="<?= BASE_URL ?>/actions/car_add_process.php">
+<form method="post" action="<?= BASE_URL ?>/?page=carAddSubmit">
     <label>Make:</label><br>
     <input type="text" name="make" required><br><br>
 

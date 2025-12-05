@@ -1,79 +1,70 @@
 <?php
 require_once __DIR__ . '/db.php';
 
-$vin = trim($_POST['VIN'] ?? '');
+$vin = trim($_POST['VIN'] ?? "");
 
-if ($vin === '') {
+// Validate VIN
+if ($vin === "") {
     die("<p>Error: VIN is required.</p>");
 }
 
-// Validate upload exists
-if (!isset($_FILES["file"]) || $_FILES["file"]["error"] !== UPLOAD_ERR_OK) {
-    die("<p>Error uploading file. Code: " . ($_FILES["file"]["error"] ?? 'No file') . "</p>");
+// Validate upload
+if (!isset($_FILES['file']) || $_FILES['file']['error'] !== UPLOAD_ERR_OK) {
+    die("<p>Error uploading file. Error code: " . $_FILES['file']['error'] . "</p>");
 }
 
 $file = $_FILES["file"];
-$tmpPath = $file["tmp_name"];
 $filename = basename($file["name"]);
+$tmpPath  = $file["tmp_name"];
 $fileSize = $file["size"];
 $fileType = mime_content_type($tmpPath);
 
-// Allowed types
+// Allow only safe image types
 $allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
 if (!in_array($fileType, $allowedTypes)) {
-    die("<p>Error: Only image files (JPG, PNG, GIF, WEBP) are allowed.</p>");
+    die("<p>Error: Only JPG, PNG, GIF, and WEBP files are allowed.</p>");
 }
 
-// Max size 5MB
+// Size limit: 5MB
 if ($fileSize > 5 * 1024 * 1024) {
-    die("<p>Error: File is too large. Max size is 5MB.</p>");
+    die("<p>Error: File too large. Max 5MB.</p>");
 }
 
-// Ensure uploads folder exists
+// Ensure upload directory exists
 $uploadDir = __DIR__ . "/uploads/";
 if (!is_dir($uploadDir)) {
     mkdir($uploadDir, 0777, true);
 }
 
-// Secure unique filename
-$ext = pathinfo($filename, PATHINFO_EXTENSION);
-$newFilename = uniqid("car_", true) . "." . strtolower($ext);
-$targetPath = $uploadDir . $newFilename;
+// Build full path
+$targetPath = $uploadDir . $filename;
 
-// Move to uploads/
+// Move file
 if (!move_uploaded_file($tmpPath, $targetPath)) {
-    die("<p>Error: Could not move uploaded file.</p>");
+    die("<p>Error: Could not save uploaded file.</p>");
 }
 
-// Insert into images table
+// Store filename only in DB
 $stmt = $mysqli->prepare("INSERT INTO images (VIN, ImageFile) VALUES (?, ?)");
-$stmt->bind_param("ss", $vin, $newFilename);
+$stmt->bind_param("ss", $vin, $filename);
 
-?>
-<!DOCTYPE html>
-<html>
-<body style="font-family: Arial; padding: 30px;">
+echo "<h2>Image Upload Results</h2>";
+echo "<p>VIN: " . htmlspecialchars($vin) . "</p>";
+echo "<p>Stored as: uploads/" . htmlspecialchars($filename) . "</p>";
 
-<h2>Image Upload Results</h2>
-
-<?php
 if ($stmt->execute()) {
-    echo "<p><strong>Image uploaded successfully.</strong></p>";
+    echo "<p><strong>Image saved successfully!</strong></p>";
 } else {
-    echo "<p style='color:red;'>Database error: " . htmlspecialchars($stmt->error) . "</p>";
+    echo "<p>Error saving to database: " . htmlspecialchars($stmt->error) . "</p>";
 }
 
 $stmt->close();
 $mysqli->close();
 
-$imageUrl = "uploads/" . $newFilename;
+// Display uploaded image
+echo "<p><img src='uploads/" . htmlspecialchars($filename) . "' width='250'></p>";
 
-echo "<p>VIN: " . htmlspecialchars($vin) . "</p>";
-echo "<p>Stored as: $imageUrl</p>";
-echo "<p><img src='$imageUrl' width='250' style='border-radius:6px; box-shadow:0 0 6px #555;'></p>";
+echo "<p><a href='AddImage.php?VIN=$vin'>Upload Another</a></p>";
+echo "<p><a href='ViewCars.php'>Back to Inventory</a></p>";
+
 ?>
-
-<p><a href="AddImage.php?VIN=<?= htmlspecialchars($vin) ?>">Upload another image</a></p>
-
-</body>
-</html>
