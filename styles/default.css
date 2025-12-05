@@ -37,7 +37,7 @@ h3, h4, legend, label, p, li, a {
     position: relative;
 }
 
-.logo {
+.header .logo {
     width: 80px;   /* try 80px — adjust as needed */
     height: 80px;  /* keep square ratio */
     object-fit: contain;
