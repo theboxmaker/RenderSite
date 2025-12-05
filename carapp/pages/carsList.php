@@ -1,6 +1,11 @@
 <?php
+require_once APP_PATH . '/db.php';
 require_once APP_PATH . '/models/CarModel.php';
+
+var_dump($pdo);
 $cars = CarModel::getAll($pdo);
+
+var_dump($cars);
 ?>
 
 <h2>Car Inventory</h2>
