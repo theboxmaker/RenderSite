@@ -11,7 +11,13 @@ if (!file_exists($path)) {
     http_response_code(404);
     $path = APP_PATH . "/pages/home.php";
 }
+$actionPages = ['carAddSubmit', 'carDelete', 'carEditSubmit', 'carUploadSubmit'];
 
+if (in_array($page, $actionPages)) {
+    // Do NOT wrap with header/footer
+    include $path;
+    exit;
+}
 // Render layout
 include APP_PATH . "/components/header.php";
 include $path;
