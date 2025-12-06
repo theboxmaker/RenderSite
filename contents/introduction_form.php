@@ -18,7 +18,7 @@ $defaults = [
 
 <h2>Introduction Form</h2>
 
-<form action="introduction_process.php" method="post" enctype="multipart/form-data" style="max-width:800px; margin:0 auto;">
+<form action="/index.php?page=introduction_process.php" method="post" enctype="multipart/form-data" style="max-width:800px; margin:0 auto;">
 
     <fieldset>
     <legend>Your Information</legend>
