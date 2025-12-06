@@ -20,6 +20,10 @@
         <a href="/index.php?page=introform"
            class="<?= $page === 'introform' ? 'active' : '' ?>">Intro Form</a>
 
+        <a href="/index.php?page=login"
+            class="<?= $page === 'login' ? 'active' : '' ?>">Login Demo</a>
+
+
         <div class="dropdown">
             <button class="dropbtn">Projects ▼</button>
             <div class="dropdown-content">

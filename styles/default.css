@@ -219,3 +219,21 @@ textarea {
     font-weight: 900;
     text-decoration: line-through;
 }
+
+/** Demo login page styling **/
+
+.demo-login-form {
+    max-width: 400px;
+    margin: 20px auto;
+}
+
+.demo-login-form label {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.demo-login-form input {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
