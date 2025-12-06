@@ -29,14 +29,14 @@ h3 {
     border-radius: 20px;
     background-color: beige;
     padding: 20px;
-    max-width: 650px;
+    max-width: 1000px;
     margin: 25px auto;
 }
 
 /* Put all inputs on a tight row */
 .input-row {
     display: flex;
-    gap: 10px;
+    gap: 30px;
     flex-wrap: wrap;
     justify-content: center;
     margin-bottom: 15px;
