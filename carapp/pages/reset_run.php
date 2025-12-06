@@ -1,4 +1,9 @@
 <?php
+echo "<pre>";
+echo "SESSION CONTENT:\n";
+print_r($_SESSION);
+echo "</pre>";
+
 // Session already started in index.php
 if (!isset($_SESSION['user'])) {
     die("<h2>Access Denied</h2><p>You must be logged in.</p>");
