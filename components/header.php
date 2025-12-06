@@ -27,6 +27,10 @@
                 <a href="/carapp/index.php">Zany Terrapin's Used Cars</a>
             </div>
         </div>
+        <div class="dropdown">
+            <button class="dropbtn">Projects Pt. 2 ▼</button>
+            <div class="dropdown-content">
+                <a href="/contents/fizzbuzz.html">FizzBuzz</a>
 
     </nav>
 </header>
