@@ -1,43 +1,51 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) {
-    die("<h2>Access Denied</h2><p>You must be logged in.</p>");
-}
-?>
-
-<?php
 require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
-// MUST match your real filename exactly:
-require_once APP_PATH . '/models/carModel.php';
+// Load the model safely (case-insensitive)
+$modelPaths = [
+    APP_PATH . '/models/CarModel.php',
+    APP_PATH . '/models/carModel.php',
+    APP_PATH . '/models/carmodel.php'
+];
 
+foreach ($modelPaths as $file) {
+    if (file_exists($file)) {
+        require_once $file;
+        break;
+    }
+}
+
+// SECURITY: require login (BUT do NOT call session_start() — index.php already did)
+if (!isset($_SESSION['user'])) {
+    // No session_start() here!
+    header("Location: " . BASE_URL . "/?page=login&error=not_logged_in");
+    exit;
+}
+
+// Only process POST requests
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Validate & normalize input
-    $newCar = [
-        'vin'   => trim($_POST['vin']),
-        'make'  => trim($_POST['make']),
-        'model' => trim($_POST['model']),
-        'year'  => (int) $_POST['year'],
-        'price' => (float) $_POST['price']
-    ];
-
     try {
-        CarModel::add($pdo, $newCar);
+        CarModel::add($pdo, [
+            'vin'   => $_POST['vin'] ?? '',
+            'make'  => $_POST['make'] ?? '',
+            'model' => $_POST['model'] ?? '',
+            'year'  => $_POST['year'] ?? '',
+            'price' => $_POST['price'] ?? ''
+        ]);
 
-        // Redirect to inventory
+        // Redirect on success — NO OUTPUT ABOVE THIS POINT
         header("Location: " . BASE_URL . "/?page=cars_list");
         exit;
 
     } catch (Exception $e) {
-
-        // VIN already exists or database error
+        // Redirect back to form with error
         header("Location: " . BASE_URL . "/?page=carAdd&error=" . urlencode($e->getMessage()));
         exit;
     }
 }
 
-// If someone loads this file directly:
+// If someone visits directly (not POST)
 header("Location: " . BASE_URL . "/?page=carAdd");
 exit;
