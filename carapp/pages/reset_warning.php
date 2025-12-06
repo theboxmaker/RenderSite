@@ -45,4 +45,5 @@ ob_start();
 
 <?php
 $content = ob_get_clean();
-include APP_PATH . '/components/layout.php';
+echo $content;
+

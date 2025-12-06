@@ -1,24 +1,29 @@
 <?php
-session_start();
-if (!isset($_SESSION['user'])) die("Access denied.");
+// Session already started in index.php
+if (!isset($_SESSION['user'])) {
+    die("<h2>Access Denied</h2><p>You must be logged in.</p>");
+}
 
+require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
-echo "<h2>Well, you asked for it…</h2>";
-
+// Helper to print formatted lines
 function logMsg($msg) {
     echo "<p>$msg</p>";
 }
 
-// Drop tables except users
-logMsg("Dropping images table…");
+echo "<h2>Well, you asked for it…</h2>";
+echo "<p>This operation will completely rebuild the database tables (except users).</p>";
+
+// ---- DROP TABLES ----
+logMsg("Dropping <strong>images</strong> table…");
 $pdo->exec("DROP TABLE IF EXISTS images");
 
-logMsg("Dropping inventory table…");
+logMsg("Dropping <strong>inventory</strong> table…");
 $pdo->exec("DROP TABLE IF EXISTS inventory");
 
-// Recreate tables
-logMsg("Recreating inventory…");
+// ---- RECREATE TABLES ----
+logMsg("Recreating <strong>inventory</strong> table…");
 $pdo->exec("
     CREATE TABLE inventory (
         VIN varchar(17) PRIMARY KEY,
@@ -29,7 +34,7 @@ $pdo->exec("
     )
 ");
 
-logMsg("Recreating images…");
+logMsg("Recreating <strong>images</strong> table…");
 $pdo->exec("
     CREATE TABLE images (
         ID INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,7 +43,7 @@ $pdo->exec("
     )
 ");
 
-// Add sample data
+// ---- INSERT SAMPLE DATA ----
 logMsg("Adding sample vehicles…");
 
 $pdo->exec("
@@ -49,5 +54,7 @@ VALUES
 ('TESTVIN123456789', 2020, 'Honda', 'Civic', 13000)
 ");
 
-logMsg("<strong>Reset complete!</strong>");
-logMsg("<a href='" . BASE_URL . "'>Return to site</a>");
+// ---- DONE ----
+logMsg("<strong>Database reset complete!</strong>");
+
+echo "<p><a href='" . BASE_URL . "'>Return to site</a></p>";

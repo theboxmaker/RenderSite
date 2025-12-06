@@ -18,7 +18,7 @@ if (!file_exists($path)) {
 }
 
 // Pages that run WITHOUT header/footer (actions)
-$actionPages = ['carAddSubmit', 'carDelete', 'carEditSubmit', 'carUploadSubmit', 'login_submit', 'logout'];
+$actionPages = ['carAddSubmit', 'carDelete', 'carEditSubmit', 'carUploadSubmit', 'login_submit', 'logout', 'reset_run'];
 
 if (in_array($page, $actionPages)) {
     include $path;
