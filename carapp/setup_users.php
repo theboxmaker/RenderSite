@@ -1,8 +1,17 @@
 <?php
-require_once __DIR__ . '/config_db.php';
+require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
-echo "<h2>Creating Users Table…</h2>";
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Only allow admin access (adjust as needed)
+if (!isset($_SESSION['user'])) {
+    die("Access denied.");
+}
+
+echo "<h2>Creating Users Table...</h2>";
 
 $pdo->exec("
     CREATE TABLE IF NOT EXISTS users (
@@ -16,16 +25,19 @@ $pdo->exec("
 
 echo "✔ users table created<br>";
 
-// Add default testing user
+// Insert default login
 $username = "web250user";
-$passwordHash = password_hash("LetMeIn!", PASSWORD_DEFAULT);
+$plainPass = "LetMeIn!";
+$hash = password_hash($plainPass, PASSWORD_DEFAULT);
 
 $stmt = $pdo->prepare("
     INSERT IGNORE INTO users (username, password, first_name, last_name)
-    VALUES (?, ?, 'Web', 'User')
+    VALUES (:u, :p, 'Web', 'User')
 ");
-$stmt->execute([$username, $passwordHash]);
+$stmt->execute([':u' => $username, ':p' => $hash]);
 
-echo "✔ Added default account: web250user / LetMeIn!<br>";
+echo "✔ Default user inserted:<br>";
+echo "<strong>Username:</strong> $username<br>";
+echo "<strong>Password:</strong> $plainPass<br>";
 
-echo "<br>Done.";
+echo "<p>Done. You can now login at: <a href='" . BASE_URL . "/?page=login'>Login Page</a></p>";
