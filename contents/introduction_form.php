@@ -21,24 +21,29 @@ $defaults = [
 <form action="introduction_process.php" method="post" enctype="multipart/form-data" style="max-width:800px; margin:0 auto;">
 
     <fieldset>
-        <legend>Your Information</legend>
+    <legend>Your Information</legend>
 
+    <div class="form-row">
         <label>First Name:
             <input type="text" name="first" value="<?= htmlspecialchars($defaults['first']) ?>" required>
         </label>
 
-        <label>Middle Name (optional):
-            <input type="text" name="middle" value="<?= htmlspecialchars($defaults['middle']) ?>">
+        <label>Middle Initial:
+            <input type="text" name="middle" maxlength="1" value="<?= htmlspecialchars($defaults['middle']) ?>">
         </label>
 
         <label>Last Name:
             <input type="text" name="last" value="<?= htmlspecialchars($defaults['last']) ?>" required>
         </label>
+    </div>
 
+    <div class="form-row full">
         <label>About You:
-            <textarea name="about" rows="5" required><?= htmlspecialchars($defaults['about']) ?></textarea>
+            <textarea name="about" rows="4" required><?= htmlspecialchars($defaults['about']) ?></textarea>
         </label>
-    </fieldset>
+    </div>
+</fieldset>
+
 
     <fieldset>
         <legend>Image</legend>
