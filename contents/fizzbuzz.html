@@ -1,108 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<title>FizzBuzz!</title>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        background: #f4f4f4;
-    }
-
-    h1 {
-        margin-bottom: 10px;
-    }
-
-    form {
-        background: #ffffff;
-        padding: 15px;
-        border-radius: 8px;
-        box-shadow: 0 0 5px rgba(0,0,0,0.2);
-        margin-bottom: 20px;
-    }
-
-    .row {
-        display: flex;
-        gap: 12px;
-        margin-bottom: 10px;
-    }
-
-    .row input {
-        flex: 1;
-        padding: 6px;
-        font-size: 14px;
-    }
-
-    .pair-row {
-        display: grid;
-        grid-template-columns: repeat(6, 1fr);
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-
-    button {
-        padding: 8px 16px;
-        background: #003459;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 15px;
-    }
-
-    button:hover {
-        background: #005a8c;
-    }
-
-    ol {
-        background: #ffffff;
-        padding: 20px;
-        border-radius: 8px;
-        box-shadow: 0 0 5px rgba(0,0,0,0.2);
-    }
-</style>
-
+    <meta charset="UTF-8">
+    <title>FizzBuzz!</title>
+    <link rel="stylesheet" href="../styles/fizzbuzz.css">
 </head>
+
 <body>
 
-<h1>FizzBuzz!</h1>
+    <h1>FizzBuzz!</h1>
 
-<form id="fizzForm">
+    <form id="fizzForm">
 
-    <!-- ROW 1 — NAME FIELDS -->
-    <div class="row">
-        <input type="text" id="first" placeholder="First Name (required)" required>
-        <input type="text" id="middle" placeholder="Middle Initial (optional, 1 letter)">
-        <input type="text" id="last" placeholder="Last Name (required)" required>
-    </div>
+        <!-- ROW 1 — NAME FIELDS -->
+        <div class="row">
+            <input type="text" id="first" placeholder="First Name (required)" required>
+            <input type="text" id="middle" placeholder="Middle Initial (optional, 1 letter)">
+            <input type="text" id="last" placeholder="Last Name (required)" required>
+        </div>
 
-    <!-- ROW 2 — DEFAULT WORD + COUNT -->
-    <div class="row">
-        <input type="text" id="defaultWord" value="Terrapin" placeholder="Default Word" required>
-        <input type="number" id="count" value="111" min="1" placeholder="Count" required>
-    </div>
+        <!-- ROW 2 — DEFAULT WORD + COUNT -->
+        <div class="row">
+            <input type="text" id="defaultWord" value="Terrapin" placeholder="Default Word" required>
+            <input type="number" id="count" value="111" min="1" placeholder="Count" required>
+        </div>
 
-    <!-- ROW 3 — WORD/DIVISOR PAIRS -->
-    <div class="pair-row">
-        <input type="text" id="w1" placeholder="Word 1" value="Fizz">
-        <input type="number" id="d1" placeholder="Divisor 1" value="3">
+        <!-- ROW 3 — WORD/DIVISOR PAIRS -->
+        <div class="pair-row">
+            <input type="text" id="w1" placeholder="Word 1" value="Fizz">
+            <input type="number" id="d1" placeholder="Divisor 1" value="3">
 
-        <input type="text" id="w2" placeholder="Word 2" value="Buzz">
-        <input type="number" id="d2" placeholder="Divisor 2" value="5">
+            <input type="text" id="w2" placeholder="Word 2" value="Buzz">
+            <input type="number" id="d2" placeholder="Divisor 2" value="5">
 
-        <input type="text" id="w3" placeholder="Word 3" value="Snap">
-        <input type="number" id="d3" placeholder="Divisor 3" value="7">
-    </div>
+            <input type="text" id="w3" placeholder="Word 3" value="Snap">
+            <input type="number" id="d3" placeholder="Divisor 3" value="7">
+        </div>
 
-    <button type="submit">Run FizzBuzz</button>
-</form>
+        <button type="submit">Run FizzBuzz</button>
+    </form>
 
-<div id="results"></div>
+    <div id="results"></div>
 
-<!-- Load external script -->
-<script src="../scripts/fizzbuzz.js"></script>
+    <!-- Load external script -->
+    <script src="../scripts/fizzbuzz.js"></script>
 
 </body>
+
 </html>
