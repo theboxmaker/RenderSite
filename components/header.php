@@ -17,6 +17,9 @@
         <a href="/index.php?page=contract"
            class="<?= $page === 'contract' ? 'active' : '' ?>">Contract</a>
 
+        <a href="/contents/introduction_form.php"
+           class="<?= $page === 'introform' ? 'active' : '' ?>">Intro Form</a>
+
         <div class="dropdown">
             <button class="dropbtn">Projects ▼</button>
             <div class="dropdown-content">
@@ -27,6 +30,7 @@
                 <a href="/carapp/index.php">Zany Terrapin's Used Cars</a>
             </div>
         </div>
+
         <div class="dropdown">
             <button class="dropbtn">Projects Pt. 2 ▼</button>
             <div class="dropdown-content">
