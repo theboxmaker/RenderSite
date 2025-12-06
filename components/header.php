@@ -17,7 +17,7 @@
         <a href="/index.php?page=contract"
            class="<?= $page === 'contract' ? 'active' : '' ?>">Contract</a>
 
-        <a href="/contents/introduction_form.php"
+        <a href="/index.php?page=introform">Intro Form</a>
            class="<?= $page === 'introform' ? 'active' : '' ?>">Intro Form</a>
 
         <div class="dropdown">

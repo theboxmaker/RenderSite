@@ -4,6 +4,16 @@ $base = __DIR__;
 // Determine page or default to index
 $page = isset($_GET['page']) ? basename(trim($_GET['page'])) : 'index';
 
+// Route map for files whose name doesn't equal the ?page= value
+$route_map = [
+    "introform" => "introduction_form"
+];
+
+// If the page exists in the map, rewrite it
+if (isset($route_map[$page])) {
+    $page = $route_map[$page];
+}
+
 // Build content path
 $content_file = $base . "/contents/{$page}.php";
 
