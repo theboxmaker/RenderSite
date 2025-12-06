@@ -26,7 +26,7 @@ $fullName .= " " . $last;
 <h2>Introduction</h2>
 
 <figure style="max-width:450px; margin:0 auto;">
-    <img src="<?= $image ?>" alt="Profile image" style="width:100%; border-radius:12px;">
+    <img src="<?= $image ?>" alt="Zack on the course" style="width:100%; border-radius:12px;">
     <figcaption style="text-align:center; margin-top:5px;">
         <?= $caption ?>
     </figcaption>

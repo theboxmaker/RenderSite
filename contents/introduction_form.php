@@ -37,7 +37,7 @@ $defaults = [
         </label>
     </div>
 
-    <div class="form-row full">
+    <div class="form-row full-row">
         <label>About You:
             <textarea name="about" rows="4" required><?= htmlspecialchars($defaults['about']) ?></textarea>
         </label>

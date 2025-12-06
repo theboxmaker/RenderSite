@@ -204,7 +204,7 @@ textarea {
     flex-direction: column;
 }
 
-.form-row.full label {
+.form-row.full-row label {
     width: 100%;
 }
 
