@@ -1,5 +1,4 @@
-document.getElementById("fizzForm").addEventListener("submit", function(event) {
-    event.preventDefault();
+function runFizzBuzz() {
 
     // Get form values
     let first = document.getElementById("first").value.trim();
@@ -9,14 +8,15 @@ document.getElementById("fizzForm").addEventListener("submit", function(event) {
     let defaultWord = document.getElementById("defaultWord").value.trim();
     let count = parseInt(document.getElementById("count").value);
 
-    let w1 = document.getElementById("w1").value.trim();
-    let d1 = parseInt(document.getElementById("d1").value);
+    // MATCH THE HTML IDs
+    let w1 = document.getElementById("word1").value.trim();
+    let d1 = parseInt(document.getElementById("div1").value);
 
-    let w2 = document.getElementById("w2").value.trim();
-    let d2 = parseInt(document.getElementById("d2").value);
+    let w2 = document.getElementById("word2").value.trim();
+    let d2 = parseInt(document.getElementById("div2").value);
 
-    let w3 = document.getElementById("w3").value.trim();
-    let d3 = parseInt(document.getElementById("d3").value);
+    let w3 = document.getElementById("word3").value.trim();
+    let d3 = parseInt(document.getElementById("div3").value);
 
     // Validate name fields
     if (!first || !last) {
@@ -29,7 +29,7 @@ document.getElementById("fizzForm").addEventListener("submit", function(event) {
         return;
     }
 
-    // Build the greeting
+    // Build greeting
     let fullName = middle ? `${first} ${middle}. ${last}` : `${first} ${last}`;
 
     let output = `<h3>Welcome, ${fullName}!</h3>`;
@@ -51,4 +51,4 @@ document.getElementById("fizzForm").addEventListener("submit", function(event) {
     output += "</ol>";
 
     document.getElementById("results").innerHTML = output;
-});
+}
