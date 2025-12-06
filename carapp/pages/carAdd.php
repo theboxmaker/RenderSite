@@ -1,5 +1,8 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if (!isset($_SESSION['user'])) {
     die("<h2>Access Denied</h2><p>You must be logged in.</p>");
 }
@@ -7,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 
 <h2>Add a New Car</h2>
 
-<form method="post" action="<?= BASE_URL ?>/pages/carAddSubmit.php">
+<form method="post" action="<?= BASE_URL ?>/?page=carAddSubmit">
 
     <label>VIN:</label><br>
     <input type="text" name="vin" minlength="17" maxlength="17" required><br><br>
@@ -26,7 +29,7 @@ if (!isset($_SESSION['user'])) {
 
     <button type="submit">Save Car</button>
 </form>
+
 <?php if (isset($_GET['error']) && $_GET['error'] === 'vin_exists'): ?>
     <p style="color:red;">A vehicle with that VIN already exists.</p>
 <?php endif; ?>
-

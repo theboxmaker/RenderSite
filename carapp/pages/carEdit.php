@@ -20,21 +20,10 @@ ob_start();
 <form action="<?= BASE_URL ?>/?page=carEditSubmit" method="post">
     <input type="hidden" name="VIN" value="<?= htmlspecialchars($car['VIN']) ?>">
 
-    <p><label>Year: 
-        <input name="YEAR" value="<?= htmlspecialchars($car['YEAR']) ?>">
-    </label></p>
-
-    <p><label>Make: 
-        <input name="Make" value="<?= htmlspecialchars($car['Make']) ?>">
-    </label></p>
-
-    <p><label>Model: 
-        <input name="Model" value="<?= htmlspecialchars($car['Model']) ?>">
-    </label></p>
-
-    <p><label>Price: 
-        <input name="ASKING_PRICE" value="<?= htmlspecialchars($car['ASKING_PRICE']) ?>">
-    </label></p>
+    <p><label>Year: <input name="YEAR" value="<?= htmlspecialchars($car['YEAR']) ?>"></label></p>
+    <p><label>Make: <input name="Make" value="<?= htmlspecialchars($car['Make']) ?>"></label></p>
+    <p><label>Model: <input name="Model" value="<?= htmlspecialchars($car['Model']) ?>"></label></p>
+    <p><label>Price: <input name="ASKING_PRICE" value="<?= htmlspecialchars($car['ASKING_PRICE']) ?>"></label></p>
 
     <button type="submit">Update</button>
 </form>

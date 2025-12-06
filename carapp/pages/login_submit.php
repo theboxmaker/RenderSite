@@ -1,6 +1,9 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 require_once APP_PATH . '/db.php';
-session_start();
 
 $username = trim($_POST['username'] ?? '');
 $password = trim($_POST['password'] ?? '');

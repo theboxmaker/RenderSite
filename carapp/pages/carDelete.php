@@ -1,16 +1,19 @@
 <?php
-session_start();
+// Secure session initialization
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Require login
 if (!isset($_SESSION['user'])) {
     die("<h2>Access Denied</h2><p>You must be logged in.</p>");
 }
-?>
 
-<?php
 require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
-// Try loading the model with multiple possible name cases
-$paths = [
+// Load CarModel
+$modelPaths = [
     APP_PATH . '/models/CarModel.php',
     APP_PATH . '/models/carModel.php',
     APP_PATH . '/models/carmodel.php',
@@ -18,7 +21,7 @@ $paths = [
 ];
 
 $loaded = false;
-foreach ($paths as $file) {
+foreach ($modelPaths as $file) {
     if (file_exists($file)) {
         require_once $file;
         $loaded = true;
@@ -27,20 +30,15 @@ foreach ($paths as $file) {
 }
 
 if (!$loaded) {
-    die("
-        <h2>CarModel.php Not Found</h2>
-        <p>Searched for:</p>
-        <pre>" . implode("\n", $paths) . "</pre>
-    ");
+    die("<h2>CarModel.php Not Found</h2>");
 }
 
 if (!isset($_GET['VIN'])) {
     die("Missing VIN");
 }
 
-// Perform deletion
 CarModel::delete($pdo, $_GET['VIN']);
 
-// Redirect back to list
+// Redirect safely AFTER no output
 header("Location: " . BASE_URL . "/?page=cars_list");
 exit;
