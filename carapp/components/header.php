@@ -1,3 +1,5 @@
+<link rel="stylesheet" href="<?= BASE_URL ?>/styles/default.css">
+
 <header>
     <h1>Zany Terrapin's Used Cars</h1>
 
