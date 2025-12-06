@@ -1,28 +1,27 @@
 <?php
-require_once __DIR__ . '/../config_db.php';
-require_once APP_PATH . '/db.php';
+require_once __DIR__ . '/config_db.php';
+require_once __DIR__ . '/db.php';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// Only allow admin access (adjust as needed)
-if (!isset($_SESSION['user'])) {
-    die("Access denied.");
-}
+// Optional: block non-admin use
+// if (!isset($_SESSION['user'])) {
+//     die("Access denied.");
+// }
 
 echo "<h2>Creating Users Table...</h2>";
 
+// Create table
 $pdo->exec("
-    CREATE TABLE IF NOT EXISTS users (
-        id INT AUTO_INCREMENT PRIMARY KEY,
-        username VARCHAR(50) UNIQUE NOT NULL,
-        password VARCHAR(255) NOT NULL,
-        first_name VARCHAR(50),
-        last_name VARCHAR(50)
-    )
-");
-
+CREATE TABLE IF NOT EXISTS users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50)
+)");
 echo "✔ users table created<br>";
 
 // Insert default login
@@ -36,8 +35,8 @@ $stmt = $pdo->prepare("
 ");
 $stmt->execute([':u' => $username, ':p' => $hash]);
 
-echo "✔ Default user inserted:<br>";
-echo "<strong>Username:</strong> $username<br>";
-echo "<strong>Password:</strong> $plainPass<br>";
+echo "<p>✔ Default login created:</p>";
+echo "<p><strong>Username:</strong> $username<br>";
+echo "<strong>Password:</strong> $plainPass</p>";
 
-echo "<p>Done. You can now login at: <a href='" . BASE_URL . "/?page=login'>Login Page</a></p>";
+echo "<p><a href='" . BASE_URL . "/?page=login'>Go to Login</a></p>";
