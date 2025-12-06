@@ -1,10 +1,5 @@
 <?php
-echo "<pre>";
-echo "SESSION CONTENT:\n";
-print_r($_SESSION);
-echo "</pre>";
-
-// Session already started in index.php
+// Session is already active from index.php
 if (!isset($_SESSION['user'])) {
     die("<h2>Access Denied</h2><p>You must be logged in.</p>");
 }
@@ -12,22 +7,20 @@ if (!isset($_SESSION['user'])) {
 require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
-// Helper to print formatted lines
 function logMsg($msg) {
     echo "<p>$msg</p>";
 }
 
 echo "<h2>Well, you asked for it…</h2>";
-echo "<p>This operation will completely rebuild the database tables (except users).</p>";
 
-// ---- DROP TABLES ----
+// Drop tables
 logMsg("Dropping <strong>images</strong> table…");
 $pdo->exec("DROP TABLE IF EXISTS images");
 
 logMsg("Dropping <strong>inventory</strong> table…");
 $pdo->exec("DROP TABLE IF EXISTS inventory");
 
-// ---- RECREATE TABLES ----
+// Recreate
 logMsg("Recreating <strong>inventory</strong> table…");
 $pdo->exec("
     CREATE TABLE inventory (
@@ -48,9 +41,8 @@ $pdo->exec("
     )
 ");
 
-// ---- INSERT SAMPLE DATA ----
+// Sample data
 logMsg("Adding sample vehicles…");
-
 $pdo->exec("
 INSERT INTO inventory (VIN, YEAR, Make, Model, ASKING_PRICE)
 VALUES
@@ -59,7 +51,6 @@ VALUES
 ('TESTVIN123456789', 2020, 'Honda', 'Civic', 13000)
 ");
 
-// ---- DONE ----
 logMsg("<strong>Database reset complete!</strong>");
 
 echo "<p><a href='" . BASE_URL . "'>Return to site</a></p>";

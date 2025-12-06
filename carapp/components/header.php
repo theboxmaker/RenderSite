@@ -12,7 +12,7 @@
         <?php else: ?>
 
             <a href="<?= BASE_URL ?>/?page=carAdd">Add Car</a>
-            <a href="<?= BASE_URL ?>/pages/reset_warning.php" style="color:red;">Reset DB</a>
+            <a href="<?= BASE_URL ?>/?page=reset_warning" style="color:red;">Reset DB</a>
             <a href="<?= BASE_URL ?>/?page=logout">Logout (<?= htmlspecialchars($_SESSION['user']['username']) ?>)</a>
 
         <?php endif; ?>
