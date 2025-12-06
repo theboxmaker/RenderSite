@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <header>
     <h1>Zany Terrapin's Used Cars</h1>
 
