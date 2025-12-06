@@ -50,6 +50,7 @@ label {
 input[type="text"],
 input[type="number"] {
     padding: 10px 12px;
+    margin-right: 10px;
     border-radius: 6px;
     border: 1px solid #5c2e0d;
     box-shadow: 2px 2px 5px gray;
