@@ -31,6 +31,8 @@
             <button class="dropbtn">Projects Pt. 2 ▼</button>
             <div class="dropdown-content">
                 <a href="/contents/fizzbuzz.html">FizzBuzz</a>
+            </div>
+        </div>
 
     </nav>
 </header>
