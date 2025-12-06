@@ -20,37 +20,31 @@ body {
     margin: 25px auto;
 }
 
-/* ===========================
-   EVENLY SPACED ROWS
-=========================== */
+/* ===============================
+   FORM GRID — PERFECT ALIGNMENT
+=============================== */
 
-.input-row {
-    display: flex;
-    gap: 20px;
-    justify-content: space-between;
-    align-items: center;
-
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* prevents overflow on small screens */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);  /* 3 equal columns */
+    gap: 20px 30px; /* row gap, column gap */
+    max-width: 900px;
+    margin: 0 auto;
 }
 
-/* Label + Field together */
+.form-grid .full-width {
+    grid-column: span 3; /* stretches across entire row */
+}
+
 .field-group {
     display: flex;
     flex-direction: column;
-    flex: 1; /* each field grows evenly */
-    min-width: 140px; /* ensures long names fit */
-}
-
-/* Make name fields comfortably wide */
-.field-group.name-field {
-    min-width: 220px;
 }
 
 label {
-    color: #3e2723;
     font-weight: bold;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
+    text-align: center;
 }
 
 input[type="text"],
@@ -60,13 +54,9 @@ input[type="number"] {
     border: 1px solid #5c2e0d;
     box-shadow: 2px 2px 5px gray;
     font-size: 1rem;
-
-    width: 100%;  /* IMPORTANT: Stretch to container */
+    width: 100%;
 }
 
-.short {
-    width: 70px !important;
-}
 
 /* ===========================
    BUTTON STYLING

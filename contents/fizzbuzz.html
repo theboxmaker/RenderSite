@@ -14,65 +14,68 @@
     <div class="form-container">
     <h3>FizzBuzz Generator</h3>
 
-    <form id="fizzForm">
+    <div class="form-container">
+    <h2 class="centered">FizzBuzz Generator</h2>
 
-        <!-- Row 1: Name fields -->
-        <div class="input-row">
-            <div class="field-group name-field">
+    <form id="fizzForm">
+        <div class="form-grid">
+
+            <!-- Row 1: Names -->
+            <div class="field-group">
                 <label>First Name</label>
                 <input type="text" id="first" required>
             </div>
 
-            <div class="field-group" style="max-width:120px;">
+            <div class="field-group">
                 <label>Middle Initial</label>
                 <input type="text" id="middle" maxlength="1">
             </div>
 
-            <div class="field-group name-field">
+            <div class="field-group">
                 <label>Last Name</label>
                 <input type="text" id="last" required>
             </div>
-        </div>
 
-        <!-- Row 2: Default Word + Count -->
-        <div class="input-row">
+            <!-- Row 2: Default + Count -->
             <div class="field-group">
                 <label>Default Word</label>
                 <input type="text" id="defaultWord" value="Terrapin">
             </div>
 
-            <div class="field-group" style="max-width:150px;">
+            <div class="field-group">
                 <label>Count</label>
                 <input type="number" id="count" value="111" min="1">
             </div>
-        </div>
 
-        <!-- Row 3: Words -->
-        <div class="input-row">
+            <div></div> <!-- empty cell to keep spacing -->
+
+            <!-- Row 3: Words -->
             <div class="field-group">
                 <label>Word 1</label>
                 <input type="text" id="word1" value="Fizz">
             </div>
+
             <div class="field-group">
                 <label>Word 2</label>
                 <input type="text" id="word2" value="Buzz">
             </div>
+
             <div class="field-group">
                 <label>Word 3</label>
                 <input type="text" id="word3" value="Bang">
             </div>
-        </div>
 
-        <!-- Row 4: Divisors -->
-        <div class="input-row">
+            <!-- Row 4: Divisors -->
             <div class="field-group">
                 <label>Divisor 1</label>
                 <input type="number" id="div1" value="3">
             </div>
+
             <div class="field-group">
                 <label>Divisor 2</label>
                 <input type="number" id="div2" value="5">
             </div>
+
             <div class="field-group">
                 <label>Divisor 3</label>
                 <input type="number" id="div3" value="7">
@@ -82,6 +85,7 @@
         <button type="button" onclick="runFizzBuzz()">Run FizzBuzz</button>
     </form>
 </div>
+
 
 <div id="outputArea"></div>
 
