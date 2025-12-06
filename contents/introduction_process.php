@@ -57,5 +57,3 @@ $fullName .= " " . $last;
     <li><?= $c ?></li>
 <?php endforeach; ?>
 </ul>
-
-<p><a href="introduction_form.php">← Go Back</a></p>
