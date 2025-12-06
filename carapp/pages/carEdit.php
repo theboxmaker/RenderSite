@@ -1,43 +1,44 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 if (!isset($_SESSION['user'])) {
     die("<h2>Access Denied</h2><p>You must be logged in.</p>");
 }
+
+require_once APP_PATH . '/models/CarModel.php';
+
+$car = CarModel::find($pdo, $_GET['VIN']);
+
+$title = "Edit Car";
+ob_start();
 ?>
 
-<?php
-require_once APP_PATH . '/models/carModel.php';
-
-$vin = $_GET['VIN'] ?? null;
-$car = CarModel::find($pdo, $vin);
-
-if (!$car) {
-    die("Car not found");
-}
-
-$title = "Edit Vehicle";
-?>
-
-<h2>Edit Vehicle</h2>
+<h2>Edit Car</h2>
 
 <form action="<?= BASE_URL ?>/?page=carEditSubmit" method="post">
     <input type="hidden" name="VIN" value="<?= htmlspecialchars($car['VIN']) ?>">
 
-    <label>Year:<br>
-        <input type="number" name="YEAR" value="<?= htmlspecialchars($car['YEAR']) ?>">
-    </label><br><br>
+    <p><label>Year: 
+        <input name="YEAR" value="<?= htmlspecialchars($car['YEAR']) ?>">
+    </label></p>
 
-    <label>Make:<br>
-        <input type="text" name="Make" value="<?= htmlspecialchars($car['Make']) ?>">
-    </label><br><br>
+    <p><label>Make: 
+        <input name="Make" value="<?= htmlspecialchars($car['Make']) ?>">
+    </label></p>
 
-    <label>Model:<br>
-        <input type="text" name="Model" value="<?= htmlspecialchars($car['Model']) ?>">
-    </label><br><br>
+    <p><label>Model: 
+        <input name="Model" value="<?= htmlspecialchars($car['Model']) ?>">
+    </label></p>
 
-    <label>Price:<br>
-        <input type="number" name="ASKING_PRICE" step="0.01" value="<?= htmlspecialchars($car['ASKING_PRICE']) ?>">
-    </label><br><br>
+    <p><label>Price: 
+        <input name="ASKING_PRICE" value="<?= htmlspecialchars($car['ASKING_PRICE']) ?>">
+    </label></p>
 
-    <button type="submit">Save Changes</button>
+    <button type="submit">Update</button>
 </form>
+
+<?php
+$content = ob_get_clean();
+include APP_PATH . '/views/layout.php';
