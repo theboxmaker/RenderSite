@@ -57,6 +57,11 @@ a {
     object-fit: contain;
 }
 
+.header.logo {
+    width: 120px;
+    height: auto;
+}
+
 .header img {
     height: 60px;
     width: auto;
