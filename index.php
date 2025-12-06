@@ -4,28 +4,44 @@ $base = __DIR__;
 // Determine page or default to index
 $page = isset($_GET['page']) ? basename(trim($_GET['page'])) : 'index';
 
-// Route map for files whose name doesn't equal the ?page= value
+// Route map for files whose name does not match ?page=
 $route_map = [
-    "introform" => "introduction_form",
-    "introduction_process" => "introduction_process",
-    "login_process" => "login_process"
+    "introform"             => "introduction_form",
+    "introduction_process"  => "introduction_process",
+    "login_process"         => "login_process"
 ];
 
-// If the page exists in the map, rewrite it
+// Apply route map rewrite
 if (isset($route_map[$page])) {
     $page = $route_map[$page];
 }
 
-// Build content path
+// Build expected content path
 $content_file = $base . "/contents/{$page}.php";
 
-// Fallback to home if content missing
+// Action pages that must NOT load header/footer
+$action_pages = [
+    "introduction_process",
+    "login_process"
+];
+
+// ACTION HANDLING — direct include, no layout
+if (in_array($page, $action_pages)) {
+    if (file_exists($content_file)) {
+        include $content_file;
+    } else {
+        echo "<h2>Action file not found.</h2>";
+    }
+    exit;
+}
+
+// FALLBACK for missing content files
 if (!file_exists($content_file)) {
     $page = "index";
     $content_file = $base . "/contents/index.php";
 }
 
-// Title based on filename
+// Page title
 $formatted_title = ucwords(str_replace('_', ' ', $page));
 $full_title = "Zachary Tucker | {$formatted_title}";
 ?>
@@ -49,6 +65,6 @@ $full_title = "Zachary Tucker | {$formatted_title}";
     </main>
 
     <?php include $base . "/components/footer.php"; ?>
-    
+
 </body>
 </html>
