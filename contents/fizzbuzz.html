@@ -11,35 +11,80 @@
 
     <h1>FizzBuzz!</h1>
 
+    <div class="form-container">
+    <h3>FizzBuzz Generator</h3>
+
     <form id="fizzForm">
 
-        <!-- ROW 1 — NAME FIELDS -->
-        <div class="row">
-            <input type="text" id="first" placeholder="First Name (required)" required>
-            <input type="text" id="middle" placeholder="Middle Initial (optional, 1 letter)">
-            <input type="text" id="last" placeholder="Last Name (required)" required>
+        <!-- Row 1: Name fields -->
+        <div class="input-row">
+            <div class="field-group name-field">
+                <label>First Name</label>
+                <input type="text" id="first" required>
+            </div>
+
+            <div class="field-group" style="max-width:120px;">
+                <label>Middle Initial</label>
+                <input type="text" id="middle" maxlength="1">
+            </div>
+
+            <div class="field-group name-field">
+                <label>Last Name</label>
+                <input type="text" id="last" required>
+            </div>
         </div>
 
-        <!-- ROW 2 — DEFAULT WORD + COUNT -->
-        <div class="row">
-            <input type="text" id="defaultWord" value="Terrapin" placeholder="Default Word" required>
-            <input type="number" id="count" value="111" min="1" placeholder="Count" required>
+        <!-- Row 2: Default Word + Count -->
+        <div class="input-row">
+            <div class="field-group">
+                <label>Default Word</label>
+                <input type="text" id="defaultWord" value="Terrapin">
+            </div>
+
+            <div class="field-group" style="max-width:150px;">
+                <label>Count</label>
+                <input type="number" id="count" value="111" min="1">
+            </div>
         </div>
 
-        <!-- ROW 3 — WORD/DIVISOR PAIRS -->
-        <div class="pair-row">
-            <input type="text" id="w1" placeholder="Word 1" value="Fizz">
-            <input type="number" id="d1" placeholder="Divisor 1" value="3">
-
-            <input type="text" id="w2" placeholder="Word 2" value="Buzz">
-            <input type="number" id="d2" placeholder="Divisor 2" value="5">
-
-            <input type="text" id="w3" placeholder="Word 3" value="Snap">
-            <input type="number" id="d3" placeholder="Divisor 3" value="7">
+        <!-- Row 3: Words -->
+        <div class="input-row">
+            <div class="field-group">
+                <label>Word 1</label>
+                <input type="text" id="word1" value="Fizz">
+            </div>
+            <div class="field-group">
+                <label>Word 2</label>
+                <input type="text" id="word2" value="Buzz">
+            </div>
+            <div class="field-group">
+                <label>Word 3</label>
+                <input type="text" id="word3" value="Bang">
+            </div>
         </div>
 
-        <button type="submit">Run FizzBuzz</button>
+        <!-- Row 4: Divisors -->
+        <div class="input-row">
+            <div class="field-group">
+                <label>Divisor 1</label>
+                <input type="number" id="div1" value="3">
+            </div>
+            <div class="field-group">
+                <label>Divisor 2</label>
+                <input type="number" id="div2" value="5">
+            </div>
+            <div class="field-group">
+                <label>Divisor 3</label>
+                <input type="number" id="div3" value="7">
+            </div>
+        </div>
+
+        <button type="button" onclick="runFizzBuzz()">Run FizzBuzz</button>
     </form>
+</div>
+
+<div id="outputArea"></div>
+
 
     <div id="results"></div>
 
