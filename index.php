@@ -4,17 +4,6 @@ $base = __DIR__;
 // Determine page or default to index
 $page = isset($_GET['page']) ? basename(trim($_GET['page'])) : 'index';
 
-/*
- |------------------------------------------------------------
- | CUSTOM ROUTE ALIASES
- |------------------------------------------------------------
- | This allows "introform" to point to introduction_form.php
- | instead of requiring the filename to match exactly.
-*/
-$route_map = [
-    'introform' => 'introduction_form',   // NEW ROUTE
-];
-
 // If the page exists in the route map, rewrite it
 if (array_key_exists($page, $route_map)) {
     $page = $route_map[$page];
