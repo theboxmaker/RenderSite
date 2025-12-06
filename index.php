@@ -6,7 +6,8 @@ $page = isset($_GET['page']) ? basename(trim($_GET['page'])) : 'index';
 
 // Route map for files whose name doesn't equal the ?page= value
 $route_map = [
-    "introform" => "introduction_form"
+    "introform" => "introduction_form",
+    "introduction_process" => "introduction_process"
 ];
 
 // If the page exists in the map, rewrite it
