@@ -5,7 +5,7 @@
 <title>TuckTech Consulting Ltd. — Business Card</title>
 
 <style>
-    /* === Page Layout === */
+    /* === Page Centering === */
     html, body {
         height: 100%;
         margin: 0;
@@ -25,13 +25,17 @@
         border-radius: 14px;
         box-shadow: 0 0 20px rgba(0,0,0,0.25);
         padding: 25px;
+        box-sizing: border-box;
+
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
-        box-sizing: border-box;
+        justify-content: center; /* center vertically */
+        align-items: center;    /* center horizontally */
+        text-align: center;     /* center text */
+        gap: 12px;
     }
 
-    /* Logo Circle */
+    /* Logo */
     .logo {
         width: 70px;
         height: 70px;
@@ -43,14 +47,9 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        margin-bottom: 8px;
     }
 
-    /* Company Section */
-    .company {
-        text-align: left;
-    }
-
+    /* Company */
     .company-name {
         font-size: 26px;
         font-weight: bold;
@@ -61,15 +60,8 @@
     .tagline {
         font-size: 14px;
         color: #4a4a4a;
-        margin-top: 4px;
         font-style: italic;
-    }
-
-    /* Divider */
-    .divider {
-        height: 2px;
-        background: #2d5dbe;
-        margin: 10px 0;
+        margin: 0;
     }
 
     /* Contact Info */
@@ -77,14 +69,13 @@
         margin: 4px 0;
         font-size: 14px;
         color: #333;
+        text-align: center;
     }
 
-    /* Footer Line */
     .footer {
         font-size: 12px;
-        text-align: center;
         color: #666;
-        margin-top: 12px;
+        margin-top: 6px;
     }
 </style>
 
@@ -93,13 +84,12 @@
 
 <div class="card">
 
-    <div class="company">
-        <div class="logo">TT</div>
-        <h1 class="company-name">TuckTech Consulting Ltd.</h1>
-        <p class="tagline">“Engineering Better Web Experiences.”</p>
+    <div class="logo">
+        <img src="../images/favicon.png">
     </div>
 
-    <div class="divider"></div>
+    <h1 class="company-name">TuckTech Consulting Ltd.</h1>
+    <p class="tagline">“Engineering Better Web Experiences.”</p>
 
     <div class="info">
         <p><strong>Name:</strong> Zachary Tucker</p>
@@ -110,9 +100,7 @@
         <p><strong>Address:</strong> 123 Innovation Drive, Suite 200</p>
     </div>
 
-    <div class="footer">
-        © 2025 TuckTech Consulting Ltd.
-    </div>
+    <div class="footer">© 2025 TuckTech Consulting Ltd.</div>
 
 </div>
 
