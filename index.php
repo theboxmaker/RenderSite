@@ -29,7 +29,9 @@ $content_file = $base . "/contents/{$page}.php";
 $action_pages = [
     "introduction_process",
     "login_process",
-    "climb_add_do"
+    "climb_add_do",
+    "climb_edit_do",
+    "climb_delete"
 ];
 
 // ACTION HANDLING — direct include, no layout
