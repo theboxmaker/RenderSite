@@ -22,7 +22,9 @@
 
         <a href="/index.php?page=login"
             class="<?= $page === 'login' ? 'active' : '' ?>">Login Demo</a>
-
+        
+         <a href="/index.php?page=climb_list"
+           class="<?= $page === 'climb_list' ? 'active' : '' ?>">Climbing Log</a>
 
         <div class="dropdown">
             <button class="dropbtn">Projects ▼</button>
