@@ -27,11 +27,9 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php else: ?>
 
 <table class="climb-table">
-        <th>Date</th>
         <th>Type</th>
         <th>Grade</th>
         <th>Attempts</th>
-        <th>Notes</th>
         <th>Actions</th>
     </tr>
 
@@ -46,7 +44,7 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 <a href="/index.php?page=climb_edit&id=<?= safe($c['id']) ?>">Edit</a> |
                 <a href="/index.php?page=climb_delete&id=<?= safe($c['id']) ?>"
                    onclick="return confirm('Delete this climbing entry?');"
-                   style="color:red;">
+                   style="color:darkred;">
                    Delete
                 </a>
             </td>
