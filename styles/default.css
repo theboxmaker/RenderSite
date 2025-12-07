@@ -237,3 +237,17 @@ textarea {
     padding: 8px;
     box-sizing: border-box;
 }
+
+/* climb table styling */
+
+.climb-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+.climb-table th,
+.climb-table td {
+    padding: 10px;
+    border: 1px solid #333; /* matches deprecated border="1" */
+}

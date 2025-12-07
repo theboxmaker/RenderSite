@@ -26,8 +26,7 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 <?php else: ?>
 
-<table border="1" cellpadding="10" cellspacing="0" style="width:100%; border-collapse:collapse; background:#fff;">
-    <tr style="background:#8b4513; color:white;">
+<table class="climb-table">
         <th>Date</th>
         <th>Type</th>
         <th>Grade</th>
