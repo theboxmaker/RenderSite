@@ -1,15 +1,18 @@
 <?php
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../carapp/db.php';
 
-$id = $_POST['id'];
-$type = trim($_POST['climb_type']);
-$grade = trim($_POST['grade']);
-$attempts = (int) $_POST['attempts'];
+$id = intval($_POST['id'] ?? 0);
+$type = $_POST['climb_type'] ?? "";
+$grade = $_POST['grade'] ?? "";
+$attempts = intval($_POST['attempts'] ?? 0);
+$notes = $_POST['notes'] ?? "";
 
-$stmt = $pdo->prepare("UPDATE climbs 
-                       SET climb_type=?, grade=?, attempts=? 
-                       WHERE id=?");
-$stmt->execute([$type, $grade, $attempts, $id]);
+$stmt = $pdo->prepare("
+    UPDATE climbing_log
+    SET climb_type = ?, grade = ?, attempts = ?, notes = ?
+    WHERE id = ?
+");
+$stmt->execute([$type, $grade, $attempts, $notes, $id]);
 
-header("Location: /index.php?page=climbs");
+header("Location: /index.php?page=climb_list");
 exit;
