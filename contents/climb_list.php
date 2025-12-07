@@ -27,30 +27,38 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <?php else: ?>
 
 <table class="climb-table">
-        <th>Type</th>
-        <th>Grade</th>
-        <th>Attempts</th>
-        <th>Actions</th>
-    </tr>
-
-    <?php foreach ($climbs as $c): ?>
-        <tr>
-            <td><?= safe($c['climb_type']) ?></td>
-            <td><?= safe($c['grade']) ?></td>
-            <td><?= safe($c['attempts']) ?></td>
-            <td><?= nl2br(safe($c['notes'])) ?></td>
-
-            <td>
-                <a href="/index.php?page=climb_edit&id=<?= safe($c['id']) ?>">Edit</a> |
-                <a href="/index.php?page=climb_delete&id=<?= safe($c['id']) ?>"
-                   onclick="return confirm('Delete this climbing entry?');"
-                   style="color:darkred;">
-                   Delete
-                </a>
-            </td>
+    <thead>
+        <tr class="climb-table-head-row">
+            <th scope="col">Date</th>
+            <th scope="col">Type</th>
+            <th scope="col">Grade</th>
+            <th scope="col">Attempts</th>
+            <th scope="col">Notes</th>
+            <th scope="col">Actions</th>
         </tr>
-    <?php endforeach; ?>
+    </thead>
 
+    <tbody>
+        <?php foreach ($climbs as $c): ?>
+            <tr>
+                <td><?= safe($c['created_at']) ?></td>
+                <td><?= safe($c['climb_type']) ?></td>
+                <td><?= safe($c['grade']) ?></td>
+                <td><?= safe($c['attempts']) ?></td>
+                <td><?= nl2br(safe($c['notes'])) ?></td>
+                <td>
+                    <a href="/index.php?page=climb_edit&id=<?= safe($c['id']) ?>">Edit</a>
+                    |
+                    <a href="/index.php?page=climb_delete&id=<?= safe($c['id']) ?>"
+                       onclick="return confirm('Delete this climbing entry?');"
+                       style="color:red;">
+                       Delete
+                    </a>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    </tbody>
 </table>
+
 
 <?php endif; ?>
