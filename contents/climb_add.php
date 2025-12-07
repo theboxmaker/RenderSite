@@ -3,10 +3,11 @@
 <form action="/index.php?page=climb_add_do" method="post">
     <label>Climb Type:
         <select name="climb_type" required>
-            <option>Boulder</option>
-            <option>Sport</option>
-            <option>Trad</option>
-            <option>Gym Route</option>
+            <option value="">-- Select Type --</option>
+            <option value="Boulder">Boulder</option>
+            <option value="Sport">Sport</option>
+            <option value="Top Rope">Top Rope</option>
+            <option value="Trad">Trad</option>
         </select>
     </label><br><br>
 
