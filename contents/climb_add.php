@@ -14,9 +14,9 @@ require_once __DIR__ . '/../carapp/db.php'; // Shared PDO connection
 
     <label for="climb_type">Climb Type</label>
     <select id="climb_type" name="climb_type" required>
-        <option value="Boulder">Boulder</option>
-        <option value="Top Rope">Top Rope</option>
-        <option value="Lead">Lead</option>
+        <option value="Boulder" label="Boulder">Boulder</option>
+        <option value="Top Rope"label="Top Rope">Top Rope</option>
+        <option value="Lead" label="Lead">Lead</option>
     </select>
 
     <label for="grade">Grade</label>
