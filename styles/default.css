@@ -243,11 +243,16 @@ textarea {
 .climb-table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
+    background-color: #ffffff;
 }
 
 .climb-table th,
 .climb-table td {
     padding: 10px;
-    border: 1px solid #333; /* matches deprecated border="1" */
+    border: 1px solid #333333;
+}
+
+.climb-table thead th {
+    background-color: #8b4513;
+    color: #ffffff;
 }
