@@ -1,23 +1,25 @@
 <?php
-// Require login
-if (empty($_SESSION['climb_user'])) {
+if (!isset($_SESSION['climb_user'])) {
     echo "<h2>Access Denied</h2><p>You must be logged in.</p>";
     exit;
 }
 
 require_once __DIR__ . '/../carapp/db.php';
 
-// Validate ID
-$id = (int) ($_GET['id'] ?? 0);
-if ($id === 0) {
-    header("Location: /index.php?page=climb_list");
-    exit;
+$user_id = $_SESSION['climb_user']['id'];
+$id = intval($_GET['id'] ?? 0);
+
+// Check ownership
+$check = $pdo->prepare("SELECT user_id FROM climbing_log WHERE id = ?");
+$check->execute([$id]);
+$row = $check->fetch();
+
+if (!$row || $row['user_id'] != $user_id) {
+    die("<h2>Access Denied</h2><p>You cannot delete another user's climb.</p>");
 }
 
-// Delete from DB
-$stmt = $pdo->prepare("DELETE FROM climbing_log WHERE id = ?");
-$stmt->execute([$id]);
+$stmt = $pdo->prepare("DELETE FROM climbing_log WHERE id = ? AND user_id = ?");
+$stmt->execute([$id, $user_id]);
 
-// Redirect back to list
 header("Location: /index.php?page=climb_list");
 exit;
