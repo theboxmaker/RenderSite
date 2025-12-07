@@ -1,5 +1,5 @@
 <?php
-
+// session_start() MUST NOT be here — it's already in index.php
 ?>
 
 <link rel="stylesheet" href="/styles/default.css">
