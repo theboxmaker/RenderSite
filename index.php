@@ -28,7 +28,8 @@ $content_file = $base . "/contents/{$page}.php";
 // Action pages that must NOT load header/footer
 $action_pages = [
     "introduction_process",
-    "login_process"
+    "login_process",
+    "climb_add_do"
 ];
 
 // ACTION HANDLING — direct include, no layout
