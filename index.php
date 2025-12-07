@@ -8,7 +8,13 @@ $page = isset($_GET['page']) ? basename(trim($_GET['page'])) : 'index';
 $route_map = [
     "introform"             => "introduction_form",
     "introduction_process"  => "introduction_process",
-    "login_process"         => "login_process"
+    "login_process"         => "login_process",
+    "climbs"                => "climbs_list",
+    "climb_add"             => "climb_add",
+    "climb_add_do"          => "climb_add_do",
+    "climb_edit"            => "climb_edit",
+    "climb_edit_do"         => "climb_edit_do",
+    "climb_delete"          => "climb_delete"
 ];
 
 // Apply route map rewrite
