@@ -1,4 +1,11 @@
 <?php
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+$base = __DIR__;
+
+
+<?php
 $base = __DIR__;
 
 // Determine page or default to index

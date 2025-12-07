@@ -1,14 +1,10 @@
 <?php
-// Start session BEFORE any HTML output
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-
 // Require login
 if (!isset($_SESSION['user'])) {
     echo "<h2>Access Denied</h2><p>You must be logged in.</p>";
     exit;
 }
+
 
 require_once __DIR__ . '/../carapp/db.php'; // Shared PDO connection
 ?>
