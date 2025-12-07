@@ -9,7 +9,7 @@
     </nav>
 
     <p class="middle">
-        Website designed by TuckTech
+        Website designed by <a href="../contents/businesscard.html">TuckTech</a>
     </p>
 
 </footer>
