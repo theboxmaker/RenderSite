@@ -38,9 +38,6 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <?php foreach ($climbs as $c): ?>
         <tr>
-            <!-- FIXED: show actual date column from DB -->
-            <td><?= safe($c['created_at']) ?></td>
-
             <td><?= safe($c['climb_type']) ?></td>
             <td><?= safe($c['grade']) ?></td>
             <td><?= safe($c['attempts']) ?></td>
