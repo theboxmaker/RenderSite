@@ -2,14 +2,12 @@
 require_once __DIR__ . '/../db.php';
 
 $sql = "
-CREATE TABLE IF NOT EXISTS climb_users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    password VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+ALTER TABLE climbing_log
+ADD COLUMN user_id INT NOT NULL AFTER id;
+
 );
 ";
 
 $pdo->exec($sql);
 
-echo "<h2>Climbs table created!</h2>";
+echo "<h2>Table altered</h2>";
