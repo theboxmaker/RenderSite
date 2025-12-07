@@ -256,3 +256,22 @@ textarea {
     background-color: #8b4513;
     color: #ffffff;
 }
+
+/* Login and Register Heading Styles */
+
+.auth-links {
+    margin-left: auto;     /* pushes to right */
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.auth-links a {
+    color: #e3dac9;
+    text-decoration: none;
+    padding: 15px 20px;
+}
+
+.auth-links a:hover {
+    background-color: #5c2e0d;
+}
