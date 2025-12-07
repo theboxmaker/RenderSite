@@ -1,3 +1,11 @@
+<?php
+session_start();
+if (!isset($_SESSION['climb_user'])) {
+    die("<h2>Access Denied</h2><p>You must be logged in.</p>");
+}
+?>
+
+
 <h2>Add New Climb</h2>
 
 <form action="/index.php?page=climb_add_do" method="post">

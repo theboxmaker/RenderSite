@@ -1,4 +1,12 @@
 <?php
+session_start();
+if (!isset($_SESSION['climb_user'])) {
+    die("<h2>Access Denied</h2><p>You must be logged in.</p>");
+}
+?>
+
+
+<?php
 require_once __DIR__ . '/../db.php';
 
 $id = $_GET['id'] ?? 0;

@@ -44,5 +44,14 @@
             </div>
         </div>
 
+        <?php if (!isset($_SESSION['climb_user'])): ?>
+            <a href="/index.php?page=login">Login</a>
+            <a href="/index.php?page=register">Register</a>
+        <?php else: ?>
+            <span>Welcome, <?= htmlspecialchars($_SESSION['climb_user']['username']) ?></span>
+            <a href="/index.php?page=climb_add">Add Climb</a>
+            <a href="/index.php?page=logout">Logout</a>
+        <?php endif; ?>
+
     </nav>
 </header>
