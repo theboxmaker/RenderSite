@@ -1,8 +1,5 @@
 <?php
-// Ensure session exists before checking login state
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+
 ?>
 
 <link rel="stylesheet" href="/styles/default.css">
