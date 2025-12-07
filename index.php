@@ -9,26 +9,26 @@ $base = __DIR__;
 // Determine page or default to index
 $page = isset($_GET['page']) ? basename(trim($_GET['page'])) : 'index';
 
-// Route map for files whose name doesn’t match the ?page parameter
+// Route map for files whose name doesn't match the ?page parameter
 $route_map = [
-    "introform" => "introduction_form",
-    "introduction_process" => "introduction_process",
-    "login_process" => "login_process",
-    "register_process" => "register_process",
-    "climb_add_do" => "climb_add_do",
-    "climb_edit_do" => "climb_edit_do",
-    "climb_delete" => "climb_delete"
+    'introform'            => 'introduction_form',
+    'introduction_process' => 'introduction_process',
+    'login_process'        => 'login_process',
+    'register_process'     => 'register_process',
+    'climb_add_do'         => 'climb_add_do',
+    'climb_edit_do'        => 'climb_edit_do',
+    'climb_delete'         => 'climb_delete',
 ];
-
 
 // Action pages that must NOT load header/footer
 $action_pages = [
-    "introduction_process",
-    "login_process",
-    "climb_add_do",
-    "climb_edit_do",
-    "climb_delete",
-    "register_process"
+    'introduction_process',
+    'login_process',
+    'climb_add_do',
+    'climb_edit_do',
+    'climb_delete',
+    'register_process',
+    'logout',
 ];
 
 // Rewrite if in map
@@ -36,7 +36,20 @@ if (isset($route_map[$page])) {
     $page = $route_map[$page];
 }
 
-// Build file path
+// If this is an action page, run it bare (no layout) and exit
+if (in_array($page, $action_pages, true)) {
+    $action_file = $base . "/contents/{$page}.php";
+
+    if (file_exists($action_file)) {
+        require $action_file;
+    } else {
+        http_response_code(404);
+        echo "Action not found.";
+    }
+    exit;
+}
+
+// Build file path for normal content pages
 $content_file = $base . "/contents/{$page}.php";
 
 // If not found, load homepage
@@ -69,6 +82,6 @@ $full_title = "Zachary Tucker | {$formatted_title}";
     </main>
 
     <?php include $base . "/components/footer.php"; ?>
-    
+
 </body>
 </html>

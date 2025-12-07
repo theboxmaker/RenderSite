@@ -1,28 +1,12 @@
 <?php
 // Require login
-if (!isset($_SESSION['user'])) {
+if (empty($_SESSION['climb_user'])) {
     echo "<h2>Access Denied</h2><p>You must be logged in.</p>";
     exit;
 }
 
-
 require_once __DIR__ . '/../carapp/db.php'; // Shared PDO connection
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/styles/default.css">
-    <title>Zachary Tucker | Climb Add</title>
-    <script src="https://lint.page/kit/880bd5.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-
-<?php include $_SERVER['DOCUMENT_ROOT'] . "/components/header.php"; ?>
-
-<main>
 
 <h2>Add a Climb</h2>
 
@@ -44,10 +28,3 @@ require_once __DIR__ . '/../carapp/db.php'; // Shared PDO connection
     <button type="submit">Save Climb</button>
 
 </form>
-
-</main>
-
-<?php include $_SERVER['DOCUMENT_ROOT'] . "/components/footer.php"; ?>
-
-</body>
-</html>

@@ -1,10 +1,9 @@
 <?php
-// session_start() MUST NOT be here — it's already in index.php
+// Header partial – session already started in index.php
 ?>
-
 <link rel="stylesheet" href="/styles/default.css">
 
-<header> 
+<header>
     <div class="header">
         <img class="logo" src="/images/favicon.png" alt="Logo">
         <h1>Zachary Tucker's Web Projects</h1>
@@ -24,18 +23,14 @@
         <a href="/index.php?page=introform"
            class="<?= ($page === 'introform') ? 'active' : '' ?>">Intro Form</a>
 
-        <?php if (isset($_SESSION['login_user'])): ?>
-
+        <?php if (!empty($_SESSION['climb_user'])): ?>
             <a href="/index.php?page=logout"
                class="<?= ($page === 'logout') ? 'active' : '' ?>">
-               Logout (<?= htmlspecialchars($_SESSION['login_user']) ?>)
+               Logout (<?= htmlspecialchars($_SESSION['climb_user']['username']) ?>)
             </a>
-
         <?php else: ?>
-
             <a href="/index.php?page=login"
                class="<?= ($page === 'login') ? 'active' : '' ?>">Login Demo</a>
-
         <?php endif; ?>
 
         <div class="dropdown">

@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once __DIR__ . '/../carapp/db.php';
 
 $username = trim($_POST['username'] ?? '');
@@ -18,7 +17,9 @@ if ($stmt->fetch()) {
 
 // Insert new user
 $hashed = password_hash($password, PASSWORD_DEFAULT);
-$stmt = $pdo->prepare("INSERT INTO climb_users (username, password) VALUES (?, ?)");
+$stmt   = $pdo->prepare(
+    "INSERT INTO climb_users (username, password) VALUES (?, ?)"
+);
 $stmt->execute([$username, $hashed]);
 
 echo "<h2>Registration successful!</h2>";

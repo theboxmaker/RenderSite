@@ -1,4 +1,4 @@
-<?php if (isset($_GET['user'])): ?>
+<?php if (!empty($_GET['user'])): ?>
     <div class="login-welcome">
         <p style="color:green; font-weight:bold;">
             Welcome back, <?= htmlspecialchars($_GET['user']) ?>!
@@ -23,3 +23,5 @@
     <button type="submit">Log In</button>
 
 </form>
+
+<p>Need an account? <a href="/index.php?page=register">Register here</a></p>

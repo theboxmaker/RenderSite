@@ -1,18 +1,17 @@
 <?php
 // Require login
-if (!isset($_SESSION['user'])) {
+if (empty($_SESSION['climb_user'])) {
     echo "<h2>Access Denied</h2><p>You must be logged in.</p>";
     exit;
 }
 
-<?php
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../carapp/db.php';
 
-$id = $_GET['id'] ?? 0;
+$id = (int) ($_GET['id'] ?? 0);
 
-$stmt = $pdo->prepare("SELECT * FROM climbs WHERE id = ?");
+$stmt = $pdo->prepare("SELECT * FROM climbing_log WHERE id = ?");
 $stmt->execute([$id]);
-$climb = $stmt->fetch();
+$climb = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if (!$climb) {
     die("<h2>Climb not found</h2>");
@@ -22,24 +21,25 @@ if (!$climb) {
 <h2>Edit Climb</h2>
 
 <form action="/index.php?page=climb_edit_do" method="post">
-    <input type="hidden" name="id" value="<?= $climb['id'] ?>">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($climb['id']) ?>">
 
-    <label>Climb Type:
-        <select name="climb_type">
-            <option <?= $climb['climb_type']=='Boulder'?'selected':'' ?>>Boulder</option>
-            <option <?= $climb['climb_type']=='Sport'?'selected':'' ?>>Sport</option>
-            <option <?= $climb['climb_type']=='Trad'?'selected':'' ?>>Trad</option>
-            <option <?= $climb['climb_type']=='Gym Route'?'selected':'' ?>>Gym Route</option>
-        </select>
-    </label><br><br>
+    <label for="climb_type">Climb Type:</label>
+    <select name="climb_type" id="climb_type">
+        <option value="Boulder" <?= $climb['climb_type'] === 'Boulder' ? 'selected' : '' ?>>Boulder</option>
+        <option value="Top Rope" <?= $climb['climb_type'] === 'Top Rope' ? 'selected' : '' ?>>Top Rope</option>
+        <option value="Lead" <?= $climb['climb_type'] === 'Lead' ? 'selected' : '' ?>>Lead</option>
+    </select>
+    <br><br>
 
-    <label>Grade:
-        <input type="text" name="grade" value="<?= htmlspecialchars($climb['grade']) ?>">
-    </label><br><br>
+    <label for="grade">Grade:</label>
+    <input type="text" id="grade" name="grade"
+           value="<?= htmlspecialchars($climb['grade']) ?>">
+    <br><br>
 
-    <label>Attempts:
-        <input type="number" name="attempts" min="1" value="<?= $climb['attempts'] ?>">
-    </label><br><br>
+    <label for="attempts">Attempts:</label>
+    <input type="number" id="attempts" name="attempts" min="1"
+           value="<?= (int) $climb['attempts'] ?>">
+    <br><br>
 
     <button type="submit">Update</button>
 </form>

@@ -1,15 +1,14 @@
 <?php
 // Require login
-if (!isset($_SESSION['user'])) {
+if (empty($_SESSION['climb_user'])) {
     echo "<h2>Access Denied</h2><p>You must be logged in.</p>";
     exit;
 }
 
-<?php
 require_once __DIR__ . '/../carapp/db.php';
 
 // Validate ID
-$id = intval($_GET['id'] ?? 0);
+$id = (int) ($_GET['id'] ?? 0);
 if ($id === 0) {
     header("Location: /index.php?page=climb_list");
     exit;
