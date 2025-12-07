@@ -1,8 +1,14 @@
 <?php
 // Require login
 if (empty($_SESSION['climb_user'])) {
-    echo "<h2>Access Denied</h2><p>You must be logged in.</p>";
-    exit;
+    echo "
+        <section>
+            <h2>Access Denied</h2>
+            <p>You must be logged in.</p>
+        </section>
+";
+exit;
+
 }
 
 require_once __DIR__ . '/../carapp/db.php'; // Shared PDO connection
