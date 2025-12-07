@@ -1,16 +1,23 @@
 <?php
-require_once __DIR__ . '/../db.php'; // now loads carapp DB
+require_once __DIR__ . '/../carapp/db.php'; // Use the same DB as carapp
 
-$sql = "
-CREATE TABLE IF NOT EXISTS climbs (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    climb_type VARCHAR(50) NOT NULL,
-    grade VARCHAR(50) NOT NULL,
-    attempts INT NOT NULL DEFAULT 1,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-";
+echo "<h2>Setting up climbing_log table…</h2>";
 
-$pdo->exec($sql);
+try {
+    $pdo->exec("
+        CREATE TABLE IF NOT EXISTS climbing_log (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            climb_type VARCHAR(50) NOT NULL,
+            grade VARCHAR(20) NOT NULL,
+            attempts INT NOT NULL DEFAULT 1,
+            notes TEXT,
+            date_logged TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+    ");
 
-echo "<h2>Climbs table created successfully in carapp database!</h2>";
+    echo "<p>✔ Table <strong>climbing_log</strong> created successfully!</p>";
+    echo "<p><a href='/index.php?page=climb_list'>Go to Climb List</a></p>";
+} 
+catch (PDOException $e) {
+    echo "<p style='color:red;'>ERROR: " . $e->getMessage() . "</p>";
+}
