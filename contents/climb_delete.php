@@ -1,10 +1,17 @@
 <?php
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../carapp/db.php';
 
-$id = $_GET['id'] ?? 0;
+// Validate ID
+$id = intval($_GET['id'] ?? 0);
+if ($id === 0) {
+    header("Location: /index.php?page=climb_list");
+    exit;
+}
 
-$stmt = $pdo->prepare("DELETE FROM climbs WHERE id=?");
+// Delete from DB
+$stmt = $pdo->prepare("DELETE FROM climbing_log WHERE id = ?");
 $stmt->execute([$id]);
 
-header("Location: /index.php?page=climbs");
+// Redirect back to list
+header("Location: /index.php?page=climb_list");
 exit;
