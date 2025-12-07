@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../db.php';
 
+$sql = "
 CREATE TABLE IF NOT EXISTS climb_users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
