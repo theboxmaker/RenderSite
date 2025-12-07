@@ -14,7 +14,8 @@ $route_map = [
     "climb_add_do"          => "climb_add_do",
     "climb_edit"            => "climb_edit",
     "climb_edit_do"         => "climb_edit_do",
-    "climb_delete"          => "climb_delete"
+    "climb_delete"          => "climb_delete",
+    "register_process"      => "register_process"
 ];
 
 // Apply route map rewrite
@@ -31,7 +32,8 @@ $action_pages = [
     "login_process",
     "climb_add_do",
     "climb_edit_do",
-    "climb_delete"
+    "climb_delete",
+    "register_process"
 ];
 
 // ACTION HANDLING — direct include, no layout
