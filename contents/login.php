@@ -6,9 +6,9 @@
     </div>
 <?php endif; ?>
 
-<h2>Login Demo</h2>
+<h2>Login to use Climbing App</h2>
 
-<p>This is a simple demonstration login form. It does not restrict any content.</p>
+<p>Sign in here to use the climbing application!</p>
 
 <form action="/index.php?page=login_process" method="post" class="demo-login-form">
 

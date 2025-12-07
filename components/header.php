@@ -19,9 +19,6 @@
 
         <a href="/index.php?page=introform"
            class="<?= $page === 'introform' ? 'active' : '' ?>">Intro Form</a>
-
-        <a href="/index.php?page=login"
-            class="<?= $page === 'login' ? 'active' : '' ?>">Login Demo</a>
         
          <a href="/index.php?page=climb_list"
            class="<?= $page === 'climb_list' ? 'active' : '' ?>">Climbing Log</a>
