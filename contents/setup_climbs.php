@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../db.php';
+require_once __DIR__ . '/../db.php'; // now loads carapp DB
 
 $sql = "
 CREATE TABLE IF NOT EXISTS climbs (
@@ -13,4 +13,4 @@ CREATE TABLE IF NOT EXISTS climbs (
 
 $pdo->exec($sql);
 
-echo "<h2>Climbs table created!</h2>";
+echo "<h2>Climbs table created successfully in carapp database!</h2>";
