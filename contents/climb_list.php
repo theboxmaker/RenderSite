@@ -29,11 +29,9 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 <table class="climb-table">
     <thead>
         <tr class="climb-table-head-row">
-            <th scope="col">Date</th>
             <th scope="col">Type</th>
             <th scope="col">Grade</th>
             <th scope="col">Attempts</th>
-            <th scope="col">Notes</th>
             <th scope="col">Actions</th>
         </tr>
     </thead>
@@ -41,11 +39,9 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <tbody>
         <?php foreach ($climbs as $c): ?>
             <tr>
-                <td><?= safe($c['created_at']) ?></td>
                 <td><?= safe($c['climb_type']) ?></td>
                 <td><?= safe($c['grade']) ?></td>
                 <td><?= safe($c['attempts']) ?></td>
-                <td><?= nl2br(safe($c['notes'])) ?></td>
                 <td>
                     <a href="/index.php?page=climb_edit&id=<?= safe($c['id']) ?>">Edit</a>
                     |
