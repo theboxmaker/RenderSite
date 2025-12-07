@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/../carapp/db.php'; // Using shared DB from carapp
 
+// Safe output helper to avoid warnings
+function safe($v) {
+    return htmlspecialchars($v ?? '', ENT_QUOTES, 'UTF-8');
+}
+
 // Fetch all climbing logs
 $stmt = $pdo->query("SELECT * FROM climbing_log ORDER BY id DESC");
 $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -33,15 +38,17 @@ $climbs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     <?php foreach ($climbs as $c): ?>
         <tr>
-            <td><?= htmlspecialchars($c['climb_date']) ?></td>
-            <td><?= htmlspecialchars($c['climb_type']) ?></td>
-            <td><?= htmlspecialchars($c['grade']) ?></td>
-            <td><?= htmlspecialchars($c['attempts']) ?></td>
-            <td><?= nl2br(htmlspecialchars($c['notes'])) ?></td>
+            <!-- FIXED: show actual date column from DB -->
+            <td><?= safe($c['created_at']) ?></td>
+
+            <td><?= safe($c['climb_type']) ?></td>
+            <td><?= safe($c['grade']) ?></td>
+            <td><?= safe($c['attempts']) ?></td>
+            <td><?= nl2br(safe($c['notes'])) ?></td>
 
             <td>
-                <a href="/index.php?page=climb_edit&id=<?= $c['id'] ?>">Edit</a> |
-                <a href="/index.php?page=climb_delete&id=<?= $c['id'] ?>"
+                <a href="/index.php?page=climb_edit&id=<?= safe($c['id']) ?>">Edit</a> |
+                <a href="/index.php?page=climb_delete&id=<?= safe($c['id']) ?>"
                    onclick="return confirm('Delete this climbing entry?');"
                    style="color:red;">
                    Delete
