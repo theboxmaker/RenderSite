@@ -44,7 +44,7 @@ class CarModel
             ':price' => (float)$data['price'],
         ]);
     }
-
+}
     /* -------------------------------
        GET ALL VEHICLES
     --------------------------------*/
