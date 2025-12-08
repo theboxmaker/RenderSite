@@ -12,7 +12,7 @@ require_once __DIR__ . '/../config_db.php';
 require_once APP_PATH . '/db.php';
 
 // Load CarModel class
-require_once __DIR__ . '/../models/CarModel.php';
+require_once __DIR__ . '/../models/carModel.php';
 
 // Valid VIN?
 if (!isset($_GET['VIN'])) {
