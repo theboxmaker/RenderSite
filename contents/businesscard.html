@@ -19,12 +19,12 @@
 
     /* === Card Styling === */
     .card {
-        width: 5.5in;
-        height: 3.25in;
+        width: 5.6in;
+        height: 3.3in;
         background: #73d0ff;
         border-radius: 22px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-        padding: 15px 25px;            
+        padding: 15px 30px;
         box-sizing: border-box;
 
         display: flex;
@@ -36,43 +36,42 @@
 
     /* Logo */
     .logo {
-        width: 95px;                  
+        width: 95px;
         height: 95px;
         border-radius: 50%;
         object-fit: contain;
-        margin-bottom: 5px;
+        margin-bottom: 8px;
     }
 
     /* Titles */
     .company-name {
-        font-size: 24px;             
+        font-size: 26px;
         font-weight: bold;
-        margin: 5px 0 5px 0;
+        margin: 5px 0;
     }
 
     .tagline {
-        font-size: 14px;              
+        font-size: 14px;
         font-style: italic;
-        margin: 5px 0 15px 0;
+        margin: 5px 0 18px 0;
     }
 
-    /* Info Section */
-    .info-left p {
-        margin: 1px 0;              
-        font-size: 16px;   
-        position:absolute;
-        left:0;
-        bottom:0;        
+    /* Two-column info layout */
+    .info-row {
+        width: 100%;
+        display: flex;
+        justify-content: space-between; /* Columns spread left and right */
+        margin-top: auto; /* Push to bottom */
     }
 
-    .info-right p {
-        margin: 1px 0;               
-        font-size: 16px; 
-        position: absolute;
-        right:0;
-        bottom:0;
+    .info-column {
+        text-align: left;
+        font-size: 15px;
     }
 
+    .info-column p {
+        margin: 3px 0;
+    }
 </style>
 
 </head>
@@ -86,15 +85,23 @@
 
     <p class="tagline">“Engineering Better Web Experiences.”</p>
 
-    <div class="info-left">
-        <p><strong>Name:</strong> Zachary Tucker</p>
-        <p><strong>Title:</strong> Lead Web Consultant</p>
-        <p><strong>Email:</strong> contact@tucktech.io</p>
-    </div>
-    <div class="info-right">
-        <p><strong>Phone:</strong> (555) 987-6543</p>
-        <p><strong>Website:</strong> www.tucktech.io</p>
-        <p><strong>Address:</strong> 123 Innovation Drive, Suite 200</p>
+    <!-- Two-Column Contact Section -->
+    <div class="info-row">
+
+        <!-- Left Column -->
+        <div class="info-column">
+            <p><strong>Name:</strong> Zachary Tucker</p>
+            <p><strong>Title:</strong> Lead Web Consultant</p>
+            <p><strong>Email:</strong> contact@tucktech.io</p>
+        </div>
+
+        <!-- Right Column -->
+        <div class="info-column">
+            <p><strong>Phone:</strong> (555) 987-6543</p>
+            <p><strong>Website:</strong> www.tucktech.io</p>
+            <p><strong>Address:</strong> 123 Innovation Drive, Suite 200</p>
+        </div>
+
     </div>
 
 </div>
