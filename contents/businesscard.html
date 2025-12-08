@@ -17,49 +17,49 @@
         align-items: center;
     }
 
-    /* === Card === */
+    /* === Card Styling === */
     .card {
         width: 5.5in;
         height: 3.25in;
-        background: #73d0ff;  /* Your light blue */
-        border-radius: 20px;
+        background: #73d0ff;
+        border-radius: 22px;
         box-shadow: 0 8px 25px rgba(0, 0, 0, 0.25);
-        padding: 20px 30px;
+        padding: 15px 25px;            /* ↓ smaller padding */
         box-sizing: border-box;
 
         display: flex;
         flex-direction: column;
-        align-items: center;     /* horizontal centering */
+        align-items: center;
         justify-content: flex-start;
         text-align: center;
     }
 
-    /* === Logo inside the card === */
+    /* Logo */
     .logo {
-        width: 110px;
-        height: 110px;
+        width: 95px;                  /* ↓ slightly smaller */
+        height: 95px;
         border-radius: 50%;
         object-fit: contain;
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
 
-    /* Company Name + Tagline */
+    /* Titles */
     .company-name {
-        font-size: 28px;
+        font-size: 26px;              /* ↓ slightly smaller */
         font-weight: bold;
-        margin: 0;
+        margin: 5px 0 5px 0;
     }
 
     .tagline {
-        font-size: 15px;
+        font-size: 14px;              /* ↓ slightly smaller */
         font-style: italic;
-        margin: 5px 0 20px 0;
+        margin: 5px 0 15px 0;
     }
 
-    /* Contact Info */
+    /* Info Section */
     .info p {
-        margin: 4px 0;
-        font-size: 16px;
+        margin: 2px 0;                /* ↓ less vertical space */
+        font-size: 15px;              /* ↓ slightly smaller */
     }
 
 </style>
