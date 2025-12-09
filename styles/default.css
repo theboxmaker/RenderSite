@@ -72,6 +72,17 @@ a {
 }
 
 /* ================================
+   FOOTER AND FOOTER LINK
+================================ */
+ .middle {
+    text-align: center;
+ }
+
+ .middle a:visited {
+    color:#3e2723;
+ }
+ 
+/* ================================
    NAVBAR + DROPDOWN
 ================================ */
 
@@ -184,7 +195,6 @@ textarea {
     flex: 1;
 }
 
-/* Full-width row (formerly .form-row.full) */
 .full-row label {
     flex: 1;
 }
